@@ -1,0 +1,28 @@
+Each flight needs:
+
+        From
+                Coords
+                REQUIRED
+        To
+                Coords
+                REQUIRED
+        Airline
+                OPTIONAL
+        Flight no.
+                OPTIONAL
+        Date
+                OPTIONAL
+        Path on map
+                TODO: How do this?
+                PROGRAM CALCULATES
+
+
+
+Tech:
+        Need to store the flight data on a database (see tutorial from few
+        months back)
+
+        Host the database on a server either built with next.js, or python
+        (django/flask)
+
+
