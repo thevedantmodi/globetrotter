@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 app.use("/api/users", userRoute)
 app.use("/api/pins", pinRoute)
 
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("So the backend begins Here we go!")
 })
 
