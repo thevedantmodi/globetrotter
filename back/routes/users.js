@@ -34,10 +34,10 @@ router.post("/register", async (request, response) => {
 
 router.post("/login", async (request, response) => {
     try {
-        /* match user with username with those in database */
+        /* find user */
         const user = await User.findOne({username:request.body.username})
         !user && response.status(400).json("Wrong username or password!")
-        /* validate pwd iff we found a user */
+        /* validate pwd */
 
         const valid_pwd = await bcrypt.compare(request.body.password, user.password)
         !valid_pwd && response.status(400).json("Wrong username or password!")

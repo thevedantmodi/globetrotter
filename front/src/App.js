@@ -1,6 +1,6 @@
 import React from 'react'
 // import { useState } from 'react';
-import Map, { Marker } from 'react-map-gl'
+import Map from 'react-map-gl'
 
 function App () {
   // const [viewport, setViewport] = useState({
@@ -15,17 +15,13 @@ function App () {
       <Map
         mapboxAccessToken={process.env.REACT_APP_MAPBOX}
         initialViewState={{
-          longitude: 153.021072,
-          latitude: -27.470125,
+          longitude: -122.4,
+          latitude: 37.8,
           zoom: 14
         }}
         style={{ width: '100vw', height: '100vh' }}
         mapStyle='mapbox://styles/mapbox/streets-v9'
-      >
-        <Marker longitude={0} latitude={0} anchor='bottom'>
-          <div>This is the center</div>
-        </Marker>
-      </Map>
+      />
     </div>
   )
 }
