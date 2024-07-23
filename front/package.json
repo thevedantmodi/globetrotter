@@ -11,6 +11,7 @@
     "@turf/turf": "^7.0.0",
     "axios": "^1.7.2",
     "deck.gl": "^9.0.23",
+    "geojson": "^0.5.0",
     "javascript-time-ago": "^2.5.10",
     "mapbox-gl": "^3.2.0",
     "maplibre-gl": "^4.1.1",
