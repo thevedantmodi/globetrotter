@@ -4,6 +4,7 @@ const dotenv = require('dotenv') /* Maybe not needed */
 
 const userRoute = require('./routes/users.js')
 const pinRoute = require('./routes/pins.js')
+const airportsRoute = require('./routes/airports.js')
 
 const app = express()
 
@@ -20,6 +21,9 @@ mongoose
 
 app.use('/api/users', userRoute)
 app.use('/api/pins', pinRoute)
+/* TODO: Add API route to upload airports, making sure each airport has an ID
+in mongoDB */
+app.use('/api/')
 
 app.listen(8800, () => {
   console.log('So the backend begins Here we go!')

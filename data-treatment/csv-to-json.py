@@ -15,7 +15,6 @@
 
 import csv
 import json
-import os
 
 with open("airports.csv") as infile:
     reader = csv.DictReader(infile)
