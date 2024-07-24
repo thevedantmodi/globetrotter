@@ -1,0 +1,41 @@
+[
+  {
+    "icao": "00AA",
+    "iata": "",
+    "name": "Aero B Ranch Airport",
+    "city": "Leoti",
+    "subd": "Kansas",
+    "country": "US",
+    "elevation": "3435",
+    "lat": "38.70402",
+    "lon": "-101.47391",
+    "tz": "America/Chicago",
+    "lid": "00AA"
+  },
+  {
+    "icao": "00AK",
+    "iata": "",
+    "name": "Lowell Field",
+    "city": "Anchor Point",
+    "subd": "Alaska",
+    "country": "US",
+    "elevation": "252",
+    "lat": "59.94889",
+    "lon": "-151.69222",
+    "tz": "America/Anchorage",
+    "lid": "00AK"
+  },
+  {
+    "icao": "00AL",
+    "iata": "",
+    "name": "Epps Airpark",
+    "city": "Harvest",
+    "subd": "Alabama",
+    "country": "US",
+    "elevation": "820",
+    "lat": "34.86481",
+    "lon": "-86.77028",
+    "tz": "America/Chicago",
+    "lid": "00AL"
+  }
+]
