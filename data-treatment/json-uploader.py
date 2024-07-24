@@ -13,6 +13,7 @@
 
 import json
 import os
+import requests
 
 URL = "airports.json"
 PATH = "/Users/vedantmodi/Desktop/dev-work/closed-flights/data-treatment/"
@@ -23,10 +24,13 @@ os.makedirs(os.path.join(PATH, OUTPUT_PATH), exist_ok=True)
 
 with open(os.path.join(PATH, URL)) as f:
     data = json.load(f)
-    
+
     for line in data:
-        print(line['icao'])
-        name = line['icao']
+        name = line["icao"]
+
+        response = requests.post("http://localhost:8800/api/airports", json=line)
         
-        with open(os.path.join(PATH, OUTPUT_PATH, name + ".json"), "w") as o:
-            json.dump(line, o)
+        print(response.json())
+
+        # with open(os.path.join(PATH, OUTPUT_PATH, name + ".json"), "w") as o:
+        #     json.dump(line, o)

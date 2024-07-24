@@ -5,14 +5,14 @@ const AirportSchema = new mongoose.Schema(
     icao: {
       type: String,
       require: true,
-      unique: true,
+      unique: false,
       min: 4,
       max: 4
     },
     iata: {
       type: String,
       require: false,
-      unique: true,
+      unique: false,
       min: 3,
       max: 3
     },
