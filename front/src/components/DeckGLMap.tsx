@@ -1,14 +1,15 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 
 import DeckGL, { _GlobeView as GlobeView, FlyToInterpolator } from 'deck.gl'
 import GoogleMapsOverlay from 'deck.gl'
 
-import { ArcLayer } from '@deck.gl/layers'
+import { ArcLayer, ScatterplotLayer } from '@deck.gl/layers'
 import { MapViewState } from '@deck.gl/core'
+import type { PickingInfo } from '@deck.gl/core'
 
-import parks from './NationalParks'
+import axios from 'axios'
 import flightsData from '../test-flights.json'
-// import Map from './Map'
+
 import ReactMapGL from 'react-map-gl'
 import { ProjectionSpecification } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -32,6 +33,20 @@ type Flight = {
   }
 }
 
+type Airport = {
+  icao: string
+  iata: string
+  name: string
+  city: string
+  subd: string
+  country: string
+  elevation: number
+  lat: number
+  lon: number
+  tz: string
+  lid: string
+}
+
 function DeckGLMap () {
   // const [viewState, setViewState] = useState<MapViewState>({
   //   latitude: 30,
@@ -41,6 +56,20 @@ function DeckGLMap () {
   //   bearing: 0
   // })
 
+  const [airports, setAirports] = useState([])
+
+  useEffect(() => {
+    const getAirports = async () => {
+      try {
+        const result = await axios.get('/airports')
+        setAirports(result.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getAirports()
+  }, [])
+
   const [viewState, setViewState] = useState<MapViewState>({
     latitude: -27.470125,
     longitude: 153.021072,
@@ -49,6 +78,22 @@ function DeckGLMap () {
     bearing: 0,
     pitch: 0
   })
+
+  const airportsLayer = new ScatterplotLayer<Airport>({
+    id: 'airports',
+    data: airports,
+
+    getPosition: (d: Airport) => [d.lon, d.lat],
+    getRadius: 1000,
+    getFillColor: [255, 140, 0],
+    getLineColor: [0, 0, 0],
+    getLineWidth: 1000,
+    radiusScale: 6,
+    radiusMinPixels: 1,
+    stroked: true,
+    pickable: true
+  })
+
   const flights = new ArcLayer<Flight>({
     id: 'flights',
     data: flightsData,
@@ -69,13 +114,19 @@ function DeckGLMap () {
       <DeckGL
         initialViewState={viewState}
         controller={true}
-        layers={[flights]}
+        layers={[airportsLayer /* flights */]}
+        getTooltip={({ object }) =>
+          object &&
+          `${object.iata}
+        `
+        }
+        // getTooltip={{({object}: PickingInfo<Airport>) => object && object.iata}}
         // views={globe_view}
       >
         <ReactMapGL
           mapboxAccessToken={process.env.REACT_APP_MAPBOX}
           mapStyle={'mapbox://styles/mapbox/streets-v9'}
-        //   projection={globe_mapbox}
+          //   projection={globe_mapbox}
         />
       </DeckGL>
     </div>

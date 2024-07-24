@@ -18,7 +18,6 @@ router.post("/", async (request, response) => {
 router.get("/", async (request, response) => {
     try {
         const pins = await Pin.find()
-        
         response.status(200).json(pins)
     } catch (err) {
         response.status(500).json(err)
