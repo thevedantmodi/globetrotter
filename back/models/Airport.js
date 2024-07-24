@@ -42,12 +42,12 @@ const AirportSchema = new mongoose.Schema(
       unique: false
     },
     lat: {
-      type: Decimal128,
+      type: Number,
       require: true,
       unique: false
     },
     lon: {
-      type: Decimal128,
+      type: Number,
       require: true,
       unique: false
     },
