@@ -19,7 +19,7 @@ router.post('/', async (request, response) => {
 router.get('/', async (request, response) => {
   try {
     const airports = await Airport.find({
-      iata: { $ne: '' } /* Get only IATA airports */
+      'properties.iata': { $ne: '' } /* Get only IATA airports */
     }) /* Change find params for criteria */
     response.status(200).json(airports)
   } catch (err) {
