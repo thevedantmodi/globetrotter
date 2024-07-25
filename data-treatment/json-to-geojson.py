@@ -14,9 +14,28 @@
 import json
 import os
 
-URL = "airports-tiny.json"
-PATH = "/Users/vedantmodi/Desktop/dev-work/closed-flights/data-treatment/"
+URL = "airports.json"
+PATH = "/Users/vedantmodi/Desktop/dev-work.nosync/closed-flights/data-treatment/"
+OUT_FILE = "airports.geo.json"
+
+# Each Feature is a separate airport, contain in a FeatureCollection
 
 with open(os.path.join(PATH, URL)) as f:
     parsed = json.load(f)
-    print(parsed)
+
+    geoJSON = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [line["lon"], line["lat"]],
+                },
+                "properties": line,
+            }
+            for line in parsed
+        ],
+    }
+    with open(os.path.join(PATH, OUT_FILE), "w") as o:
+        json.dump(geoJSON, o)
