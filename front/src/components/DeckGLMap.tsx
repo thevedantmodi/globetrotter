@@ -22,6 +22,10 @@ const globe_mapbox: ProjectionSpecification = {
   name: 'globe'
 }
 
+const flat_mapbox: ProjectionSpecification = {
+  name: 'equirectangular'
+}
+
 const globe_view = new GlobeView({
   id: 'globe',
   controller: true,
@@ -157,13 +161,14 @@ function DeckGLMap () {
           object.properties &&
           object.properties.city + ', ' + object.properties.iata
         }
-        // views={map_view}
-        views={globe_view}
+        views={map_view}
+        // views={globe_view}
       >
         <ReactMapGL
           mapboxAccessToken={process.env.REACT_APP_MAPBOX}
           mapStyle={'mapbox://styles/mapbox/streets-v9'}
-          projection={globe_mapbox}
+          // projection={globe_mapbox}
+          // projection={flat_mapbox}
         />
       </DeckGL>
     </div>
