@@ -13,24 +13,31 @@
 
 import json
 import os
+import sys
+
 import requests
 
-URL = "airports.json"
-PATH = "/Users/vedantmodi/Desktop/dev-work/closed-flights/data-treatment/"
+PATH = "/Users/vedantmodi/Desktop/dev-work.nosync/closed-flights/data-treatment/"
 
-OUTPUT_PATH = "airports"
+INPUT_DIR = "airports-geo"
 
-os.makedirs(os.path.join(PATH, OUTPUT_PATH), exist_ok=True)
+for filename in sorted(os.listdir(os.path.join(PATH, INPUT_DIR))):
+    with open(os.path.join(PATH, INPUT_DIR, filename)) as f:
+        data = json.load(f)
 
-with open(os.path.join(PATH, URL)) as f:
-    data = json.load(f)
+        print(data, file=sys.stderr)
+        response = requests.post("http://localhost:8800/api/airports", json=data)
+        # print(response.json())
 
-    for line in data:
-        name = line["icao"]
+# with open(os.path.join(PATH, URL)) as f:
+#     data = json.load(f)
 
-        response = requests.post("http://localhost:8800/api/airports", json=line)
-        
-        print(response.json())
+#     for line in data:
+#         name = line["icao"]
 
-        # with open(os.path.join(PATH, OUTPUT_PATH, name + ".json"), "w") as o:
-        #     json.dump(line, o)
+#         response = requests.post("http://localhost:8800/api/airports", json=line)
+
+#         print(response.json())
+
+# with open(os.path.join(PATH, OUTPUT_PATH, name + ".json"), "w") as o:
+#     json.dump(line, o)

@@ -28,18 +28,14 @@ with open(os.path.join(PATH, URL)) as f:
 
     for line in parsed:
         geoJSON = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [line["lon"], line["lat"]],
-                    },
-                    "properties": line,
-                }
-            ],
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [line["lon"], line["lat"]],
+            },
+            "properties": line,
         }
+
         name = line["icao"] + ".json"
         with open(
             os.path.join(PATH, OUT_DIR, name),
