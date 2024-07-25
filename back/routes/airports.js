@@ -21,7 +21,14 @@ router.get('/', async (request, response) => {
     const airports = await Airport.find({
       'properties.iata': { $ne: '' } /* Get only IATA airports */
     }) /* Change find params for criteria */
-    response.status(200).json(airports)
+
+    /* Wrap in GeoJSON FeatureCollection */
+    const AirportsFeatures = {
+      "type": "FeatureCollection",
+      "features": airports,
+    }
+
+    response.status(200).json(AirportsFeatures)
   } catch (err) {
     response.status(500).json(err)
   }

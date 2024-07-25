@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 
 import DeckGL, { _GlobeView as GlobeView, FlyToInterpolator } from 'deck.gl'
 
-import { ArcLayer, ScatterplotLayer } from '@deck.gl/layers'
+import { ArcLayer, GeoJsonLayer } from '@deck.gl/layers'
 import { MapViewState } from '@deck.gl/core'
 import type { PickingInfo } from '@deck.gl/core'
 import { Feature, Geometry } from 'geojson'
@@ -19,6 +19,20 @@ const globe_mapbox: ProjectionSpecification = {
 }
 
 const globe_view = new GlobeView({ id: 'globe', controller: true })
+
+type PropertiesType = {
+  icao: string
+  iata: string
+  name: string
+  city: string
+  subd: string
+  country: string
+  elevation: number
+  lat: number
+  lon: number
+  tz: string
+  lid: string
+}
 
 type Flight = {
   no?: number
@@ -63,6 +77,7 @@ function DeckGLMap () {
       try {
         const result = await axios.get('/airports')
         setAirports(result.data)
+        console.log(result.data)
       } catch (err) {
         console.log(err)
       }
@@ -79,11 +94,27 @@ function DeckGLMap () {
     pitch: 0
   })
 
-  const airportsLayer = new ScatterplotLayer<Airport>({
+  const airportsLayer = new GeoJsonLayer<Airport>({
     id: 'airports',
     data: airports,
 
-    getPosition: (d: Airport) => [d.lon, d.lat],
+    stroked: false,
+    filled: true,
+    pointType: 'circle+text',
+    pickable: true,
+
+    getFillColor: [160, 160, 180, 200],
+    getText: (f: Feature<Geometry, PropertiesType>) => f.properties.iata,
+    getLineWidth: 20,
+    getPointRadius: 4,
+    getTextSize: 12
+  })
+
+  /* const airportsLayer = new ScatterplotLayer<Airport>({
+    id: 'airports',
+    data: airports,
+
+    getPosition: (d: Airport) => [d.geometry.coordinates[0], d.lat],
     getRadius: 1000,
     getFillColor: [255, 140, 0],
     getLineColor: [0, 0, 0],
@@ -92,7 +123,7 @@ function DeckGLMap () {
     radiusMinPixels: 1,
     stroked: true,
     pickable: true
-  })
+  }) */
 
   const flights = new ArcLayer<Flight>({
     id: 'flights',
