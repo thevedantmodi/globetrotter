@@ -17,12 +17,14 @@ router.post('/', async (request, response) => {
 /* Get all airports */
 
 router.get('/', async (request, response) => {
-    try {
-        const airports = await Airport.find() /* Change find params for criteria */
-        response.status(200).json(airports)
-    } catch (err) {
-        response.status(500).json(err)
-    }
+  try {
+    const airports = await Airport.find({
+      iata: { $ne: '' } /* Get only IATA airports */
+    }) /* Change find params for criteria */
+    response.status(200).json(airports)
+  } catch (err) {
+    response.status(500).json(err)
+  }
 })
 
 module.exports = router

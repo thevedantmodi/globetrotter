@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
 import DeckGL, { _GlobeView as GlobeView, FlyToInterpolator } from 'deck.gl'
-import GoogleMapsOverlay from 'deck.gl'
 
 import { ArcLayer, ScatterplotLayer } from '@deck.gl/layers'
 import { MapViewState } from '@deck.gl/core'
 import type { PickingInfo } from '@deck.gl/core'
+import { Feature, Geometry } from 'geojson'
 
 import axios from 'axios'
 import flightsData from '../test-flights.json'
@@ -120,7 +120,7 @@ function DeckGLMap () {
           `${object.iata}
         `
         }
-        // getTooltip={{({object}: PickingInfo<Airport>) => object && object.iata}}
+        // getTooltip={({object}: PickingInfo<Feature<Geometry, PropertiesType>>) => object && object.properties.name}
         // views={globe_view}
       >
         <ReactMapGL
