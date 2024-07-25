@@ -93,7 +93,6 @@ function DeckGLMap () {
       try {
         const result = await axios.get('/airports')
         setAirports(result.data)
-        console.log(result.data)
       } catch (err) {
         console.log(err)
       }
