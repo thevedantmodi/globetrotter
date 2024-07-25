@@ -33,7 +33,7 @@ const globe_view = new GlobeView({
   farZMultiplier: 1
 })
 const map_view = new MapView({
-  repeat: true,
+  repeat: true
 })
 
 type PropertiesType = {
@@ -88,8 +88,36 @@ function DeckGLMap () {
 
   const [airports, setAirports] = useState([])
 
+  const CITIES: { [name: string]: MapViewState } = {
+    BRISBANE: {
+      latitude: -27.470125,
+      longitude: 153.021072,
+      zoom: 14,
+      minZoom: 1,
+      bearing: 0,
+      pitch: 0
+    },
+    NYC: {
+      longitude: -74.0,
+      latitude: 40.7,
+      zoom: 14,
+      minZoom: 1,
+      bearing: 0,
+      pitch: 0
+    },
+    SINGAPORE: {
+      longitude: 103.8198,
+      latitude: 1.3521,
+      zoom: 14,
+      minZoom: 1,
+      bearing: 0,
+      pitch: 0
+    }
+  }
+
   useEffect(() => {
     const getAirports = async () => {
+      /* TODO: Add loading capability here */
       try {
         const result = await axios.get('/airports')
         setAirports(result.data)
@@ -100,14 +128,15 @@ function DeckGLMap () {
     getAirports()
   }, [])
 
-  const [viewState, setViewState] = useState<MapViewState>({
-    latitude: -27.470125,
-    longitude: 153.021072,
-    zoom: 14,
-    minZoom: 1,
-    bearing: 0,
-    pitch: 0
-  })
+  const [viewState, setViewState] = useState<MapViewState>(CITIES['BRISBANE'])
+
+  const flyToCity = useCallback(evt => {
+    setViewState({
+      ...CITIES[evt.target.id],
+      transitionInterpolator: new FlyToInterpolator({ speed: 4 }),
+      transitionDuration: 'auto'
+    })
+  }, [])
 
   const airportsLayer = new GeoJsonLayer<Airport>({
     id: 'airports',
@@ -117,7 +146,7 @@ function DeckGLMap () {
     filled: true,
     pointType: 'circle',
     pickable: true,
-    getPointRadius: 20000,
+    getPointRadius: 200,
 
     getFillColor: [160, 160, 180, 200],
     getText: (f: Feature<Geometry, PropertiesType>) => f.properties.iata,
@@ -143,33 +172,47 @@ function DeckGLMap () {
   })
 
   return (
-    <div id='deckgl-map'>
-      <DeckGL
-        initialViewState={viewState}
-        controller={true}
-        layers={[airportsLayer, flights]}
-        // getTooltip={({ object }) =>
-        //   object &&
-        //   `${object.properties.iata}
-        // `
-        // }
-        getTooltip={({
-          object
-        }: PickingInfo<Feature<Geometry, PropertiesType>>) =>
-          object &&
-          object.properties &&
-          object.properties.city + ', ' + object.properties.iata
-        }
-        views={map_view}
-        // views={globe_view}
+    <div>
+      <div>
+        {Object.keys(CITIES).map(name => (
+          <button id={name} onClick={flyToCity} className='fly-button'>
+            {name}
+          </button>
+        ))}
+      </div>
+      <div
+        id='deckgl-map'
+        style={{ display: 'flex' }}
       >
-        <ReactMapGL
-          mapboxAccessToken={process.env.REACT_APP_MAPBOX}
-          mapStyle={'mapbox://styles/mapbox/streets-v9'}
-          // projection={globe_mapbox}
-          // projection={flat_mapbox}
-        />
-      </DeckGL>
+        <DeckGL
+          style={{ height: '80vh', width: '80vw', marginLeft: '20vw' }}
+          initialViewState={viewState}
+          controller={true}
+          layers={[airportsLayer, flights]}
+          // getTooltip={({ object }) =>
+          //   object &&
+          //   `${object.properties.iata}
+          // `
+          // }
+          getTooltip={({
+            object
+          }: PickingInfo<Feature<Geometry, PropertiesType>>) =>
+            object &&
+            object.properties &&
+            object.properties.city + ', ' + object.properties.iata
+          }
+          views={map_view}
+          // views={globe_view}
+        >
+          <ReactMapGL
+            style={{ height: '80vh', width: '80vw', marginLeft: 'auto' }}
+            mapboxAccessToken={process.env.REACT_APP_MAPBOX}
+            mapStyle={'mapbox://styles/mapbox/streets-v9'}
+            // projection={globe_mapbox}
+            // projection={flat_mapbox}
+          />
+        </DeckGL>
+      </div>
     </div>
   )
 }

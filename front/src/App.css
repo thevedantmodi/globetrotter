@@ -16,3 +16,11 @@ label {
 .airport-code {
     font-size: 10px;
 }
+
+.fly-button {
+    z-index: 99;
+}
+
+#deckgl-map {
+    z-index: -99;
+}
