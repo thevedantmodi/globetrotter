@@ -1,6 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
 
-import DeckGL, { _GlobeView as GlobeView, FlyToInterpolator } from 'deck.gl'
+import DeckGL, {
+  _GlobeView as GlobeView,
+  MapView,
+  FlyToInterpolator
+} from 'deck.gl'
 
 import { ArcLayer, GeoJsonLayer } from '@deck.gl/layers'
 import { MapViewState } from '@deck.gl/core'
@@ -18,7 +22,15 @@ const globe_mapbox: ProjectionSpecification = {
   name: 'globe'
 }
 
-const globe_view = new GlobeView({ id: 'globe', controller: true })
+const globe_view = new GlobeView({
+  id: 'globe',
+  controller: true,
+  nearZMultiplier: 0.1,
+  farZMultiplier: 1
+})
+const map_view = new MapView({
+  repeat: true
+})
 
 type PropertiesType = {
   icao: string
@@ -100,30 +112,16 @@ function DeckGLMap () {
 
     stroked: false,
     filled: true,
-    pointType: 'circle+text',
+    pointType: 'circle',
     pickable: true,
+    getPointRadius: 20000,
 
     getFillColor: [160, 160, 180, 200],
     getText: (f: Feature<Geometry, PropertiesType>) => f.properties.iata,
     getLineWidth: 20,
-    getPointRadius: 4,
+    textFontFamily: 'Manrope',
     getTextSize: 12
   })
-
-  /* const airportsLayer = new ScatterplotLayer<Airport>({
-    id: 'airports',
-    data: airports,
-
-    getPosition: (d: Airport) => [d.geometry.coordinates[0], d.lat],
-    getRadius: 1000,
-    getFillColor: [255, 140, 0],
-    getLineColor: [0, 0, 0],
-    getLineWidth: 1000,
-    radiusScale: 6,
-    radiusMinPixels: 1,
-    stroked: true,
-    pickable: true
-  }) */
 
   const flights = new ArcLayer<Flight>({
     id: 'flights',
@@ -137,7 +135,8 @@ function DeckGLMap () {
     pickable: true,
     getHeight: 0,
     greatCircle: true,
-    numSegments: 500
+    numSegments: 500,
+    wrapLongitude: true
   })
 
   return (
@@ -145,19 +144,26 @@ function DeckGLMap () {
       <DeckGL
         initialViewState={viewState}
         controller={true}
-        layers={[airportsLayer /* flights */]}
-        getTooltip={({ object }) =>
+        layers={[airportsLayer, flights]}
+        // getTooltip={({ object }) =>
+        //   object &&
+        //   `${object.properties.iata}
+        // `
+        // }
+        getTooltip={({
+          object
+        }: PickingInfo<Feature<Geometry, PropertiesType>>) =>
           object &&
-          `${object.iata}
-        `
+          object.properties &&
+          object.properties.city + ', ' + object.properties.iata
         }
-        // getTooltip={({object}: PickingInfo<Feature<Geometry, PropertiesType>>) => object && object.properties.name}
-        // views={globe_view}
+        // views={map_view}
+        views={globe_view}
       >
         <ReactMapGL
           mapboxAccessToken={process.env.REACT_APP_MAPBOX}
           mapStyle={'mapbox://styles/mapbox/streets-v9'}
-          //   projection={globe_mapbox}
+          projection={globe_mapbox}
         />
       </DeckGL>
     </div>
