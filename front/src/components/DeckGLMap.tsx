@@ -33,7 +33,7 @@ const globe_view = new GlobeView({
   farZMultiplier: 1
 })
 const map_view = new MapView({
-  repeat: true
+  repeat: true,
 })
 
 type PropertiesType = {
