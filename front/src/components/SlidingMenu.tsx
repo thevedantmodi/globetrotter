@@ -2,23 +2,21 @@ import React, { createContext, useContext, useState } from 'react'
 import { TextOutdent, Circle, TextIndent } from '@phosphor-icons/react'
 import './SlidingMenu.css'
 
-const SlidingContext = createContext(true)
+export const SlidingContext = createContext(true)
 
-const SlidingMenu = ({ children }) => {
-  const [expanded, setExpanded] = useState(true)
+const SlidingMenu = ({ children, expanded, setExpanded }) => {
   return (
     <aside
-      className={`h-screen transition-all duration-300 ease-in-out ${
-        expanded ? 'max-w-[400px]' : 'max-w-16'
-      }`}
+      className={`h-screen transition-all duration-300 
+          ease-in-out ${expanded ? 'w-80' : 'w-24'
+        }`}
     >
       <nav className='h-full flex flex-col bg-white border-r shadow-sm'>
         <div className='p-4 pb-2 flex justify-between items-center'>
           <p
             onClick={() => setExpanded(curr => !curr)}
-            className={`font-semibold transition-all duration-300 ease-in-out ${
-              expanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
-            }`}
+            className={`font-semibold transition-all duration-300 ease-in-out ${expanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
+              }`}
           >
             Closed Flights
           </p>
@@ -42,9 +40,8 @@ const SlidingMenu = ({ children }) => {
         <div className='border-t flex p-2'>
           <Circle size={150} weight='fill' />
           <div
-            className={`flex justify-between items-center transition-all duration-300 ease-in-out ${
-              expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'
-            }`}
+            className={`flex justify-between items-center transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'
+              }`}
           >
             <div className='leading-4'>
               <h4 className='font-sans font-semibold'>Vedant Modi</h4>
@@ -65,35 +62,40 @@ const SlidingMenu = ({ children }) => {
   )
 }
 
-export function SlidingItem ({ icon, text, active, alert }) {
+export function SlidingItem({ icon, text, active, alert }) {
   // @ts-ignore
   const { expanded } = useContext(SlidingContext)
 
   return (
     <li
-      className={`relative flex items-center py-2 px-2 my-1 font-medium rounded-md cursor-pointer transition-colors group ${
-        active
-          ? 'bg-gradient-to-tr from-neutral-200 to-neutral-100 text-neutral-800'
-          : 'hover:bg-neutral-50 text-gray-600'
-      }`}
-    >
-      {icon}
-      <span
-        className={`transition-all duration-300 ease-in-out ${
-          expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'
+      className={`relative flex items-center py-2 px-2 my-1 font-medium rounded-md cursor-pointer transition-colors group ${active
+        ? 'bg-gradient-to-tr from-neutral-200 to-neutral-100 text-neutral-800'
+        : 'hover:bg-neutral-50 text-gray-600'
         }`}
+    >
+      <div className='flex items-center'>
+        {icon}
+      </div>
+      <span
+        className={`transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'
+          }`}
       >
         {text}
       </span>
       {alert && (
         <div
-          className={`absolute right-2 w-2 h-2 rounded bg-neutral-400 transition-all duration-300 ease-in-out ${
-            expanded ? 'opacity-100' : 'opacity-0 top-2'
-          }`}
+          className={`absolute right-2 w-2 h-2 rounded bg-neutral-400 transition-all duration-300 ease-in-out ${expanded ? 'opacity-100' : 'opacity-0 top-2'
+            }`}
         ></div>
       )}
       {expanded && (
-        <div className='absolute left-full rounded-md px-2 py-1 ml-6 bg-neutral-100 text-neutral-800 text-sm invisible opacity-20 -translate-x-3 transition-all duration-300 ease-in-out group-hover:visible group-hover:opacity-100 group-hover:translate-x-0'></div>
+        <div
+          className='absolute left-full rounded-md px-2 py-1 ml-6
+         bg-neutral-100 text-neutral-800 text-sm invisible 
+         opacity-20 -translate-x-3 transition-all duration-300 
+         ease-in-out group-hover:visible group-hover:opacity-100 
+         group-hover:translate-x-0'
+        ></div>
       )}
     </li>
   )

@@ -77,7 +77,7 @@ type Airport = {
   lid: string
 }
 
-function DeckGLMap () {
+function DeckGLMap() {
   // const [viewState, setViewState] = useState<MapViewState>({
   //   latitude: 30,
   //   longitude: 0,
@@ -173,19 +173,19 @@ function DeckGLMap () {
 
   return (
     <div>
-      <div>
+      {/* <div>
         {Object.keys(CITIES).map(name => (
           <button id={name} onClick={flyToCity} className='fly-button'>
             {name}
           </button>
         ))}
-      </div>
+      </div> */}
       <div
         id='deckgl-map'
         style={{ display: 'flex' }}
       >
         <DeckGL
-          style={{ height: '80vh', width: '80vw', marginLeft: '20vw' }}
+          style={{ height: '50em', width: '50em'}}
           initialViewState={viewState}
           controller={true}
           layers={[airportsLayer, flights]}
@@ -202,14 +202,14 @@ function DeckGLMap () {
             object.properties.city + ', ' + object.properties.iata
           }
           views={map_view}
-          // views={globe_view}
+        // views={globe_view}
         >
           <ReactMapGL
-            style={{ height: '80vh', width: '80vw', marginLeft: 'auto' }}
+            style={{ height: '50em', width: '50em'}}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX}
             mapStyle={'mapbox://styles/mapbox/streets-v9'}
-            // projection={globe_mapbox}
-            // projection={flat_mapbox}
+          // projection={globe_mapbox}
+          // projection={flat_mapbox}
           />
         </DeckGL>
       </div>
