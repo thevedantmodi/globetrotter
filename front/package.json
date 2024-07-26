@@ -9,16 +9,19 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@turf/turf": "^7.0.0",
+    "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "deck.gl": "^9.0.23",
     "geojson": "^0.5.0",
     "javascript-time-ago": "^2.5.10",
     "mapbox-gl": "^3.2.0",
+    "postcss-cli": "^11.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-map-gl": "^7.1.7",
     "react-scripts": "5.0.1",
     "react-time-ago": "^7.3.3",
+    "tailwindcss": "^3.4.7",
     "time-ago": "^0.2.1",
     "web-vitals": "^2.1.4"
   },
@@ -26,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "css": "npx tailwindcss -i ./src/App.css -o ./src/tailwind.css --watch"
   },
   "eslintConfig": {
     "extends": [
@@ -46,5 +50,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8800/api"
+  "proxy": "http://localhost:8800/api",
+  "devDependencies": {
+    "file-loader": "^6.2.0"
+  }
 }
