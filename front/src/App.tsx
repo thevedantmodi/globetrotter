@@ -11,7 +11,7 @@ function App() {
   return (
     <div className='flex'>
       <SlidingWrapper expanded={expanded} setExpanded={setExpanded} />
-      {/* <DeckGLMap /> */}
+      <DeckGLMap expanded={expanded} />
     </div>
   )
 }
