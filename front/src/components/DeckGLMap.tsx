@@ -172,7 +172,7 @@ function DeckGLMap({ expanded }) {
   })
 
   return (
-    <div className='place-items-center z-0'>
+    <div >
       {/* <div>
         {Object.keys(CITIES).map(name => (
           <button id={name} onClick={flyToCity} className='fly-button'>
@@ -182,10 +182,10 @@ function DeckGLMap({ expanded }) {
       </div> */}
       <div
         id='deckgl-map'
-        style={{ display: 'flex' }}
+        // style={{ display: 'flex' }}
       >
         <DeckGL
-          style={{ height: '50em', width: '50em' }}
+          // style={{ height: '0%', width: '0%' }}
           initialViewState={viewState}
           controller={true}
           layers={[airportsLayer, flights]}
@@ -205,7 +205,7 @@ function DeckGLMap({ expanded }) {
         // views={globe_view}
         >
           <ReactMapGL
-            style={{ height: '50em', width: '50em' }}
+            // style={{ height: '100%', width: '100%' }}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX}
             mapStyle={'mapbox://styles/mapbox/streets-v9'}
           // projection={globe_mapbox}

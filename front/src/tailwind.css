@@ -620,6 +620,10 @@ video {
   height: 100vh;
 }
 
+.h-2\/3{
+  height: 66.666667%;
+}
+
 .w-10{
   width: 2.5rem;
 }
@@ -658,6 +662,14 @@ video {
   width: 7rem;
 }
 
+.w-1\/3{
+  width: 33.333333%;
+}
+
+.w-2\/3{
+  width: 66.666667%;
+}
+
 .max-w-0{
   max-width: 0px;
 }
@@ -687,6 +699,10 @@ video {
   cursor: pointer;
 }
 
+.flex-row-reverse{
+  flex-direction: row-reverse;
+}
+
 .flex-col{
   flex-direction: column;
 }
@@ -705,6 +721,10 @@ video {
 
 .justify-between{
   justify-content: space-between;
+}
+
+.gap-4{
+  gap: 1rem;
 }
 
 .self-center{

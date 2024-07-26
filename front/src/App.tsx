@@ -9,9 +9,14 @@ function App() {
   const [expanded, setExpanded] = useState(true)
 
   return (
-    <div className='flex'>
-      <SlidingWrapper expanded={expanded} setExpanded={setExpanded} />
-      <DeckGLMap expanded={expanded} />
+    <div className='flex gap-4'>
+      <div className='w-1/3'>
+        <SlidingWrapper expanded={expanded} setExpanded={setExpanded} />
+      </div>
+      <div className='h-3/3 w-2/3'>
+        <DeckGLMap expanded={expanded} />
+      </div>
+
     </div>
   )
 }
