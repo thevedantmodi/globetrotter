@@ -24,3 +24,5 @@ yarn-error.log*
 
 ./src/output.css
 ./src/tailwind.css
+
+.env
