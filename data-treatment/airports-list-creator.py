@@ -24,9 +24,13 @@ path = "./flight-data"
 # Save to dictionary
 
 
+origins = dict()
+destinations = dict()
+
+
 def print_codes(filename: str):
-    origins = dict()
-    destinations = dict()
+    global origins
+    global destinations
 
     df = pandas.read_csv(filename)
 
@@ -42,18 +46,20 @@ def print_codes(filename: str):
         except KeyError:
             # First occurrence
             destinations.update({code: 1})
-
-    origins = sorted(origins.items(), key=(lambda x: x[1]), reverse=True)
-    destinations = sorted(destinations.items(), key=(lambda x: x[1]), reverse=True)
+    # Must store this in a new variable, so other iterations can have a
+    # dictionary, too
+    sorted_origins = sorted(origins.items(), key=(lambda x: x[1]), reverse=True)
+    sorted_destinations = sorted(
+        destinations.items(), key=(lambda x: x[1]), reverse=True
+    )
 
     with open("origins.csv", "a") as origin_file:
-        for origin in origins:
+        for origin in sorted_origins:
             print(origin[0], end=",\n", file=origin_file)
 
     with open("destinations.csv", "a") as destination_file:
-        for destination in destinations:
+        for destination in sorted_destinations:
             print(destination[0], end=",\n", file=destination_file)
-
 
 for root, dirs, file in os.walk(path):
     for f in file:
