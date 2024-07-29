@@ -22,7 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-./src/output.css
-./src/tailwind.css
+src/tailwind.css
 
 .env

@@ -1,3 +1,4 @@
 # Ignore VERY big datasets!
 airports/
 airports-geo/
+flight-data/
