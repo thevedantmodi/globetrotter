@@ -36,19 +36,6 @@ const map_view = new MapView({
   repeat: true
 })
 
-type PropertiesType = {
-  icao: string
-  iata: string
-  name: string
-  city: string
-  subd: string
-  country: string
-  elevation: number
-  lat: number
-  lon: number
-  tz: string
-  lid: string
-}
 
 type Flight = {
   no?: number
@@ -146,10 +133,11 @@ function DeckGLMap({ expanded }) {
     filled: true,
     pointType: 'circle',
     pickable: true,
-    getPointRadius: 200,
+    /* TODO: Make this a function based on size of airport */
+    getPointRadius: (f: Feature<Geometry, Airport>) => 2000,
 
     getFillColor: [160, 160, 180, 200],
-    getText: (f: Feature<Geometry, PropertiesType>) => f.properties.iata,
+    getText: (f: Feature<Geometry, Airport>) => f.properties.iata,
     getLineWidth: 20,
     textFontFamily: 'Manrope',
     getTextSize: 12
@@ -196,7 +184,7 @@ function DeckGLMap({ expanded }) {
           // }
           getTooltip={({
             object
-          }: PickingInfo<Feature<Geometry, PropertiesType>>) =>
+          }: PickingInfo<Feature<Geometry, Airport>>) =>
             object &&
             object.properties &&
             object.properties.city + ', ' + object.properties.iata

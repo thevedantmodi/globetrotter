@@ -21,8 +21,6 @@ mongoose
 
 app.use('/api/users', userRoute)
 app.use('/api/pins', pinRoute)
-/* TODO: Add API route to upload airports, making sure each airport has an ID
-in mongoDB */
 app.use('/api/airports', airportsRoute)
 
 app.listen(8800, () => {
