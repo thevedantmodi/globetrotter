@@ -2,3 +2,5 @@
 airports/
 airports-geo/
 flight-data/
+origins.csv
+destinations.csv
