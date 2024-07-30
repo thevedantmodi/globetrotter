@@ -34,6 +34,8 @@ database = client["closed-flights"]
 collection = database["airports"]
 
 for line in sys.stdin:
+    if line[0] == "#":
+        continue
     res = line.split(" ")
     code, new_size = res
 

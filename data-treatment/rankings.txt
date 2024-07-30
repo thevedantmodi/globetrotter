@@ -1,1 +1,38 @@
-HYD large
+# HYD large
+# SYR medium
+# BUF medium
+# ROC medium
+# BED small
+# SUS small
+# PWK small
+# DPA small
+# MSN medium
+# MKE medium
+# GRR medium
+# YIP medium
+# PIT medium
+# FCM small
+# HIO small
+# SMF medium
+# SCK small
+# RNO medium
+# STS small
+# SQL small
+# RHV small
+# LVK small
+# SAC small
+# HWD small
+# VNY small
+# TOA small
+# ONT small
+# PSP small
+# TIJ small
+# CLD small
+# MYF small
+# SNA medium
+# LGB medium
+# LAX large
+SMO small
+BUR small
+EMT small
+CNO small
