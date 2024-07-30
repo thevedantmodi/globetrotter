@@ -77,6 +77,11 @@ const AirportSchema = new mongoose.Schema(
         type: String,
         require: false,
         unique: false
+      },
+      size: {
+        type: String,
+        require: false,
+        unique: false
       }
     }
   },
