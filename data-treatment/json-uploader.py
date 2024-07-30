@@ -26,4 +26,4 @@ for filename in sorted(os.listdir(os.path.join(PATH, INPUT_DIR))):
 
         # print(data, file=sys.stderr)
         response = requests.post("http://localhost:8800/api/airports", json=data)
-        print(response.json())
+        # print(response.json())

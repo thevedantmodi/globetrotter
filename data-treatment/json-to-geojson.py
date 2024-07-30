@@ -23,6 +23,10 @@ OUT_DIR = "airports-geo"
 SIZE_URL = "airports-ranked.csv"
 
 sizes_df = pandas.read_csv(SIZE_URL)
+sizes_df.set_index("icao", inplace=True)
+# print(sizes_df.loc["00AA", "size"])
+
+# sys.exit(0)
 
 # Create airports-geo directory to place output in
 os.makedirs(os.path.join(PATH, OUT_DIR), exist_ok=True)
@@ -33,10 +37,15 @@ with open(os.path.join(PATH, URL)) as f:
 
     for line in parsed:
         # Inject new size field into airport
-        try:
-            line.update({"size": sizes_df.loc[line["icao"], "size"]})
+        try:        
+            icao_size = sizes_df.loc[line["icao"], "size"]
+            line.update({"size": icao_size})
         except KeyError:
+            # print("size", line["icao"])
+            # if line["icao"] == "VOBL": 
+            #     raise RuntimeError("Incorrect sizing")
             line.update({"size": "small"})
+        
         geoJSON = {
             "type": "Feature",
             "geometry": {

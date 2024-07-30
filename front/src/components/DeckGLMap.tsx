@@ -62,6 +62,7 @@ type Airport = {
   lon: number
   tz: string
   lid: string
+  size: string
 }
 
 function DeckGLMap({ expanded }) {
@@ -99,6 +100,14 @@ function DeckGLMap({ expanded }) {
       minZoom: 1,
       bearing: 0,
       pitch: 0
+    },
+    ATLANTA: {
+      longitude: -84.3877,
+      latitude: 33.7488,
+      zoom: 14,
+      minZoom: 1,
+      bearing: 0,
+      pitch: 0
     }
   }
 
@@ -115,7 +124,7 @@ function DeckGLMap({ expanded }) {
     getAirports()
   }, [])
 
-  const [viewState, setViewState] = useState<MapViewState>(CITIES['BRISBANE'])
+  const [viewState, setViewState] = useState<MapViewState>(CITIES['ATLANTA'])
 
   const flyToCity = useCallback(evt => {
     setViewState({
@@ -125,20 +134,52 @@ function DeckGLMap({ expanded }) {
     })
   }, [])
 
+  const createPointRadius = (f: Feature<Geometry, Airport>) => {
+    // console.log(f)
+    // console.log(f.properties.size)
+    const port_size: string = f.properties.size
+    // console.log(port_size === "large")
+    if (port_size === "large") {
+      return 60000
+    } else if (port_size === "medium") {
+      return 20000
+    } else if (port_size === "small") {
+      return 10000
+    } else {
+      return 200
+    }
+
+  }
+
+  const createPointColor = (f: Feature<Geometry, Airport>) => {
+    // console.log(f)
+    // console.log(f.properties.size)
+    const port_size: string = f.properties.size
+    // console.log(port_size === "large")
+    if (port_size === "large") {
+      return [173, 57, 57]
+    } else if (port_size === "medium") {
+      return [196, 164, 47]
+    } else if (port_size === "small") {
+      return [42, 135, 98]
+    } else {
+      return [0,0,0, 255]
+    }
+
+  }
   const airportsLayer = new GeoJsonLayer<Airport>({
     id: 'airports',
     data: airports,
 
-    stroked: false,
+    stroked: true,
     filled: true,
     pointType: 'circle',
     pickable: true,
-    /* TODO: Make this a function based on size of airport */
-    getPointRadius: (f: Feature<Geometry, Airport>) => 2000,
+    getPointRadius: (f: Feature<Geometry, Airport>) => createPointRadius(f),
 
-    getFillColor: [160, 160, 180, 200],
+    getFillColor: (f: Feature<Geometry, Airport>) => createPointColor(f),
     getText: (f: Feature<Geometry, Airport>) => f.properties.iata,
-    getLineWidth: 20,
+    getLineWidth: 200,
     textFontFamily: 'Manrope',
     getTextSize: 12
   })
@@ -176,7 +217,7 @@ function DeckGLMap({ expanded }) {
           style={{ height: '100%', width: '100%' }}
           initialViewState={viewState}
           controller={true}
-          layers={[airportsLayer, flights]}
+          layers={[airportsLayer/* , flights */]}
           // getTooltip={({ object }) =>
           //   object &&
           //   `${object.properties.iata}
@@ -187,7 +228,7 @@ function DeckGLMap({ expanded }) {
           }: PickingInfo<Feature<Geometry, Airport>>) =>
             object &&
             object.properties &&
-            object.properties.city + ', ' + object.properties.iata
+            object.properties.city + ', ' + object.properties.iata + ', ' + object.properties.size
           }
           views={map_view}
         // views={globe_view}
