@@ -33,6 +33,17 @@ client = MongoClient(uri, server_api=ServerApi("1"), tlsCAFile=certifi.where())
 database = client["closed-flights"]
 collection = database["airports"]
 
-result = collection.find_one({"properties.iata": "LAX"})
+
+find_query = {"properties.iata": "HYD"}
+new_value = "large"
+updation = {"$set": {"properties.size": new_value}}
+update_result = collection.update_one(find_query, updation)
+
+assert update_result
+
+verify_result = collection.find_one(find_query)
+
+assert verify_result["properties"]["size"] == new_value
+
 
 client.close()
