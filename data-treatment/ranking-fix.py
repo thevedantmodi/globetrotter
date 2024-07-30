@@ -19,6 +19,7 @@
 # Update in mongodb collection the size at the code
 
 import os
+import sys
 
 import certifi
 from dotenv import load_dotenv
@@ -28,22 +29,25 @@ from pymongo.server_api import ServerApi
 load_dotenv()
 uri = os.getenv("MONGO_URL")
 
-
 client = MongoClient(uri, server_api=ServerApi("1"), tlsCAFile=certifi.where())
 database = client["closed-flights"]
 collection = database["airports"]
 
+for line in sys.stdin:
+    res = line.split(" ")
+    code, new_size = res
 
-find_query = {"properties.iata": "HYD"}
-new_value = "large"
-updation = {"$set": {"properties.size": new_value}}
-update_result = collection.update_one(find_query, updation)
+    find_query = {"properties.iata": code}
+    updation = {"$set": {"properties.size": new_size}}
+    update_result = collection.update_one(find_query, updation)
 
-assert update_result
+    assert update_result
 
-verify_result = collection.find_one(find_query)
+    verify_result = collection.find_one(find_query)
 
-assert verify_result["properties"]["size"] == new_value
+    print(verify_result)
+
+    assert verify_result["properties"]["size"] == new_size
 
 
 client.close()
