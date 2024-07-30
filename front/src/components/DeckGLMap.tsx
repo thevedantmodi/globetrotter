@@ -157,7 +157,7 @@ function DeckGLMap({ expanded }) {
     const port_size: string = f.properties.size
     // console.log(port_size === "large")
     if (port_size === "large") {
-      return [173, 57, 57]
+      return [233, 57, 57]
     } else if (port_size === "medium") {
       return [196, 164, 47]
     } else if (port_size === "small") {
@@ -176,10 +176,10 @@ function DeckGLMap({ expanded }) {
     pointType: 'circle',
     pickable: true,
     getPointRadius: (f: Feature<Geometry, Airport>) => createPointRadius(f),
-
+    // @ts-ignore
     getFillColor: (f: Feature<Geometry, Airport>) => createPointColor(f),
     getText: (f: Feature<Geometry, Airport>) => f.properties.iata,
-    getLineWidth: 200,
+    getLineWidth: 3000,
     textFontFamily: 'Manrope',
     getTextSize: 12
   })
