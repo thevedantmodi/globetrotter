@@ -222,7 +222,7 @@ HHH small
 COU small
 MLU small
 SIT small
-NYL small
+YUM small
 GFK small
 MBS small
 RST small
@@ -290,7 +290,7 @@ PGV small
 COD small
 HOM small
 LNY small
-1G4 small
+GCW small
 BQK small
 GGG small
 HGR small

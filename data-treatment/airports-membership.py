@@ -27,7 +27,7 @@ client = MongoClient(uri, server_api=ServerApi("1"), tlsCAFile=certifi.where())
 database = client["closed-flights"]
 collection = database["airports"]
 
-find_query = {"properties.icao": code}
+find_query = {"properties.lid": code}
 verify_result = collection.find_one(find_query)
 print(verify_result)
 
