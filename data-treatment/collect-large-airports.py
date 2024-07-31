@@ -1,17 +1,18 @@
 ##############################################################
 #
-#                     airports-membership.py
+#                     collect-large-airports.py
 #
 #
 #     Authored by Vedant Modi (vedantmodi.com)
 #     31 Jul 2024
 #
 #
-#     Script that checks if an airport is in Mongo collection
+#     Script that collects large airports for consideration
+#     in the re-ranking process
 #
 ##############################################################
+
 import os
-import sys
 
 import certifi
 from dotenv import load_dotenv
@@ -21,14 +22,12 @@ from pymongo.server_api import ServerApi
 load_dotenv()
 uri = os.getenv("MONGO_URL")
 
-code = str(sys.argv[1])
 
 client = MongoClient(uri, server_api=ServerApi("1"), tlsCAFile=certifi.where())
 database = client["closed-flights"]
 collection = database["airports"]
 
-find_query = {"properties.icao": code}
-verify_result = collection.find_one(find_query)
-print(verify_result)
-
-print(collection.count_documents({}))
+find_query = {"$and": [{"properties.country": "US"}, {"properties.size": "large"}]}
+results = collection.find(find_query)
+for document in results:
+    print(document["properties"]["icao"])

@@ -50,6 +50,8 @@ for line in sys.stdin:
     assert update_result
 
     verify_result = collection.find_one(find_query)
+    
+    assert verify_result
 
     print(verify_result)
 
