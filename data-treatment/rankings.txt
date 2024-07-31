@@ -2,3 +2,7 @@ NSE small
 MSY medium
 RBD small
 ADS small
+AFW small
+FTW small
+DAL medium
+RND medium
