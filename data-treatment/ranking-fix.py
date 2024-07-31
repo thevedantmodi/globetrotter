@@ -21,10 +21,13 @@
 import os
 import sys
 
+import airportsdata
 import certifi
 from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+
+airports = airportsdata.load("IATA")
 
 load_dotenv()
 uri = os.getenv("MONGO_URL")

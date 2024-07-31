@@ -34,6 +34,7 @@ os.makedirs(os.path.join(PATH, OUT_DIR), exist_ok=True)
 # Each Feature is a separate airport, contain in a FeatureCollection
 with open(os.path.join(PATH, URL)) as f:
     parsed = json.load(f)
+    
 
     for line in parsed:
         # Inject new size field into airport
