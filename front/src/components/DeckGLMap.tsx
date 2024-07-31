@@ -4,6 +4,7 @@ import DeckGL, {
   _GlobeView as GlobeView,
   MapView,
   FlyToInterpolator
+
 } from 'deck.gl'
 
 import { ArcLayer, GeoJsonLayer } from '@deck.gl/layers'
@@ -163,7 +164,7 @@ function DeckGLMap({ expanded }) {
     } else if (port_size === "small") {
       return [42, 135, 98]
     } else {
-      return [0,0,0, 255]
+      return [0, 0, 0, 255]
     }
 
   }
@@ -200,6 +201,7 @@ function DeckGLMap({ expanded }) {
     wrapLongitude: true
   })
 
+  console.log(airports?.features?.find((object) => object.properties.iata === "ATL"))
   return (
     <div >
       {/* <div>
@@ -234,6 +236,7 @@ function DeckGLMap({ expanded }) {
         // views={globe_view}
         >
           <ReactMapGL
+            reuseMaps
             style={{ height: '100%', width: '100%' }}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX}
             mapStyle={'mapbox://styles/mapbox/streets-v9'}

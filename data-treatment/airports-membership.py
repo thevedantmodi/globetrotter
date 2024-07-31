@@ -20,7 +20,7 @@ from pymongo.server_api import ServerApi
 load_dotenv()
 uri = os.getenv("MONGO_URL")
 
-code = "BIH"
+code = "ATL"
 
 client = MongoClient(uri, server_api=ServerApi("1"), tlsCAFile=certifi.where())
 database = client["closed-flights"]
