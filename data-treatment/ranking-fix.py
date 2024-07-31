@@ -39,7 +39,7 @@ collection = database["airports"]
 for line in sys.stdin:
     if line[0] == "#":
         continue
-    res = line.split(",")
+    res = line.split(" ")
     code, new_size = res
     new_size = new_size[:-1]
 
