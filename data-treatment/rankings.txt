@@ -1,6 +1,3 @@
-FRG small
-TEB small
-PHL large
-PNE small
-MMU small
-CDW small
+FDK small
+MTN small
+MNZ small
