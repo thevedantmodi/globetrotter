@@ -1,7 +1,4 @@
-ORL small
-SRQ small
-ISM small
-OPF small
-HWO small
-FLL medium
-FXE small
+NSE small
+MSY medium
+RBD small
+ADS small
