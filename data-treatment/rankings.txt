@@ -1,3 +1,7 @@
-FDK small
-MTN small
-MNZ small
+ORL small
+SRQ small
+ISM small
+OPF small
+HWO small
+FLL medium
+FXE small
