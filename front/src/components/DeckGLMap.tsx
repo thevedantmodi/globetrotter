@@ -33,9 +33,13 @@ const globe_view = new GlobeView({
   nearZMultiplier: 0.1,
   farZMultiplier: 1
 })
+
 const map_view = new MapView({
+  id: 'globe',
+  controller: true,
   repeat: true
 })
+
 
 
 type Flight = {
@@ -77,8 +81,9 @@ function DeckGLMap({ expanded }) {
 
   const [airports, setAirports] = useState([])
 
+
   const CITIES: { [name: string]: MapViewState } = {
-    BRISBANE: {
+    "BRISBANE": {
       latitude: -27.470125,
       longitude: 153.021072,
       zoom: 14,
@@ -86,7 +91,7 @@ function DeckGLMap({ expanded }) {
       bearing: 0,
       pitch: 0
     },
-    NYC: {
+    "NYC": {
       longitude: -74.0,
       latitude: 40.7,
       zoom: 14,
@@ -94,7 +99,7 @@ function DeckGLMap({ expanded }) {
       bearing: 0,
       pitch: 0
     },
-    SINGAPORE: {
+    "SINGAPORE": {
       longitude: 103.8198,
       latitude: 1.3521,
       zoom: 14,
@@ -102,10 +107,18 @@ function DeckGLMap({ expanded }) {
       bearing: 0,
       pitch: 0
     },
-    ATLANTA: {
+    "ATLANTA": {
       longitude: -84.3877,
       latitude: 33.7488,
       zoom: 14,
+      minZoom: 1,
+      bearing: 0,
+      pitch: 0
+    },
+    "WORLD": {
+      longitude: 0,
+      latitude: 30,
+      zoom: 1,
       minZoom: 1,
       bearing: 0,
       pitch: 0
@@ -125,7 +138,7 @@ function DeckGLMap({ expanded }) {
     getAirports()
   }, [])
 
-  const [viewState, setViewState] = useState<MapViewState>(CITIES['ATLANTA'])
+  const [viewState, setViewState] = useState<MapViewState>(CITIES['WORLD'])
 
   const flyToCity = useCallback(evt => {
     setViewState({
@@ -141,11 +154,11 @@ function DeckGLMap({ expanded }) {
     const port_size: string = f.properties.size
     // console.log(port_size === "large")
     if (port_size === "large") {
-      return 60000
+      return 60000 * (1 / viewState.zoom)
     } else if (port_size === "medium") {
-      return 20000
+      return 40000 * (1 / viewState.zoom)
     } else if (port_size === "small") {
-      return 10000
+      return 10000 * (1 / viewState.zoom)
     } else {
       return 200
     }
@@ -201,9 +214,11 @@ function DeckGLMap({ expanded }) {
     wrapLongitude: true
   })
 
+  //@ts-ignore
   console.log(airports?.features?.find((object) => object.properties.iata === "ATL"))
+  console.log(viewState.zoom)
   return (
-    <div >
+    <div id="map-root" className='h-full w-1/3'>
       {/* <div>
         {Object.keys(CITIES).map(name => (
           <button id={name} onClick={flyToCity} className='fly-button'>
@@ -216,8 +231,9 @@ function DeckGLMap({ expanded }) {
       // style={{ display: 'flex' }}
       >
         <DeckGL
-          style={{ height: '100%', width: '100%' }}
+          // @ts-ignore
           initialViewState={viewState}
+          onViewStateChange={e => setViewState(e.viewState)}
           controller={true}
           layers={[airportsLayer/* , flights */]}
           // getTooltip={({ object }) =>
@@ -232,18 +248,30 @@ function DeckGLMap({ expanded }) {
             object.properties &&
             object.properties.city + ', ' + object.properties.iata + ', ' + object.properties.size
           }
-          views={map_view}
-        // views={globe_view}
+          views={
+            [
+              map_view
+            ]}
+          eventHandler={false}
+          // views={globe_view}
+          style={{
+            position: 'absolute', left: expanded ? '22%' : '7%',
+            transition: 'left 0.3s ease-in-out'
+          }}
         >
           <ReactMapGL
+            style={{
+              height: '100%', width: expanded ? '22%' : '7%',
+              transition: 'width 0.3s ease-in-out', display: 'flex'
+            }}
             reuseMaps
-            style={{ height: '100%', width: '100%' }}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX}
             mapStyle={'mapbox://styles/mapbox/streets-v9'}
           // projection={globe_mapbox}
           // projection={flat_mapbox}
           />
         </DeckGL>
+
       </div>
     </div>
   )

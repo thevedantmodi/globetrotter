@@ -16,7 +16,7 @@ export default function SlidingWrapper({ expanded, setExpanded }) {
                 <SlidingItem
                     icon={<MapTrifold size={60} weight='duotone' />}
                     text={'Map'}
-                    active={true}
+             active={true}
                     alert={true}
                 />
                 <SlidingItem

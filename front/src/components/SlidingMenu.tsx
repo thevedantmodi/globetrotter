@@ -7,7 +7,7 @@ export const SlidingContext = createContext(true)
 const SlidingMenu = ({ children, expanded, setExpanded }) => {
   return (
     <aside
-      className={`z-10 h-screen transition-all duration-300 
+      className={`h-screen transition-all duration-300 
           ease-in-out ${expanded ? 'w-80' : 'w-24'
         }`}
     >

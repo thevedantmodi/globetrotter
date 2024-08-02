@@ -45,17 +45,40 @@ for line in sys.stdin:
 
     find_query = {"properties.iata": code}
     updation = {"$set": {"properties.size": new_size}}
-    update_result = collection.update_one(find_query, updation)
 
-    assert update_result
+    failed_queries = []
 
     verify_result = collection.find_one(find_query)
-    
-    assert verify_result
+    # If we fail searching with IATA,
+    # we should find the data to update with FAA LID
+    if not verify_result:
+        lid_query = {"properties.lid": code}
+        update_result = collection.update_one(lid_query, updation)
 
-    print(verify_result)
+        verify_result = collection.find_one(lid_query)
 
-    assert verify_result["properties"]["size"] == new_size
+        try:
+            assert verify_result
+        except AssertionError:
+            failed_queries.append(code)
+            continue
 
+        print(verify_result)
+
+        assert verify_result["properties"]["size"] == new_size
+    else:
+        update_result = collection.update_one(find_query, updation)
+        assert update_result
+
+        verify_result = collection.find_one(find_query)
+
+        assert verify_result
+
+        print(verify_result)
+
+        assert verify_result["properties"]["size"] == new_size
+
+
+print("Finished with these failed queries:", failed_queries)
 
 client.close()
