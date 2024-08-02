@@ -4,6 +4,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
 .info-card {
   width: 150px;
   height: 100px;

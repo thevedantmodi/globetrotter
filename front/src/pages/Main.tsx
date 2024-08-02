@@ -2,6 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import MapPage from "./MapPage";
+import HomePage from "./HomePage";
+
+
 
 export function NavBar() {
     return (
@@ -15,6 +18,7 @@ export function NavBar() {
 function Main() {
     return (
         <Router>
+            {/* <NavBar /> */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/map" element={<MapPage />} />

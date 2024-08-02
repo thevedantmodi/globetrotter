@@ -6,6 +6,8 @@
     "@arcgis/core": "^4.30.9",
     "@arcgis/map-components-react": "^4.30.6",
     "@deck.gl/react": "^9.0.23",
+    "@mantine/core": "^7.11.2",
+    "@mantine/hooks": "^7.11.2",
     "@phosphor-icons/react": "^2.1.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -55,6 +57,9 @@
   },
   "proxy": "http://localhost:8800/api",
   "devDependencies": {
-    "file-loader": "^6.2.0"
+    "file-loader": "^6.2.0",
+    "postcss": "^8.4.40",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1"
   }
 }
