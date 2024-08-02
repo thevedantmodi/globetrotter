@@ -62,7 +62,7 @@ const SlidingMenu = ({ children, expanded, setExpanded }) => {
   )
 }
 
-export function SlidingItem({ icon, text, active, alert }) {
+export function SlidingItem({ icon, text, active, alert, link }) {
   // @ts-ignore
   const { expanded } = useContext(SlidingContext)
 
@@ -72,7 +72,9 @@ export function SlidingItem({ icon, text, active, alert }) {
         ? 'bg-gradient-to-tr from-neutral-200 to-neutral-100 text-neutral-800'
         : 'hover:bg-neutral-50 text-gray-600'
         }`}
+
     >
+      {/* <a href='https://www.google.com'>Bello</a> */}
       <div className='flex items-center'>
         {icon}
       </div>
@@ -80,7 +82,7 @@ export function SlidingItem({ icon, text, active, alert }) {
         className={`transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'
           }`}
       >
-        {text}
+        <a href={link}>{text}</a>
       </span>
       {alert && (
         <div

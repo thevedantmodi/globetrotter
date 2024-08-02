@@ -18,32 +18,40 @@ export default function SlidingWrapper({ expanded, setExpanded }) {
                     text={'Map'}
              active={true}
                     alert={true}
+                    link={'map'}
+                    
                 />
                 <SlidingItem
                     icon={<TrendUp size={60} weight='duotone' />}
                     text={'Statistics'}
                     active={true}
                     alert={true}
+                    link={'statistics'}
+
                 />
                 <SlidingItem
                     icon={<Users size={60} weight='duotone' />}
                     text={'Friends'}
                     active={true}
                     alert={false}
+                    link={'friends'}
                 />
                 <SlidingItem
                     icon={<CheckCircle size={60} weight='duotone' />}
                     text={'Challenges'}
                     active={true}
                     alert={true}
+                    link={'challenges'}
+
                 />
                 <SlidingItem
                     icon={<Gear size={60} weight='duotone' />}
                     text={'Settings'}
                     active={true}
                     alert={true}
+                    link={'settings'}
                 />
-            </SlidingMenu>)
+            </SlidingMenu>
         </div>
     )
 }
