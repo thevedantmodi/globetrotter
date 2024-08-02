@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import MapPage from "./MapPage";
 import HomePage from "./HomePage";
-
-
+import SettingsPage from "./SettingsPage";
 
 export function NavBar() {
     return (
@@ -22,6 +21,7 @@ function Main() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/map" element={<MapPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
             </Routes>
         </Router>
     )

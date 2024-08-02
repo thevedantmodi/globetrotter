@@ -62,21 +62,21 @@ const SlidingMenu = ({ children, expanded, setExpanded }) => {
   )
 }
 
-export function SlidingItem({ icon, text, active, alert, link }) {
+export function SlidingItem({ icon, text, alert, link }) {
   // @ts-ignore
   const { expanded } = useContext(SlidingContext)
 
   return (
     <li
-      className={`relative flex items-center py-2 px-2 my-1 font-medium rounded-md cursor-pointer transition-colors group ${active
-        ? 'bg-gradient-to-tr from-neutral-200 to-neutral-100 text-neutral-800'
-        : 'hover:bg-neutral-50 text-gray-600'
-        }`}
-
+      className='relative flex items-center py-2 px-2 my-1 font-medium 
+      rounded-md cursor-pointer transition-all duration-300 ease-in-out group 
+      hover:bg-gradient-to-tr hover:from-neutral-200 hover:to-neutral-100
+      hover:text-blue-600 hover:shadow-lg
+      text-neutral-800'
     >
-      {/* <a href='https://www.google.com'>Bello</a> */}
-      <div className='flex items-center'>
-        {icon}
+      {/* TODO: change text-yellow-600 to user preference */}
+      <div className={`flex items-center`}>
+        <a href={link}>{icon}</a>
       </div>
       <span
         className={`transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'
@@ -86,8 +86,11 @@ export function SlidingItem({ icon, text, active, alert, link }) {
       </span>
       {alert && (
         <div
-          className={`absolute right-2 w-2 h-2 rounded bg-neutral-400 transition-all duration-300 ease-in-out ${expanded ? 'opacity-100' : 'opacity-0 top-2'
-            }`}
+          className={`absolute right-2 w-2 h-2 rounded bg-neutral-400 hover:bg-slate-300 
+            transition-all duration-300 ease-in-out 
+            ${expanded ? 'opacity-100' : 'opacity-0 top-2'
+            }
+            `}
         ></div>
       )}
       {expanded && (
