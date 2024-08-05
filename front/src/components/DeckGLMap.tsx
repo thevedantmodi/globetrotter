@@ -149,16 +149,14 @@ function DeckGLMap({ expanded }) {
   }, [])
 
   const createPointRadius = (f: Feature<Geometry, Airport>) => {
-    // console.log(f)
-    // console.log(f.properties.size)
     const port_size: string = f.properties.size
-    // console.log(port_size === "large")
+
     if (port_size === "large") {
-      return 60000 * (1 / viewState.zoom)
+      return 6
     } else if (port_size === "medium") {
-      return 40000 * (1 / viewState.zoom)
+      return 4
     } else if (port_size === "small") {
-      return 10000 * (1 / viewState.zoom)
+      return 1
     } else {
       return 200
     }
@@ -166,10 +164,7 @@ function DeckGLMap({ expanded }) {
   }
 
   const createPointColor = (f: Feature<Geometry, Airport>) => {
-    // console.log(f)
-    // console.log(f.properties.size)
     const port_size: string = f.properties.size
-    // console.log(port_size === "large")
     if (port_size === "large") {
       return [233, 57, 57]
     } else if (port_size === "medium") {
@@ -195,7 +190,8 @@ function DeckGLMap({ expanded }) {
     getText: (f: Feature<Geometry, Airport>) => f.properties.iata,
     getLineWidth: 3000,
     textFontFamily: 'Manrope',
-    getTextSize: 12
+    getTextSize: 12,
+    pointRadiusScale: 10000
   })
 
   const flights = new ArcLayer<Flight>({
@@ -214,9 +210,6 @@ function DeckGLMap({ expanded }) {
     wrapLongitude: true
   })
 
-  //@ts-ignore
-  console.log(airports?.features?.find((object) => object.properties.iata === "ATL"))
-  console.log(viewState.zoom)
   return (
     <div id="map-root" className='h-full w-1/3'>
       {/* <div>
@@ -246,7 +239,7 @@ function DeckGLMap({ expanded }) {
           }: PickingInfo<Feature<Geometry, Airport>>) =>
             object &&
             object.properties &&
-            object.properties.city + ', ' + object.properties.iata + ', ' + object.properties.size
+            object.properties.city + ' (' + object.properties.iata + ')'
           }
           views={
             [

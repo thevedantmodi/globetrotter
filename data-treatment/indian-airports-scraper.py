@@ -8,7 +8,7 @@
 #
 #
 #     Imports wikipedia table and exports to stdout as a sorted ranking chart
-#     for airports-ranker.py
+#     for ranking-fix.py
 #
 ##############################################################
 
