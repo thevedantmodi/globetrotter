@@ -1,5 +1,5 @@
+import { ModeToggle } from "../components/DarkModeButton";
 import React from "react";
-import { Button } from "@mantine/core"
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
@@ -9,9 +9,10 @@ export default function HomePage() {
                 <div className="font-semibold">
                     Welcome to Closed Flights!
                 </div>
-                <Button variant="filled" size="md" radius="md"
-                    component={Link} to={"/map"}
-                    className="mt-4">Enter</Button>
+                <Link to={"/map"} className="mt-4">
+                    Enter
+                </Link>
+                <ModeToggle />
             </div>
         </div>
     )
