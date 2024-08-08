@@ -88,3 +88,8 @@ label {
     @apply bg-background text-foreground;
   }
 }
+@media (min-width: 768px) {
+  #map-root {
+    width: 50%;
+  }
+}

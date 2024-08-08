@@ -1,12 +1,17 @@
 import { useState, useCallback, useEffect } from 'react'
 
+import { useTheme } from "next-themes"
+
 import DeckGL, {
   _GlobeView as GlobeView,
   MapView,
-  FlyToInterpolator
+  FlyToInterpolator,
+  ScatterplotLayer
+
 
 } from 'deck.gl'
 
+import { ModeToggle } from '../components/DarkModeButton'
 import { ArcLayer, GeoJsonLayer } from '@deck.gl/layers'
 import { MapViewState } from '@deck.gl/core'
 import type { PickingInfo } from '@deck.gl/core'
@@ -16,15 +21,16 @@ import axios from 'axios'
 import flightsData from '../test-flights.json'
 
 import ReactMapGL from 'react-map-gl'
-import { ProjectionSpecification } from 'mapbox-gl'
+import { ProjectionSpecification, StyleSpecification } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { UnitsModeButton } from './UnitsModeButton'
 
 const globe_mapbox: ProjectionSpecification = {
   name: 'globe'
 }
 
 const flat_mapbox: ProjectionSpecification = {
-  name: 'equirectangular'
+  name: 'mercator'
 }
 
 const globe_view = new GlobeView({
@@ -35,7 +41,7 @@ const globe_view = new GlobeView({
 })
 
 const map_view = new MapView({
-  id: 'globe',
+  id: 'map',
   controller: true,
   repeat: true
 })
@@ -55,6 +61,28 @@ type Flight = {
   }
 }
 
+// type Airport = {
+//   type: string
+//   geometry: {
+//     type: string
+//     coordinates: number[]
+//   }
+//   properties: {
+//     icao: string
+//     iata: string
+//     name: string
+//     city: string
+//     subd: string
+//     country: string
+//     elevation: number
+//     lat: number
+//     lon: number
+//     tz: string
+//     lid: string
+//     size: string
+//   }
+// }
+
 type Airport = {
   icao: string
   iata: string
@@ -71,6 +99,7 @@ type Airport = {
 }
 
 function DeckGLMap({ expanded }) {
+  const { theme, setTheme, systemTheme } = useTheme()
   // const [viewState, setViewState] = useState<MapViewState>({
   //   latitude: 30,
   //   longitude: 0,
@@ -163,7 +192,7 @@ function DeckGLMap({ expanded }) {
 
   }
 
-  const createPointColor = (f: Feature<Geometry, Airport>) => {
+  const createPointColor = (f) => {
     const port_size: string = f.properties.size
     if (port_size === "large") {
       return [233, 57, 57]
@@ -191,8 +220,19 @@ function DeckGLMap({ expanded }) {
     getLineWidth: 3000,
     textFontFamily: 'Manrope',
     getTextSize: 12,
-    pointRadiusScale: 10000
+    pointRadiusScale: 10000,
+
   })
+
+
+  // const airportsLayer = new ScatterplotLayer<Airport>({
+  //   id: 'airports',
+  //   data: airports,
+  //   // coordinateSystem: COORDINATE_SYSTEM.METER_OFFSETS,
+  //   // coordinateOrigin: [0, 0, 0],
+  //   getPosition: []
+  // })
+
 
   const flights = new ArcLayer<Flight>({
     id: 'flights',
@@ -210,62 +250,78 @@ function DeckGLMap({ expanded }) {
     wrapLongitude: true
   })
 
+  /* <div>
+    {Object.keys(CITIES).map(name => (
+      <button id={name} onClick={flyToCity} className='fly-button'>
+        {name}
+      </button>
+    ))}
+  </div> */
+
+  function mapbox_style() {
+    switch (theme) {
+      case 'system':
+        return systemTheme === 'light' ? "mapbox://styles/mapbox/streets-v12" :
+          "mapbox://styles/mapbox/dark-v11"
+      case 'dark':
+        return "mapbox://styles/mapbox/dark-v11";
+      case 'light':
+        return "mapbox://styles/mapbox/streets-v12"
+    }
+
+  }
+
   return (
-    <div id="map-root" className='h-full w-1/3'>
-      {/* <div>
-        {Object.keys(CITIES).map(name => (
-          <button id={name} onClick={flyToCity} className='fly-button'>
-            {name}
-          </button>
-        ))}
-      </div> */}
-      <div
-        id='deckgl-map'
-      // style={{ display: 'flex' }}
+    <div
+      id='deckgl-map'
+    // style={{ display: 'flex' }}
+    >
+      <DeckGL
+        // @ts-ignore
+        initialViewState={viewState}
+        onViewStateChange={e => setViewState(e.viewState)}
+        controller={true}
+        layers={[airportsLayer/* , flights */]}
+        // getTooltip={({ object }) =>
+        //   object &&
+        //   `${object.properties.iata}
+        // `
+        // }
+        getTooltip={({
+          object
+        }: PickingInfo<Feature<Geometry, Airport>>) =>
+          object &&
+          object.properties &&
+          object.properties.city + ' (' + object.properties.iata + ')'
+        }
+        views={
+          [
+            // globe_view
+            map_view
+          ]}
+        eventHandler={false}
+        // views={globe_view}
+        style={{
+          position: 'absolute', left: expanded ? '22%' : '7%',
+          transition: 'left 0.3s ease-in-out',
+          width: expanded ? '78%' : '93%',
+        }}
       >
-        <DeckGL
-          // @ts-ignore
-          initialViewState={viewState}
-          onViewStateChange={e => setViewState(e.viewState)}
-          controller={true}
-          layers={[airportsLayer/* , flights */]}
-          // getTooltip={({ object }) =>
-          //   object &&
-          //   `${object.properties.iata}
-          // `
-          // }
-          getTooltip={({
-            object
-          }: PickingInfo<Feature<Geometry, Airport>>) =>
-            object &&
-            object.properties &&
-            object.properties.city + ' (' + object.properties.iata + ')'
-          }
-          views={
-            [
-              map_view
-            ]}
-          eventHandler={false}
-          // views={globe_view}
+        <ReactMapGL
           style={{
             position: 'absolute', left: expanded ? '22%' : '7%',
-            transition: 'left 0.3s ease-in-out'
+            transition: 'left 0.3s ease-in-out',
+            width: expanded ? '78%' : '93%',
           }}
-        >
-          <ReactMapGL
-            style={{
-              height: '100%', width: expanded ? '22%' : '7%',
-              transition: 'width 0.3s ease-in-out', display: 'flex'
-            }}
-            reuseMaps
-            mapboxAccessToken={process.env.REACT_APP_MAPBOX}
-            mapStyle={'mapbox://styles/mapbox/streets-v9'}
+          reuseMaps
+          mapboxAccessToken={process.env.REACT_APP_MAPBOX}
+          mapStyle={mapbox_style()}
           // projection={globe_mapbox}
-          // projection={flat_mapbox}
-          />
-        </DeckGL>
-
-      </div>
+          projection={flat_mapbox}
+        />
+        <ModeToggle styles={"p-2.5"} />
+        <UnitsModeButton styles={"p-2.5"}/>
+      </DeckGL>
     </div>
   )
 }

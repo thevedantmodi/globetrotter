@@ -1,3 +1,4 @@
+import { AlertDialogDemo } from "../components/AddFlight";
 import { ModeToggle } from "../components/DarkModeButton";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -12,7 +13,7 @@ export default function HomePage() {
                 <Link to={"/map"} className="mt-4">
                     Enter
                 </Link>
-                <ModeToggle />
+                <AlertDialogDemo />
             </div>
         </div>
     )

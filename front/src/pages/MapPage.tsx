@@ -4,18 +4,17 @@ import SlidingWrapper from '../components/SlidingWrapper'
 import DeckGLMap from '../components/DeckGLMap'
 
 import '../tailwind.css'
-import { ModeToggle } from '../components/DarkModeButton'
+
 
 function MapPage() {
   const [expanded, setExpanded] = useState(true)
 
   return (
-    <div className='flex gap-4'>
+    <div className='flex flex-row'>
       <div>
         <SlidingWrapper expanded={expanded} setExpanded={setExpanded} />
-        <ModeToggle></ModeToggle>
       </div>
-      <div>
+      <div className='w-1/3'>
         <DeckGLMap expanded={expanded} />
       </div>
     </div>
@@ -23,3 +22,5 @@ function MapPage() {
 }
 
 export default MapPage
+
+
