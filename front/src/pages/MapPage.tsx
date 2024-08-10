@@ -14,7 +14,7 @@ function MapPage() {
       <div>
         <SlidingWrapper expanded={expanded} setExpanded={setExpanded} />
       </div>
-      <div className='w-1/3'>
+      <div>
         <DeckGLMap expanded={expanded} />
       </div>
     </div>

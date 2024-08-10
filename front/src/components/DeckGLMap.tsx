@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 
 import { useTheme } from "next-themes"
 
@@ -169,6 +169,14 @@ function DeckGLMap({ expanded }) {
 
   const [viewState, setViewState] = useState<MapViewState>(CITIES['WORLD'])
 
+  const memoizedViewState = useMemo(() => viewState, [viewState])
+
+  const handleViewStateChange = useCallback(({ viewState }) => {
+    if (viewState !== memoizedViewState) {
+      setViewState(viewState)
+    }
+  }, [memoizedViewState])
+
   const flyToCity = useCallback(evt => {
     setViewState({
       ...CITIES[evt.target.id],
@@ -259,6 +267,7 @@ function DeckGLMap({ expanded }) {
   </div> */
 
   function mapbox_style() {
+    console.log("help")
     switch (theme) {
       case 'system':
         return systemTheme === 'light' ? "mapbox://styles/mapbox/streets-v12" :
@@ -274,19 +283,14 @@ function DeckGLMap({ expanded }) {
   return (
     <div
       id='deckgl-map'
-    // style={{ display: 'flex' }}
+      style={{ display: 'flex' }}
     >
       <DeckGL
         // @ts-ignore
         initialViewState={viewState}
-        onViewStateChange={e => setViewState(e.viewState)}
+        onViewStateChange={handleViewStateChange}
         controller={true}
         layers={[airportsLayer/* , flights */]}
-        // getTooltip={({ object }) =>
-        //   object &&
-        //   `${object.properties.iata}
-        // `
-        // }
         getTooltip={({
           object
         }: PickingInfo<Feature<Geometry, Airport>>) =>
@@ -300,27 +304,32 @@ function DeckGLMap({ expanded }) {
             map_view
           ]}
         eventHandler={false}
-        // views={globe_view}
         style={{
           position: 'absolute', left: expanded ? '22%' : '7%',
           transition: 'left 0.3s ease-in-out',
           width: expanded ? '78%' : '93%',
+          zIndex: '3',
         }}
+
       >
         <ReactMapGL
+          // @ts-ignore
+          viewState={memoizedViewState}
+          onViewStateChange={handleViewStateChange}
+          reuseMaps
+          mapboxAccessToken={process.env.REACT_APP_MAPBOX}
           style={{
             position: 'absolute', left: expanded ? '22%' : '7%',
             transition: 'left 0.3s ease-in-out',
             width: expanded ? '78%' : '93%',
+            zIndex: '2',
           }}
-          reuseMaps
-          mapboxAccessToken={process.env.REACT_APP_MAPBOX}
           mapStyle={mapbox_style()}
           // projection={globe_mapbox}
           projection={flat_mapbox}
         />
         <ModeToggle styles={"p-2.5"} />
-        <UnitsModeButton styles={"p-2.5"}/>
+        <UnitsModeButton styles={"p-2.5"} />
       </DeckGL>
     </div>
   )

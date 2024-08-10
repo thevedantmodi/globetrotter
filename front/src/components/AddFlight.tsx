@@ -10,6 +10,7 @@ import {
     AlertDialogTrigger,
   } from "./ui/alert-dialog"
   import { Button } from "./ui/button"
+  import { AddFlightForm } from "./AddFlightForm"
   
   export function AlertDialogDemo() {
     return (
@@ -21,7 +22,7 @@ import {
           <AlertDialogHeader>
             <AlertDialogTitle>Add a flight</AlertDialogTitle>
             <AlertDialogDescription>
-              Add a flight here!
+             <AddFlightForm />
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
