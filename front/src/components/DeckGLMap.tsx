@@ -98,7 +98,7 @@ type Airport = {
   size: string
 }
 
-function DeckGLMap({ expanded }) {
+function DeckGLMap({ expanded }: { expanded: boolean }) {
   const { theme, setTheme, systemTheme } = useTheme()
   // const [viewState, setViewState] = useState<MapViewState>({
   //   latitude: 30,
@@ -171,13 +171,14 @@ function DeckGLMap({ expanded }) {
 
   const memoizedViewState = useMemo(() => viewState, [viewState])
 
-  const handleViewStateChange = useCallback(({ viewState }) => {
+  const handleViewStateChange = useCallback(({ viewState }:
+    { viewState: MapViewState }) => {
     if (viewState !== memoizedViewState) {
       setViewState(viewState)
     }
   }, [memoizedViewState])
 
-  const flyToCity = useCallback(evt => {
+  const flyToCity = useCallback((evt: { target: { id: string } }) => {
     setViewState({
       ...CITIES[evt.target.id],
       transitionInterpolator: new FlyToInterpolator({ speed: 4 }),
@@ -200,7 +201,7 @@ function DeckGLMap({ expanded }) {
 
   }
 
-  const createPointColor = (f) => {
+  const createPointColor = (f: Feature<Geometry, Airport>) => {
     const port_size: string = f.properties.size
     if (port_size === "large") {
       return [233, 57, 57]
@@ -291,6 +292,7 @@ function DeckGLMap({ expanded }) {
         onViewStateChange={handleViewStateChange}
         controller={true}
         layers={[airportsLayer/* , flights */]}
+        // @ts-ignore
         getTooltip={({
           object
         }: PickingInfo<Feature<Geometry, Airport>>) =>

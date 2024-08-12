@@ -11,7 +11,7 @@ import {
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
 
-export function UnitsModeButton({ styles }) {
+export function UnitsModeButton({ styles }: { styles: string }) {
     const [units, setUnits] = useState("miles")
 
     return (

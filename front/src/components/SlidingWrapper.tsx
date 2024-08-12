@@ -11,18 +11,17 @@ import {
 } from '@phosphor-icons/react'
 
 
-
-export default function SlidingWrapper({ expanded, setExpanded }) {
+export default function SlidingWrapper({ expanded, setExpanded }:
+    { expanded: boolean, setExpanded: React.Dispatch<React.SetStateAction<boolean>> }) {
     return (
 
         <div>
             <SlidingMenu expanded={expanded} setExpanded={setExpanded}>
                 <SlidingItem
                     icon={<MapTrifold size={60} weight='duotone' />}
-                    text={'Map'}
+                    text={"Map"}
                     alert={false}
                     link={'map'}
-
                 />
                 <SlidingItem
                     icon={<TrendUp size={60} weight='duotone' />}

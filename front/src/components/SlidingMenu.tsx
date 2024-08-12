@@ -3,8 +3,23 @@ import { TextOutdent, Circle, TextIndent } from '@phosphor-icons/react'
 import './SlidingMenu.css'
 
 export const SlidingContext = createContext(true)
+type SlidingMenuProps = {
+  children: React.ReactNode;
+  expanded: boolean;
+  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const SlidingMenu = ({ children, expanded, setExpanded }) => {
+
+interface SlidingItemProps {
+  icon: React.ReactNode;
+  text: string;
+  alert: boolean;
+  link: string;
+}
+
+
+
+const SlidingMenu: React.FC<SlidingMenuProps> = ({ children, expanded, setExpanded }: SlidingMenuProps) => {
   return (
     <aside
       className={`h-screen transition-all duration-300 ease-in-out ${expanded ? 'w-80' : 'w-24'} bg-black dark:bg-gray-900`}
@@ -58,35 +73,37 @@ const SlidingMenu = ({ children, expanded, setExpanded }) => {
   )
 }
 
-export function SlidingItem({ icon, text, alert, link }) {
-  // @ts-ignore
-  const { expanded } = useContext(SlidingContext)
 
-  return (
-    <li
-      className='relative flex items-center py-2 px-2 my-1 font-medium rounded-md cursor-pointer transition-all duration-300 ease-in-out group hover:bg-gradient-to-tr hover:from-neutral-200 hover:to-neutral-100 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-lg text-neutral-800 dark:text-neutral-200'
-    >
-      {/* TODO: change text-yellow-600 to user preference */}
-      <div className={`flex items-center`}>
-        <a href={link} className="dark:text-neutral-200">{icon}</a>
-      </div>
-      <span
-        className={`transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'}`}
+export const SlidingItem: React.FC<SlidingItemProps> =
+  ({ icon, text, alert, link }: SlidingItemProps) => {
+    // @ts-ignore
+    const { expanded } = useContext(SlidingContext)
+
+    return (
+      <li
+        className='relative flex items-center py-2 px-2 my-1 font-medium rounded-md cursor-pointer transition-all duration-300 ease-in-out group hover:bg-gradient-to-tr hover:from-neutral-200 hover:to-neutral-100 dark:hover:from-gray-700 dark:hover:to-gray-600 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-lg text-neutral-800 dark:text-neutral-200'
       >
-        <a href={link} className="dark:text-neutral-200">{text}</a>
-      </span>
-      {alert && (
-        <div
-          className={`absolute right-2 w-2 h-2 rounded bg-neutral-400 dark:bg-gray-500 hover:bg-slate-300 dark:hover:bg-gray-400 transition-all duration-300 ease-in-out ${expanded ? 'opacity-100' : 'opacity-0 top-2'}`}
-        ></div>
-      )}
-      {expanded && (
-        <div
-          className='absolute left-full rounded-md px-2 py-1 ml-6 bg-neutral-100 dark:bg-gray-700 text-neutral-800 dark:text-neutral-200 text-sm invisible opacity-20 -translate-x-3 transition-all duration-300 ease-in-out group-hover:visible group-hover:opacity-100 group-hover:translate-x-0'
-        ></div>
-      )}
-    </li>
-  )
-}
+        {/* TODO: change text-yellow-600 to user preference */}
+        <div className={`flex items-center`}>
+          <a href={link} className="dark:text-neutral-200">{icon}</a>
+        </div>
+        <span
+          className={`transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'}`}
+        >
+          <a href={link} className="dark:text-neutral-200">{text}</a>
+        </span>
+        {alert && (
+          <div
+            className={`absolute right-2 w-2 h-2 rounded bg-neutral-400 dark:bg-gray-500 hover:bg-slate-300 dark:hover:bg-gray-400 transition-all duration-300 ease-in-out ${expanded ? 'opacity-100' : 'opacity-0 top-2'}`}
+          ></div>
+        )}
+        {expanded && (
+          <div
+            className='absolute left-full rounded-md px-2 py-1 ml-6 bg-neutral-100 dark:bg-gray-700 text-neutral-800 dark:text-neutral-200 text-sm invisible opacity-20 -translate-x-3 transition-all duration-300 ease-in-out group-hover:visible group-hover:opacity-100 group-hover:translate-x-0'
+          ></div>
+        )}
+      </li>
+    )
+  }
 
 export default SlidingMenu
