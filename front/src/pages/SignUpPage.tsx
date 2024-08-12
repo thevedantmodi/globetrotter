@@ -14,10 +14,20 @@ type Inputs = {
 
 const SignUpSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(6).max(32), 
+    password: z.string().min(6).max(32),
     /* TODO: change here for req characters */
     confirm_password: z.string().min(6).max(32),
 })
+    /* ensure pwds match */
+    .refine((form) => {
+        return form.confirm_password === form.password
+    },
+        {
+            message: "Passwords must match",
+            path: ["confirm_password"]
+        }
+
+    )
 
 export default function SignUpPage() {
     const {
@@ -74,8 +84,6 @@ export default function SignUpPage() {
                 inputProps={register("confirm_password")}
                 error={errors.confirm_password?.message}
             />
-            
-
             <button>Submit</button>
         </form>
     )
