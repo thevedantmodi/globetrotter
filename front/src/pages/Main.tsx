@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import MapPage from "./MapPage";
 import HomePage from "./HomePage";
 import SettingsPage from "./SettingsPage";
-import SignUpPage from "@pages/SignUpPage";
+import SignUpPage from "./SignUpPage";
 
 export function NavBar() {
     return (
@@ -21,7 +21,7 @@ function Main() {
             {/* <NavBar /> */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/map" element={<MapPage />} />
+            <Route path="/map" element={<MapPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
             </Routes>

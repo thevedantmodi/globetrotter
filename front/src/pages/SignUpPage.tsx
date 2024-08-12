@@ -1,4 +1,5 @@
 import React from "react";
+import { Input } from "react-daisyui"
 
 export default function SignUpPage() {
     return (
@@ -11,7 +12,17 @@ export default function SignUpPage() {
             height: '100vh'
         }}>
             SignUpForm
-
+            <div className="form-control w-full max-w-xs">
+                <label htmlFor="email" className="label">
+                    <span className="label-text">Email Address</span>
+                </label>
+                <Input
+                    color="ghost"
+                    id="email"
+                    type="text"
+                />
+                <span className="label-text text-error">An error</span>
+            </div>
         </div>
     )
 }
