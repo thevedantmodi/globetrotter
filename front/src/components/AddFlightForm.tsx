@@ -4,18 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 
-import { Button } from "./ui/button"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "./ui/form"
-import { Input } from "./ui/input"
-
 interface AddFlightInput {
     departure: {
         date: string
@@ -54,37 +42,13 @@ const formSchema = z.object({
 })
 
 export function AddFlightForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-    })
+    // const form = useForm<z.infer<typeof formSchema>>({
+    //     resolver: zodResolver(formSchema),
+    // })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
-    }
+    const { register, handleSubmit, formState: { errors } } = useForm()
 
-    return <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-                control={form.control}
-                name="departure"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Departure</FormLabel>
-                        <FormControl>
-                            <Input placeholder="MM/DD/YYYY" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            This is your public display name.
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )}
-
-            >
-
-            </FormField>
-            <Button type="submit">Submit</Button>
-        </form >
-
-    </Form >
+    return (
+        <></>
+    )
 }

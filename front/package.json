@@ -71,6 +71,7 @@
   },
   "proxy": "http://localhost:8800/api",
   "devDependencies": {
+    "daisyui": "^4.12.10",
     "file-loader": "^6.2.0",
     "postcss": "^8.4.40",
     "postcss-preset-mantine": "^1.17.0",
