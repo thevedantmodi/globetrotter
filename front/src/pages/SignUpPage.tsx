@@ -3,6 +3,8 @@ import { ModeToggle } from "../components/DarkModeButton";
 import { Input } from "react-daisyui"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { SignUpField } from "../components/SignUpField";
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type Inputs = {
     email: string
@@ -10,13 +12,22 @@ type Inputs = {
     confirm_password: string
 }
 
+const SignUpSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6).max(32), 
+    /* TODO: change here for req characters */
+    confirm_password: z.string().min(6).max(32),
+})
+
 export default function SignUpPage() {
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<Inputs>()
+    } = useForm<Inputs>({
+        resolver: zodResolver(SignUpSchema)
+    })
 
     const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
 
@@ -46,21 +57,21 @@ export default function SignUpPage() {
                 id="email"
                 label="Email address"
                 type="email"
-                inputProps={register("email", { required: "Must enter an email address" })}
+                inputProps={register("email")}
                 error={errors.email?.message}
             />
             <SignUpField
                 id="password"
                 label="Password"
                 type="password"
-                inputProps={register("password", { required: "Must enter a password" })}
+                inputProps={register("password")}
                 error={errors.password?.message}
             />
             <SignUpField
                 id="confirm-password"
                 label="Confirm Password"
                 type="password"
-                inputProps={register("confirm_password", { required: "Must confirm password" })}
+                inputProps={register("confirm_password")}
                 error={errors.confirm_password?.message}
             />
             
