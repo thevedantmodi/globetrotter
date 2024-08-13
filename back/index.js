@@ -5,6 +5,7 @@ const dotenv = require('dotenv') /* Maybe not needed */
 const userRoute = require('./routes/users.js')
 const pinRoute = require('./routes/pins.js')
 const airportsRoute = require('./routes/airports.js')
+const signInRoute = require('./routes/signin.js')
 
 const app = express()
 
@@ -22,6 +23,7 @@ mongoose
 app.use('/api/users', userRoute)
 app.use('/api/pins', pinRoute)
 app.use('/api/airports', airportsRoute)
+app.use('/api/sign-in', signInRoute)
 
 app.listen(8800, () => {
   console.log('So the backend begins Here we go!')
