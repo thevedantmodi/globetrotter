@@ -1,4 +1,4 @@
-import React from "react"
+import React, { forwardRef, useImperativeHandle } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { SignUpField } from "./SignUpField";
 import * as z from "zod"
@@ -33,7 +33,9 @@ interface SignUpFormProps {
     onSubmitReady: (data: SignUpFormValues) => void
 }
 
-export default function SignUpForm(props: SignUpFormProps) {
+export const SignUpForm = forwardRef((props: SignUpFormProps, ref) => {
+
+
     const {
         register,
         handleSubmit,
@@ -44,7 +46,13 @@ export default function SignUpForm(props: SignUpFormProps) {
 
     console.log(errors)
 
-
+    useImperativeHandle(ref, () => {
+        return {
+            setErrors: () => {
+                console.log('setErrors')
+            }
+        }
+    }, [])
     return (
         <form style={{
             display: 'flex',
@@ -81,6 +89,7 @@ export default function SignUpForm(props: SignUpFormProps) {
                 error={errors.confirm_password?.message}
             />
             <button>Submit</button>
-        </form>
-    )
-}
+        </form>)
+})
+
+SignUpForm.displayName = 'ForwardRefedSignupForm'

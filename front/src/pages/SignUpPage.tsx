@@ -1,10 +1,12 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { ModeToggle } from "../components/DarkModeButton";
 import { Input } from "react-daisyui"
-import SignUpForm, { SignUpFormValues } from "../components/SignUpForm/SignUpForm";
+import { SignUpForm, SignUpFormValues } from "../components/SignUpForm/SignUpForm";
 import axios from 'axios'
 
 const SignUpPage = () => {
+
+    const SignUpFormRef = useRef(null)
 
     const onSubmit = async (data: SignUpFormValues) => {
         await axios.post('/sign-up', {
@@ -14,11 +16,14 @@ const SignUpPage = () => {
             console.log(res)
         }).catch((err) => {
             console.log("ERROR: ", err)
+            // @ts-ignore
+            SignUpFormRef.current.setErrors()
         })
     }
 
     return (
         <SignUpForm
+            ref={SignUpFormRef}
             onSubmitReady={onSubmit} />
     )
 
