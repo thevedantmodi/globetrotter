@@ -268,7 +268,6 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
   </div> */
 
   function mapbox_style() {
-    console.log("help")
     switch (theme) {
       case 'system':
         return systemTheme === 'light' ? "mapbox://styles/mapbox/streets-v12" :

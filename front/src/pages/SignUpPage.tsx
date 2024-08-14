@@ -4,8 +4,7 @@ import { Input } from "react-daisyui"
 import {
     SignUpForm,
     SignUpFormValues,
-    SignUpAPI,
-    SignUpFormProps
+    SignUpAPI
 } from "../components/SignUpForm/SignUpForm";
 import axios from 'axios'
 
@@ -14,6 +13,12 @@ const SignUpPage = () => {
     const SignUpFormRef = useRef<SignUpAPI>(null)
 
     const onSubmit = async (data: SignUpFormValues) => {
+
+        const delay = (ms: number) =>
+            new Promise(resolve => setTimeout(resolve, ms));
+
+        await delay(2000);
+
         await axios.post('/sign-up', {
             email: data.email,
             password: data.password
@@ -22,15 +27,10 @@ const SignUpPage = () => {
             const success = res.data.success
 
             if (!success) { /* Set errors for child */
-                // @ts-ignore
-                SignUpFormRef.current.setErrors(errors)
+                SignUpFormRef.current?.setErrors(errors)
             }
-
-
         }).catch((err) => {
             console.log("ERROR: ", err)
-
-
         })
     }
 

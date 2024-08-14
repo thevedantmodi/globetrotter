@@ -1,8 +1,9 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react"
-import { useForm, SubmitHandler, set } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { SignUpField } from "./SignUpField";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "react-daisyui";
 
 type Inputs = {
     email: string
@@ -30,7 +31,7 @@ const SignUpSchema = z.object({
 export type SignUpFormValues = z.infer<typeof SignUpSchema>
 
 export interface SignUpFormProps {
-    onSubmitReady: (data: SignUpFormValues) => void
+    onSubmitReady: (data: SignUpFormValues) => Promise<void>
 }
 
 export interface SignUpAPI {
@@ -43,7 +44,7 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
             register,
             handleSubmit,
             setError,
-            formState: { errors },
+            formState: { errors, isSubmitting },
         } = useForm<Inputs>({
             resolver: zodResolver(SignUpSchema)
         })
@@ -55,12 +56,12 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
             return {
                 setErrors: (errors: Record<string, string>) => {
                     Object.entries(errors).forEach(([key, error]) => {
-                        setError(key as "email" | "password" | "confirm_password"
+                        setErrorRef.current(key as "email" | "password" | "confirm_password"
                             , { message: error })
                     })
                 }
             }
-        }, [])
+        })
 
         return (
             <form style={{
@@ -97,7 +98,9 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                     inputProps={register("confirm_password")}
                     error={errors.confirm_password?.message}
                 />
-                <button>Submit</button>
+                <Button loading={isSubmitting} color="neutral"
+                active={!isSubmitting}
+                >{isSubmitting ? "Loading..." : "Submit"}</Button>
             </form>)
     })
 
