@@ -76,7 +76,7 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                 onSubmit={handleSubmit(props.onSubmitReady)}
 
             >
-                <h2>Sign Up</h2>
+                <h2 className="">Sign Up</h2>
                 {/* <ModeToggle styles="" /> */}
                 <SignUpField
                     id="email"

@@ -41,12 +41,15 @@ const SignUpPage = () => {
 
             if (!success) { /* Set errors for child */
                 SignUpFormRef.current?.setErrors(errors)
+                return
             }
+
+            navigate('/map');
+
         }).catch((err) => {
             console.log("ERROR: ", err)
         })
 
-        navigate('/map'); // Replace Navigate with navigate
     }
 
     return (
