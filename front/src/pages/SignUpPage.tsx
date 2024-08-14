@@ -1,16 +1,16 @@
-import React, { useCallback, useRef } from "react";
-import { ModeToggle } from "../components/DarkModeButton";
-import { Input } from "react-daisyui"
+import { useRef } from "react";
 import {
     SignUpForm,
     SignUpFormValues,
     SignUpAPI
 } from "../components/SignUpForm/SignUpForm";
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const SignUpPage = () => {
 
     const SignUpFormRef = useRef<SignUpAPI>(null)
+    const navigate = useNavigate();
 
     const onSubmit = async (data: SignUpFormValues) => {
 
@@ -32,6 +32,8 @@ const SignUpPage = () => {
         }).catch((err) => {
             console.log("ERROR: ", err)
         })
+
+        navigate('/map'); // Replace Navigate with navigate
     }
 
     return (
