@@ -6,11 +6,24 @@ import {
 } from "../components/SignUpForm/SignUpForm";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { Button } from "react-daisyui";
 
 const SignUpPage = () => {
 
     const SignUpFormRef = useRef<SignUpAPI>(null)
     const navigate = useNavigate();
+
+    const LoginExistingUser = () => {
+
+        return (
+            <Button color="secondary" onClick={(e) => {
+                e.preventDefault()
+                navigate('/login')
+            }}>
+                Already a user? Login here.
+            </Button>
+        )
+    }
 
     const onSubmit = async (data: SignUpFormValues) => {
 
@@ -39,7 +52,9 @@ const SignUpPage = () => {
     return (
         <SignUpForm
             ref={SignUpFormRef}
-            onSubmitReady={onSubmit} />
+            onSubmitReady={onSubmit}
+            suffix={<LoginExistingUser />}
+        />
     )
 
 }

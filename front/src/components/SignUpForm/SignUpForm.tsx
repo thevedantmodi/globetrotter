@@ -32,6 +32,7 @@ export type SignUpFormValues = z.infer<typeof SignUpSchema>
 
 export interface SignUpFormProps {
     onSubmitReady: (data: SignUpFormValues) => Promise<void>
+    suffix: React.ReactElement
 }
 
 export interface SignUpAPI {
@@ -101,6 +102,8 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                 <Button loading={isSubmitting} color="neutral"
                 active={!isSubmitting}
                 >{isSubmitting ? "Loading..." : "Submit"}</Button>
+
+                {props.suffix}
             </form>)
     })
 
