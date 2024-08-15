@@ -70,7 +70,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8800/api",
+  "proxy": "http://localhost:13000/",
   "devDependencies": {
     "daisyui": "^4.12.10",
     "file-loader": "^6.2.0",

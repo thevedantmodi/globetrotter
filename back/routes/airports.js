@@ -1,5 +1,6 @@
 /* Add HTTP requests for uploading airports */
 const router = require('express').Router()
+const pool = require('../db')
 const Airport = require('../models/Airport')
 
 /* Create an airport */
@@ -18,14 +19,37 @@ router.post('/', async (request, response) => {
 
 router.get('/', async (request, response) => {
   try {
-    const airports = await Airport.find({
-      'properties.iata': { $ne: '' } /* Get only IATA airports */
-    }) /* Change find params for criteria */
+
+    /* Guaranteed to have no empty IATA */
+    const data = (await pool.query('SELECT * FROM airports'))
+    const airports = data.rows
+
+    /* Embed each airport JSON in a GeoJSON */
+    const geo_airports = airports.map(airport => {
+      return {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [airport.lon, airport.lat]
+        },
+        properties: {
+          iata: airport.iata,
+          lat: airport.lat,
+          lon: airport.lon,
+          country: airport.country,
+          icao: airport.icao,
+          city: airport.city,
+          subd: airport.subd,
+          size: airport.size,
+        }
+      }
+    })
+
 
     /* Wrap in GeoJSON FeatureCollection */
     const AirportsFeatures = {
       "type": "FeatureCollection",
-      "features": airports,
+      "features": geo_airports,
     }
 
     response.status(200).json(AirportsFeatures)
