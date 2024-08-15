@@ -58,7 +58,7 @@ app.get('/show', async (request, response) => {
 app.get('/setup', async (request, response) => {
   try {
     await pool.query(
-      'CREATE TABLE schools ( id SERIAL PRIMARY KEY, name VARCHAR(100), address VARCHAR(100) )'
+      'CREATE TABLE airports ( id SERIAL PRIMARY KEY, name VARCHAR(100), address VARCHAR(100) )'
     )
     response.status(200).send({ message: 'Successfully created table' })
   } catch (err) {
