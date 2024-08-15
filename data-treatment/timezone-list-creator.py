@@ -25,9 +25,11 @@ with open(path) as json_file:
     for obj in data["features"]:
         tzs.add(obj["properties"][prop])
 
+
 with open("timezones.csv", "w") as csvfile:
-    fieldnames = ["iata", "lat", "lon", "country", "icao", "tz", "city", "subd", "size"]
+    fieldnames = ["id"]
 
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
-    writer.writerows(data_list)
+    for tz in tzs:
+        writer.writerow({"id": tz})
