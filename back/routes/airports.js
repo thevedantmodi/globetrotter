@@ -1,7 +1,6 @@
 /* Add HTTP requests for uploading airports */
 const router = require('express').Router()
 const pool = require('../db')
-const Airport = require('../models/Airport')
 
 /* Create an airport */
 
