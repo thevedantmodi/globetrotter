@@ -1,0 +1,14 @@
+CREATE TYPE port_size as ENUM('small', 'medium', 'large');
+CREATE TABLE IF NOT EXISTS airports (
+    iata VARCHAR(3) PRIMARY KEY,
+    lat REAL,
+    lon REAL,
+    country VARCHAR(2) REFERENCES countries(id),
+    icao VARCHAR(4),
+    tz VARCHAR(30) REFERENCES timezones(id),
+    city VARCHAR(500),
+    subd VARCHAR(500),
+    size port_size
+);
+
+\COPY airports FROM /Users/vedantmodi/dev-work/closed-flights/data-treatment/airports-mongo.csv DELIMITER ',' CSV header;
