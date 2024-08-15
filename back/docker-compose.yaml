@@ -1,0 +1,12 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD=7CdNsT3pTbFd45r
+      POSTGRES_USER=admin
+      POSTGRES_DB=closed-flights
+  app:
+    image: node-app
+    port:
+      -13000:8800

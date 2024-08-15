@@ -2,7 +2,7 @@ import { Input } from "react-daisyui"
 import { RefCallback } from "react";
 
 /* Types are happy now */
-interface SignUpFieldProps {
+interface FormFieldProps {
     id: string,
     label: string,
     error?: string,
@@ -22,7 +22,7 @@ interface SignUpFieldProps {
     type?: 'password' | 'text' | 'email',
 }
 
-export const SignUpField = (props: SignUpFieldProps) => {
+export const FormField = (props: FormFieldProps) => {
     return (
         <div className="form-control w-full max-w-xs" >
             <label htmlFor="email" className="label">

@@ -11,43 +11,31 @@ type Inputs = {
     confirm_password: string
 }
 
-const SignUpSchema = z.object({
+const LogInSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6).max(32),
-    /* TODO: change here for req characters */
-    confirm_password: z.string().min(6).max(32),
 })
-    /* ensure pwds match */
-    .refine((form) => {
-        return form.confirm_password === form.password
-    },
-        {
-            message: "Passwords must match",
-            path: ["confirm_password"]
-        }
 
-    )
+export type LogInFormValues = z.infer<typeof LogInSchema>
 
-export type SignUpFormValues = z.infer<typeof SignUpSchema>
-
-export interface SignUpFormProps {
-    onSubmitReady: (data: SignUpFormValues) => Promise<void>
+export interface LogInFormProps {
+    onSubmitReady: (data: LogInFormValues) => Promise<void>
     suffix?: React.ReactElement
 }
 
-export interface SignUpAPI {
+export interface LogInAPI {
     setErrors: (errors: Record<string, string>) => void
 }
 
-export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
-    ((props: SignUpFormProps, ref) => {
+export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
+    ((props: LogInFormProps, ref) => {
         const {
             register,
             handleSubmit,
             setError,
             formState: { errors, isSubmitting },
         } = useForm<Inputs>({
-            resolver: zodResolver(SignUpSchema)
+            resolver: zodResolver(LogInSchema)
         })
 
         const setErrorRef = useRef(setError)
@@ -76,8 +64,8 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                 onSubmit={handleSubmit(props.onSubmitReady)}
 
             >
-                <h2 className="font-bold text-xl text-red-300">Sign Up</h2>
-                {/* <ModeToggle styles="" /> */}
+                <h2 className="font-bold text-xl">Login</h2>
+                {/* <ModeToggle styles="" /> */}    
                 <FormField
                     id="email"
                     label="Email address"
@@ -92,13 +80,6 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                     inputProps={register("password")}
                     error={errors.password?.message}
                 />
-                <FormField
-                    id="confirm-password"
-                    label="Confirm Password"
-                    type="password"
-                    inputProps={register("confirm_password")}
-                    error={errors.confirm_password?.message}
-                />
                 <Button loading={isSubmitting} color="neutral"
                 active={!isSubmitting}
                 >{isSubmitting ? "Loading..." : "Submit"}</Button>
@@ -107,4 +88,4 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
             </form>)
     })
 
-SignUpForm.displayName = 'ForwardRefedSignupForm'
+LogInForm.displayName = 'ForwardRefedSignupForm'

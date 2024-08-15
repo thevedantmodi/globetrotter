@@ -1,0 +1,11 @@
+###
+GET http://localhost:8800/
+
+###
+POST http://localhost:8800/
+Content-Type: "application/json"
+
+{
+    "name": "vedant",
+    "location": "23 Emery St"
+}
