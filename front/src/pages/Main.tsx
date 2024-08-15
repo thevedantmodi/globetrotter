@@ -6,6 +6,7 @@ import HomePage from "./HomePage";
 import SettingsPage from "./SettingsPage";
 import SignUpPage from "./SignUpPage";
 import LogInPage from "./LogInPage";
+import AddFlightPage from "./AddFlightPage"
 
 export function NavBar() {
     return (
@@ -26,6 +27,7 @@ function Main() {
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
                 <Route path="/login" element={<LogInPage />} />
+                <Route path="/add-flight" element={<AddFlightPage />} />
             </Routes>
         </Router>
     )
