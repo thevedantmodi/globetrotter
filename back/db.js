@@ -3,7 +3,7 @@ const pool = new Pool({
   host: 'db',
   port: 5432,
   user: 'admin',
-  password: process.env.POSTGRES_PWD,
+  password: '7CdNsT3pTbFd45r',
   database: 'closed-flights'
 })
 

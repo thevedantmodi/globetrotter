@@ -1,7 +1,7 @@
 const express = require('express')
 const pool = require('./db')
 const { configDotenv } = require('dotenv')
-const port = 8800
+const port = 3000
 
 const app = express()
 app.use(express.json()) /* allows for application/json requests */
@@ -32,10 +32,33 @@ app.post('/', async (request, response) => {
   })
 })
 
+app.get('/delete', async (request, response) => {
+  try {
+    const res = await pool.query('DROP TABLE IF EXISTS public.schools;')
+    console.log(res)
+    response.sendStatus(200)
+  } catch (err) {
+    console.log(err)
+    response.sendStatus(500)
+  }
+})
+
+app.get('/show', async (request, response) => {
+  try {
+    const res = await pool.query('SELECT * FROM pg_catalog.pg_tables;')
+    console.log(res)
+    response.sendStatus(200)
+    return
+  } catch (err) {
+    console.log(err)
+    response.sendStatus(500)
+  }
+})
+
 app.get('/setup', async (request, response) => {
   try {
     await pool.query(
-      'CREATE TABLE schools ( id SERIAL PRIMARY KEY, name VARCHAR(100), address VARCHAR(100)'
+      'CREATE TABLE schools ( id SERIAL PRIMARY KEY, name VARCHAR(100), address VARCHAR(100) )'
     )
     response.status(200).send({ message: 'Successfully created table' })
   } catch (err) {
@@ -45,5 +68,6 @@ app.get('/setup', async (request, response) => {
 })
 
 app.listen(port, () => {
+  console.log('hello!')
   console.log('Port has started on', port)
 })

@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Shows localhost where 8800 is
-EXPOSE 8800
+EXPOSE 1337
 CMD [ "npm", "run", "start" ]
 
 

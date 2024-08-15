@@ -9,3 +9,6 @@ Content-Type: "application/json"
     "name": "vedant",
     "location": "23 Emery St"
 }
+
+###
+GET http://localhost:13000/setup
