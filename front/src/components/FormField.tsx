@@ -19,13 +19,13 @@ interface FormFieldProps {
         required?: boolean;
         disabled?: boolean;
     },
-    type?: 'password' | 'text' | 'email',
+    type?: 'password' | 'text' | 'email' | 'date',
 }
 
 export const FormField = (props: FormFieldProps) => {
     return (
         <div className="form-control w-full max-w-xs" >
-            <label htmlFor="email" className="label">
+            <label htmlFor={props.id} className="label">
                 <span className="label-text">{props.label}</span>
             </label>
             <Input
