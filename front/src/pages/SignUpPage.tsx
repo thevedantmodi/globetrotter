@@ -39,6 +39,8 @@ const SignUpPage = () => {
             const errors = res.data.errors
             const success = res.data.success
 
+            console.log(errors)
+
             if (!success) { /* Set errors for child */
                 SignUpFormRef.current?.setErrors(errors)
                 return

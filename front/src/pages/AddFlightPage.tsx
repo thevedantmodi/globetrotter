@@ -1,17 +1,28 @@
-import React, { useState } from "react"
-import Modal from "../components/Modal"
-import { Trash } from "@phosphor-icons/react"
-import { AddFlightForm, AddFlightFormValues } from "../components/AddFlightForm"
+import React, { useRef } from "react"
+import {
+    AddFlightForm,
+    AddFlightFormValues,
+    AddFlightAPI
+} from "../components/AddFlightForm"
 import axios from "axios"
 
 export default function AddFlightPage() {
+    const AddFlightFormRef = useRef<AddFlightAPI>(null)
     const onSubmit = async (data: AddFlightFormValues) => {
-        console.log("Sucess!")
         console.log(data)
+        const error = {
+            "carrier": "Cannot be BA" 
+        }
+        if (data.carrier === "BA") {
+            AddFlightFormRef.current?.setErrors(error)
+        }
     }
 
     return (
         <>
-            <AddFlightForm onSubmitReady={onSubmit} />
+            <AddFlightForm
+                ref={AddFlightFormRef}
+                onSubmitReady={onSubmit}
+            />
         </>)
 }
