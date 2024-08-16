@@ -85,8 +85,6 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                             "carrier" |
                             "number",
                             { message: error })
-                        console.log("here!!")
-                        console.log(key, error)
                     })
                 }
             }

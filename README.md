@@ -5,4 +5,4 @@ An interactive flight logger built entirely on open source software. A full-stac
 
 TODO:
 Fix scaling on mobile
-Start to add modals for add flights and recent flights
+Start to add modals for and recent flights
