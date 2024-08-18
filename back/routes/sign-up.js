@@ -16,8 +16,6 @@ const router = require('express').Router()
 
 /*   */
 router.post('/', async (request, response) => {
-  console.log('here!!')
-  console.log()
   const username = request.body.username
   const email_addr = request.body.email
 
@@ -27,24 +25,30 @@ router.post('/', async (request, response) => {
   const hometown = 'Houston, TX'
   const km_flown = 1500
 
-  console.log(request.body)
-
   try {
     const query = {
       name: 'create-user',
       text:
         'INSERT INTO users (username, email, hashed_pwd, hometown, km_flown) ' +
-        'VALUES($1, $2, $3, $4, $5)',
+        'VALUES($1, $2, $3, $4, $5)' + 
+        'RETURNING *',
       values: [username, email_addr, hash_pwd, hometown, km_flown]
     }
 
     const res = await pool.query(query)
-    console.log(res)
+
+    console.log(res.rows)
+
+    const user_id = res.rows[0].id
+
+    /* At this point, a new user has been created in the SQL table */
     response.status(200).json({
-      message: "Welcome to Strava for Flights!"
+      message: `Welcome to Strava for Flights! id is ${user_id}.`
     })
   } catch (err) {
-    console.log('ERROR: ', err)
+
+    /* Expected errors from PG should be added here */
+
     if (err.constraint === 'users_username_key') {
       response.status(500).json({
         errors: {
@@ -63,7 +67,7 @@ router.post('/', async (request, response) => {
       })
       return
     }
-
+    
 
   }
 })

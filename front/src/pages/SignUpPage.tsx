@@ -38,10 +38,7 @@ const SignUpPage = () => {
             password: data.password
         }).then((res) => {
             console.log(res.data.message)
-
-
-            console.log("done!")
-            // navigate('/map');
+            navigate('/map');
 
         }).catch((err) => {
 
@@ -50,7 +47,7 @@ const SignUpPage = () => {
             if (errors) {
                 /* Set errors for children */
                 SignUpFormRef.current?.setErrors(errors)
-            } else {
+            } else { /* Something bad! */
                 SignUpFormRef.current?.setFatalError()
             }
         })
