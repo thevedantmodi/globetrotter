@@ -10,7 +10,7 @@ const app = express()
 app.use(express.json()) /* allows for application/json requests */
 
 app.use('/airports', airportsRoute)
-app.use('/sign-up', signUpRoute)
+app.use('/users', signUpRoute)
 
 app.listen(port, () => {
   console.log("Bello!")

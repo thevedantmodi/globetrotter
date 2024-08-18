@@ -2,25 +2,6 @@ const router = require('express').Router()
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 
-/* Register */
-
-router.post('/sign-up', async (request, response) => {
-  try {
-    /* generate new password */
-    const salt = await bcrypt.genSalt(10) /* 10 is a large number for this */
-    const hash_pwd = await bcrypt.hash(request.body.password, salt)
-
-    /* save user */
-
-    const user = await new_user.save()
-
-    /* send response */
-
-    response.status(200).json(user._id)
-  } catch (err) {
-    response.status(500).json(err)
-  }
-})
 
 /* Login */
 

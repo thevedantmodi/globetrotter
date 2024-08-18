@@ -20,22 +20,24 @@ const LogInPage = () => {
 
         await delay(2000);
 
-        await axios.post('/sign-up', {
+        await axios.post('/users/sign-up', {
+            username: data.username,
             email: data.email,
             password: data.password
         }).then((res) => {
-            const errors = res.data.errors
-            const success = res.data.success
-
-            if (!success) { /* Set errors for child */
-                LoginFormRef.current?.setErrors(errors)
-                return
-            }
-
+            console.log(res.data.message)
             navigate('/map');
 
         }).catch((err) => {
-            console.log("ERROR: ", err)
+
+            const errors = (err.response?.data?.errors)
+
+            if (errors) {
+                /* Set errors for children */
+                SignUpFormRef.current?.setErrors(errors)
+            } else { /* Something bad! */
+                SignUpFormRef.current?.setFatalError()
+            }
         })
 
     }

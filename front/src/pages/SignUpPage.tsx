@@ -32,7 +32,7 @@ const SignUpPage = () => {
 
         await delay(2000);
 
-        await axios.post('/sign-up', {
+        await axios.post('/users/sign-up', {
             username: data.username,
             email: data.email,
             password: data.password

@@ -12,6 +12,7 @@ type Inputs = {
 }
 
 const LogInSchema = z.object({
+    username: z.string().min(6).max(32),
     email: z.string().email(),
     password: z.string().min(6).max(32),
 })
