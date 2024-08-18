@@ -67,7 +67,6 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                             , { message: error })
                     })
                 },
-
                 setFatalError: () => {
                     setShowFatalError(true)
                 }
