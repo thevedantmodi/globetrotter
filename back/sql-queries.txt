@@ -11,4 +11,25 @@ CREATE TABLE IF NOT EXISTS airports (
     size port_size
 );
 
-\COPY airports FROM /Users/vedantmodi/dev-work/closed-flights/data-treatment/airports-mongo.csv DELIMITER ',' CSV header;
+\COPY airports FROM
+/Users/vedantmodi/dev-work/closed-flights/data-treatment/airports-mongo.csv
+DELIMITER ',' CSV header;
+
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    hashed_pwd VARCHAR(255) NOT NULL,
+    hometown VARCHAR(255),
+    km_flown INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    hashed_pwd VARCHAR(255) NOT NULL,
+    hometown VARCHAR(255),
+    km_flown INT DEFAULT 0
+);
+
+INSERT INTO users (email, hashed_pwd, hometown, km_flown) 
+VALUES ('vedantmodi@gmail.com', 'ersgrsegdfshgsrysdg', 'Houston, TX', 1500)

@@ -4,18 +4,11 @@ const bcrypt = require('bcryptjs')
 
 /* Register */
 
-router.post('/register', async (request, response) => {
+router.post('/sign-up', async (request, response) => {
   try {
     /* generate new password */
     const salt = await bcrypt.genSalt(10) /* 10 is a large number for this */
     const hash_pwd = await bcrypt.hash(request.body.password, salt)
-
-    /* create new user */
-    const new_user = new User({
-      username: request.body.username,
-      email: request.body.email,
-      password: hash_pwd /* Duh, security */
-    })
 
     /* save user */
 

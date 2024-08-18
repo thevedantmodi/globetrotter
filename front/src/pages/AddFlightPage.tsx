@@ -10,6 +10,7 @@ export default function AddFlightPage() {
     const AddFlightFormRef = useRef<AddFlightAPI>(null)
     const onSubmit = async (data: AddFlightFormValues) => {
         console.log(data)
+        /* TODO: Validate carriers, IATA codes */
         const error = {
             "carrier": "Cannot be BA" 
         }

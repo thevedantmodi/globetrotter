@@ -1,1 +1,1 @@
-SELECT * FROM airports
+SELECT * FROM users

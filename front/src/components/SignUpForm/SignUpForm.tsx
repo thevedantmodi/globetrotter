@@ -6,12 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
 
 type Inputs = {
+    username: string
     email: string
     password: string
     confirm_password: string
 }
 
 const SignUpSchema = z.object({
+    username: z.string().max(32),
     email: z.string().email(),
     password: z.string().min(6).max(32),
     /* TODO: change here for req characters */
@@ -78,6 +80,13 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
             >
                 <h2 className="font-bold text-xl">Sign Up</h2>
                 {/* <ModeToggle styles="" /> */}
+                <FormField
+                    id="username"
+                    label="Username"
+                    type="text"
+                    inputProps={register("username")}
+                    error={errors.username?.message}
+                />
                 <FormField
                     id="email"
                     label="Email address"
