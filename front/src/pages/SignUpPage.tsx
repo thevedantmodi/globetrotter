@@ -33,21 +33,26 @@ const SignUpPage = () => {
         await delay(2000);
 
         await axios.post('/sign-up', {
+            username: data.username,
             email: data.email,
             password: data.password
         }).then((res) => {
-            const errors = res.data.errors
-            const success = res.data.success
+            console.log(res.data.message)
 
-            if (!success) { /* Set errors for child */
-                SignUpFormRef.current?.setErrors(errors)
-                return
-            }
 
-            navigate('/map');
+            console.log("done!")
+            // navigate('/map');
 
         }).catch((err) => {
-            console.log("ERROR: ", err)
+
+            const errors = (err.response?.data?.errors)
+
+            if (errors) {
+                /* Set errors for children */
+                SignUpFormRef.current?.setErrors(errors)
+            } else {
+                SignUpFormRef.current?.setFatalError()
+            }
         })
 
     }

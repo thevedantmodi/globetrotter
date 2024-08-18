@@ -1,5 +1,6 @@
 import { Input } from "react-daisyui"
 import { RefCallback } from "react";
+import ErrorField from "./ErrorField";
 
 /* Types are happy now */
 interface FormFieldProps {
@@ -34,10 +35,8 @@ export const FormField = (props: FormFieldProps) => {
                 type={props.type ?? "text"}
                 {...(props.inputProps ?? {})} /* Could be react-hook-form */
             />
-            {props.error &&
-                <span className="label-text text-error">
-                    {props.error}
-                </span>}
+
+            <ErrorField message={props.error} />
 
         </div>
     )

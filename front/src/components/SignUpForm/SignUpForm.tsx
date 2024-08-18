@@ -1,9 +1,10 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react"
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormField } from "../FormField";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
+import ErrorField from "../ErrorField";
 
 type Inputs = {
     username: string
@@ -13,7 +14,7 @@ type Inputs = {
 }
 
 const SignUpSchema = z.object({
-    username: z.string().max(32),
+    username: z.string().min(1).max(32),
     email: z.string().email(),
     password: z.string().min(6).max(32),
     /* TODO: change here for req characters */
@@ -39,6 +40,7 @@ export interface SignUpFormProps {
 
 export interface SignUpAPI {
     setErrors: (errors: Record<string, string>) => void
+    setFatalError: () => void
 }
 
 export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
@@ -52,6 +54,8 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
             resolver: zodResolver(SignUpSchema)
         })
 
+        const [showFatalError, setShowFatalError] = useState(false)
+        
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
         /* Allows for parent of this component to call fn's */
@@ -62,6 +66,10 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                         setErrorRef.current(key as "email" | "password" | "confirm_password"
                             , { message: error })
                     })
+                },
+
+                setFatalError: () => {
+                    setShowFatalError(true)
                 }
             }
         })
@@ -108,8 +116,13 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                     inputProps={register("confirm_password")}
                     error={errors.confirm_password?.message}
                 />
+
+                {
+                    showFatalError &&
+                    <ErrorField message="Fatal error occurred. Try again later!" />
+                }
                 <Button loading={isSubmitting} color="neutral"
-                active={!isSubmitting}
+                    active={!isSubmitting}
                 >{isSubmitting ? "Loading..." : "Submit"}</Button>
 
                 {props.suffix}

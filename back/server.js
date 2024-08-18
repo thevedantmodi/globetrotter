@@ -13,5 +13,6 @@ app.use('/airports', airportsRoute)
 app.use('/sign-up', signUpRoute)
 
 app.listen(port, () => {
+  console.log("Bello!")
   console.log('Port has started on', port)
 })
