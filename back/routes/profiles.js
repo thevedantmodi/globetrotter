@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const pool = require('../db')
+const { S3 } = require('@aws-sdk/client-s3');
 
 router.post('/create', async (request, response) => {
   const username = request.body.username
@@ -7,6 +8,16 @@ router.post('/create', async (request, response) => {
   const last_name = request.body.last_name
   const hometown = request.body.hometown
   const dp = request.body.dp
+  const s3 = new S3()
+
+  const result = await s3
+    .putObject({
+      Body: 'hello world',
+      Bucket: 'closed-flights',
+      Key: 'myfile.txt'
+    })
+
+  console.log(dp)
 
   /* TODO: Upload dp to AWS */
 
@@ -25,11 +36,14 @@ router.post('/create', async (request, response) => {
   try {
     const update_user = await pool.query(query)
 
-    console.log(update_user)
+    // console.log(update_user)
+    response.status(200).json({
+      message: 'Profile updated!'
+    })
   } catch (err) {
     console.log(err)
     response.status(500).json({
-      errors: {}
+      /* leave nothing so fatal error */
     })
   }
 })

@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:latest
 
 # Defines the pwd
 WORKDIR /usr/src/app

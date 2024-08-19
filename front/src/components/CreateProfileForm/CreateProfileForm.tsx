@@ -7,6 +7,7 @@ import { Button } from "react-daisyui";
 import ErrorField from "../ErrorField";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import FileField from "../../components/FileField";
 
 const CreateProfileSchema = z.object({
     first_name: z.string().min(1),
@@ -97,7 +98,7 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
                     placeholder="(e.g. New York, USA)"
                     /* TODO: Change placeholder to flash between popular cities  */
                 />
-                <FormField
+                <FileField
                     id="dp"
                     label="Profile Picture"
                     type="file"
