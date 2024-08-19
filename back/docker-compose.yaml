@@ -1,4 +1,9 @@
 version: "3"
+secrets:
+  aws_priv_key: 
+    file: ./.AWS_PRIV_KEY
+  aws_access_id: 
+    file: ./.AWS_ACCESS_ID
 services:
   db:
     image: postgres
@@ -14,3 +19,7 @@ services:
       - .:/usr/src/app
     ports:
       - 13000:3000
+    secrets:
+      - aws_priv_key
+      - aws_access_id
+      

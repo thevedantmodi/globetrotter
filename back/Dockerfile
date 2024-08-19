@@ -12,7 +12,7 @@ RUN npm install
 # Copy from SOURCE into DESTINATION (both ., I know! confusing)
 COPY . .
 
-# Shows localhost where 8800 is
+# Shows localhost where 1337 is
 EXPOSE 1337
 CMD [ "npm", "run", "start" ]
 

@@ -1,6 +1,10 @@
 const router = require('express').Router()
 const pool = require('../db')
-const { S3 } = require('@aws-sdk/client-s3');
+const dotenv = require('dotenv')
+const { PutObjectCommand, S3Client } = require('@aws-sdk/client-s3')
+const { Client } = require('pg')
+
+dotenv.config()
 
 router.post('/create', async (request, response) => {
   const username = request.body.username
@@ -8,14 +12,23 @@ router.post('/create', async (request, response) => {
   const last_name = request.body.last_name
   const hometown = request.body.hometown
   const dp = request.body.dp
-  const s3 = new S3()
+  const AWS_client = new S3Client({
+    region: 'us-east-2',
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_ID,
+      secretAccessKey: process.env.AWS_PRIV_KEY
+    }
+  })
 
-  const result = await s3
-    .putObject({
-      Body: 'hello world',
-      Bucket: 'closed-flights',
-      Key: 'myfile.txt'
-    })
+  const command = new PutObjectCommand({
+    Body: 'hello world',
+    Bucket: 'closed-flights',
+    Key: 'myfile.txt',
+  })
+
+  const res = await AWS_client.send(command)
+
+  console.log(res)
 
   console.log(dp)
 
