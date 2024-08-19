@@ -13,7 +13,7 @@ const CreateProfileSchema = z.object({
     first_name: z.string().min(1),
     last_name: z.string().min(1),
     hometown: z.string().min(1).max(32).optional(),
-    dp: z.instanceof(File).optional(),
+    dp: z.any().optional(),
 })
 
 export type CreateProfileFormValues = z.infer<typeof CreateProfileSchema>
@@ -103,7 +103,7 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
                     label="Profile Picture"
                     type="file"
                     inputProps={register("dp")}
-                    error={errors.dp?.message}
+                    error={errors.dp?.message as string}
                 />
                 {
                     showFatalError &&
