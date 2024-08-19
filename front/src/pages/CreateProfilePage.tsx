@@ -1,6 +1,6 @@
 
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
     CreateProfileForm,
     CreateProfileFormValues,
@@ -17,25 +17,28 @@ const CreateProfilePage = () => {
 
     const { auth } = useAuth()
 
-    const [currentUser, setCurrentUser] = useState(auth.user)
-
     const onSubmit = async (data: CreateProfileFormValues) => {
         console.log(data)
 
+        await axios.post('/profiles/create', {
+            username: auth.user,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            hometown: data.hometown,
+            dp: data.dp
+        }).then(res => {
+            console.log(res.data)
+            navigate("/map")
+        }).catch((err) => {
+            const errors = (err.response?.data?.errors)
 
-
-
-        //     .catch ((err) => {
-
-        // const errors = (err.response?.data?.errors)
-
-        // if (errors) {
-        //     /* Set errors for children */
-        //     CreateProfileFormRef.current?.setErrors(errors)
-        // } else { /* Something bad! */
-        //     CreateProfileFormRef.current?.setFatalError()
-        // }
-        // })
+            if (errors) {
+                /* Set errors for children */
+                CreateProfileFormRef.current?.setErrors(errors)
+            } else { /* Something bad! */
+                CreateProfileFormRef.current?.setFatalError()
+            }
+        })
     }
 
     return (
@@ -45,8 +48,6 @@ const CreateProfilePage = () => {
             username={auth.user}
         />
     )
-
-
 }
 
 export default CreateProfilePage

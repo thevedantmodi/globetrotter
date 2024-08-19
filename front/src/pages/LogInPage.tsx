@@ -5,7 +5,7 @@ import {
     LogInAPI
 } from "../components/LogInForm/LogInForm";
 import axios from 'axios'
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
 
 const LogInPage = () => {
@@ -15,7 +15,10 @@ const LogInPage = () => {
     // @ts-ignore
     const { setAuth } = useAuth()
     const location = useLocation()
-    const from = location.state?.from?.pathname ?? "/"
+    const from = location.state?.from?.pathname || "/"
+
+    console.log(from);
+    
 
     const onSubmit = async (data: LogInFormValues) => {
 
@@ -35,7 +38,7 @@ const LogInPage = () => {
         ).then((res) => {
             console.log(res.data)
             setAuth({ user: res.data.username })
-            navigate(-1);
+            navigate(from);
 
         }).catch((err) => {
             console.log(err);
