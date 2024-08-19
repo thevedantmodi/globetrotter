@@ -1,20 +1,7 @@
-const { query } = require('express')
 const pool = require('../db')
 const bcrypt = require('bcryptjs')
 const router = require('express').Router()
 
-/* SIGNUP POST:
-  Check for duplicate emails
-  Create a new user in database
-  Hash pwd like we did before (bcrypt)
-  Store hashed pwd
-*/
-
-/* LOGIN POST: 
-  Refactor old procedure for login system
-*/
-
-/*   */
 router.post('/sign-up', async (request, response) => {
   const username = request.body.username
   const email_addr = request.body.email
