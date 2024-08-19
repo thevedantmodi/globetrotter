@@ -21,6 +21,7 @@ interface FormFieldProps {
         disabled?: boolean;
     },
     type?: 'password' | 'text' | 'email' | 'date' | 'number' | 'file',
+    placeholder?: string
 }
 
 export const FormField = (props: FormFieldProps) => {
@@ -34,6 +35,7 @@ export const FormField = (props: FormFieldProps) => {
                 id={props.id}
                 type={props.type ?? "text"}
                 {...(props.inputProps ?? {})} /* Could be react-hook-form */
+                placeholder={props.placeholder}
             />
 
             <ErrorField message={props.error} />

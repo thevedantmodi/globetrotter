@@ -7,11 +7,13 @@ import {
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { Button } from "react-daisyui";
+import useAuth from "../hooks/useAuth";
 
 const SignUpPage = () => {
 
     const SignUpFormRef = useRef<SignUpAPI>(null)
     const navigate = useNavigate();
+    const { setAuth } = useAuth()
 
     const LoginExistingUser = () => {
 
@@ -32,16 +34,19 @@ const SignUpPage = () => {
 
         await delay(2000);
 
+
+        console.log("I am here!");
+
         await axios.post('/users/sign-up', {
             username: data.username,
             email: data.email,
             password: data.password
         }).then((res) => {
             console.log(res.data.message)
+            setAuth({ user: res.data.username }) /* "Login" user on signup */
             navigate("/create-profile", { replace: true });
 
         }).catch((err) => {
-
             const errors = (err.response?.data?.errors)
 
             if (errors) {

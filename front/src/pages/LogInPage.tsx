@@ -35,7 +35,7 @@ const LogInPage = () => {
         ).then((res) => {
             console.log(res.data)
             setAuth({ user: res.data.username })
-            navigate("/map", { replace: true });
+            navigate(-1);
 
         }).catch((err) => {
             console.log(err);

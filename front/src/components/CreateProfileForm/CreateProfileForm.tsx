@@ -9,6 +9,8 @@ import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
 const CreateProfileSchema = z.object({
+    first_name: z.string().min(1),
+    last_name: z.string().min(1),
     hometown: z.string().min(1).max(32).optional(),
     dp: z.instanceof(FileList).optional(),
 })
@@ -73,11 +75,30 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
             >
                 <h2 className="font-bold text-xl">Hi {auth.user}! Let's learn more about you.</h2>
                 <FormField
+                    id="first_name"
+                    label="First Name"
+                    type="text"
+                    inputProps={register("first_name")}
+                    error={errors.first_name?.message}
+                    placeholder="(e.g. Prince Christopher)"
+
+                />
+                <FormField
+                    id="last_name"
+                    label="Last Name"
+                    type="text"
+                    inputProps={register("last_name")}
+                    error={errors.last_name?.message}
+                    placeholder="(e.g. Rajkumar Honest)"
+                />
+                <FormField
                     id="hometown"
                     label="Hometown"
                     type="text"
                     inputProps={register("hometown")}
                     error={errors.hometown?.message}
+                    placeholder="(e.g. New York, USA)"
+                    /* TODO: Change placeholder to flash between popular cities  */
                 />
                 <FormField
                     id="dp"

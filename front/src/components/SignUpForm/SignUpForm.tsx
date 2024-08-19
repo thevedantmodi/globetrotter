@@ -9,7 +9,6 @@ import ErrorField from "../ErrorField";
 const SignUpSchema = z.object({
     username: z.string().min(1).max(32),
     email: z.string().email(),
-    name: z.string().min(1),
     password: z.string().min(6).max(32),
     /* TODO: change here for req characters */
     confirm_password: z.string().min(6).max(32),
@@ -86,13 +85,6 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                     type="text"
                     inputProps={register("username")}
                     error={errors.username?.message}
-                />
-                <FormField
-                    id="name"
-                    label="Name"
-                    type="text"
-                    inputProps={register("name")}
-                    error={errors.name?.message}
                 />
                 <FormField
                     id="email"

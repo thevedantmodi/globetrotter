@@ -18,6 +18,7 @@ const CreateProfilePage = () => {
     const { auth } = useAuth()
 
     const onSubmit = async (data: CreateProfileFormValues) => {
+        console.log(data)
 
 
         
