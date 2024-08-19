@@ -6,25 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
 import ErrorField from "../ErrorField";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const CreateProfileSchema = z.object({
-    username: z.string().min(1).max(32),
-    email: z.string().email(),
-    name: z.string().min(1),
-    password: z.string().min(6).max(32),
-    /* TODO: change here for req characters */
-    confirm_password: z.string().min(6).max(32),
+    hometown: z.string().min(1).max(32).optional(),
+    dp: z.instanceof(FileList).optional(),
 })
-    /* ensure pwds match */
-    .refine((form) => {
-        return form.confirm_password === form.password
-    },
-        {
-            message: "Passwords must match",
-            path: ["confirm_password"]
-        }
-
-    )
 
 export type CreateProfileFormValues = z.infer<typeof CreateProfileSchema>
 
@@ -49,25 +36,11 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
             resolver: zodResolver(CreateProfileSchema)
         })
 
-        const [currentUser, setCurrentUser] = useState("")
+        const { auth } = useAuth()
 
-        useEffect(() => {
-            const getProfile = async () => {
-                try {
-                    const result = await axios.get('/users/get-profile-name')
-                    const name = result.data.name
+        const [currentUser, setCurrentUser] = useState(auth.user)
 
-                    setCurrentUser(name)
-                } catch (err) {
-                    console.log(err)
-                }
-
-            }
-            getProfile()
-        }, [])
         const [showFatalError, setShowFatalError] = useState(false)
-
-
 
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
@@ -76,7 +49,7 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
             return {
                 setErrors: (errors: Record<string, string>) => {
                     Object.entries(errors).forEach(([key, error]) => {
-                        setErrorRef.current(key as "email" | "password" | "confirm_password"
+                        setErrorRef.current(key as "hometown" | "dp"
                             , { message: error })
                     })
                 },
@@ -98,43 +71,21 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
                 onSubmit={handleSubmit(props.onSubmitReady)}
 
             >
-                <h2 className="font-bold text-xl">Hi { }! Let's learn more about you.</h2>
+                <h2 className="font-bold text-xl">Hi {auth.user}! Let's learn more about you.</h2>
                 <FormField
-                    id="username"
-                    label="Username"
+                    id="hometown"
+                    label="hometown"
                     type="text"
-                    inputProps={register("username")}
-                    error={errors.username?.message}
+                    inputProps={register("hometown")}
+                    error={errors.hometown?.message}
                 />
                 <FormField
-                    id="name"
-                    label="Name"
-                    type="text"
-                    inputProps={register("name")}
-                    error={errors.name?.message}
+                    id="dp"
+                    label="dp"
+                    type="file"
+                    inputProps={register("dp")}
+                    error={errors.dp?.message}
                 />
-                <FormField
-                    id="email"
-                    label="Email address"
-                    type="email"
-                    inputProps={register("email")}
-                    error={errors.email?.message}
-                />
-                <FormField
-                    id="password"
-                    label="Password"
-                    type="password"
-                    inputProps={register("password")}
-                    error={errors.password?.message}
-                />
-                <FormField
-                    id="confirm-password"
-                    label="Confirm Password"
-                    type="password"
-                    inputProps={register("confirm_password")}
-                    error={errors.confirm_password?.message}
-                />
-
                 {
                     showFatalError &&
                     <ErrorField message="Fatal error occurred. Try again later!" />

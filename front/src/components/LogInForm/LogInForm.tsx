@@ -4,6 +4,7 @@ import { FormField } from "../FormField";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
+import ErrorField from "../ErrorField";
 
 type Inputs = {
     user_or_email: string
@@ -98,11 +99,17 @@ export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
                     inputProps={register("password")}
                     error={errors.password?.message}
                 />
+                {
+                    showFatalError &&
+                    <ErrorField message="Fatal error occurred. Try again later!" />
+                }
+
                 <Button loading={isSubmitting} color="neutral"
                     active={!isSubmitting}
                 >{isSubmitting ? "Loading..." : "Submit"}</Button>
 
                 {props.suffix}
+                
             </form>)
     })
 

@@ -27,28 +27,36 @@ const LogInPage = () => {
         const user_or_email = data.user_or_email
         const not_email: RegExp = /^(?!.*.@.).*$/
 
+        console.log("here!");
+
         await axios.post('/users/login', {
             username: user_or_email.match(not_email) ? user_or_email : "",
             email: user_or_email.match(not_email) ? "" : user_or_email,
             password: data.password
-        }).then((res) => {
+        }
+        ).then((res) => {
             console.log(res.data)
             console.log(from)
-            setAuth({user: res.data.message})
+            setAuth({ user: res.data.username })
             navigate(from, { replace: true });
 
         }).catch((err) => {
+            console.log(err);
 
             const errors = (err.response?.data?.errors)
+            console.log(errors);
 
-            errors ?
+            if (errors) {
                 /* Set errors for children components */
                 LoginFormRef.current?.setErrors(errors)
-                : /* Something bad! */
+
+            }
+            else {
+                /* Something bad! */
+                console.log("fatal")
                 LoginFormRef.current?.setFatalError()
-
+            }
         })
-
     }
 
     return (

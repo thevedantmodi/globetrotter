@@ -49,17 +49,14 @@ router.post('/sign-up', async (request, response) => {
 })
 
 router.post('/login', async (request, response) => {
-
   const email_addr = request.body.email
   const username = request.body.username
 
   /* username and email are both non null, so "" won't be returned */
   const query = {
     name: 'login-user',
-    text:
-        'SELECT * FROM users ' +
-        'WHERE (email = $1 OR username = $2);', 
-      values: [email_addr, username]
+    text: 'SELECT * FROM users ' + 'WHERE (email = $1 OR username = $2);',
+    values: [email_addr, username]
   }
 
   try {
@@ -72,7 +69,6 @@ router.post('/login', async (request, response) => {
     const hash_pwd = find_user.rows[0].hashed_pwd
     const username = find_user.rows[0].username
 
-
     const valid_pwd = await bcrypt.compare(request.body.password, hash_pwd)
 
     /* send response */
@@ -81,23 +77,15 @@ router.post('/login', async (request, response) => {
       message: `Welcome back ${username}!`,
       username: username
     })
-
   } catch (err) {
     console.log(err)
     response.status(500).json({
-      errors: { /* Client doesn't get to know what went wrong */
-        user_or_email: "Incorrect username, email, or password",
-        password: "Incorrect username, email, or password"
+      errors: {
+        /* Client doesn't get to know what went wrong */
+        user_or_email: 'Incorrect username, email, or password',
+        password: 'Incorrect username, email, or password'
       }
     })
-  }
-})
-
-router.get('/get-profile-name', async (request, response) => {
-  try {
-  
-  } catch (err) {
-    
   }
 })
 

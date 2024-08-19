@@ -19,30 +19,20 @@ const CreateProfilePage = () => {
 
     const onSubmit = async (data: CreateProfileFormValues) => {
 
-        const delay = (ms: number) =>
-            new Promise(resolve => setTimeout(resolve, ms));
-
-        await delay(2000);
 
         
-        await axios.post('/users/sign-up', {
 
-        }).then((res) => {
-            console.log(res.data.message)
-            navigate('/map');
+        //     .catch ((err) => {
 
-        }).catch((err) => {
+        // const errors = (err.response?.data?.errors)
 
-            const errors = (err.response?.data?.errors)
-
-            if (errors) {
-                /* Set errors for children */
-                CreateProfileFormRef.current?.setErrors(errors)
-            } else { /* Something bad! */
-                CreateProfileFormRef.current?.setFatalError()
-            }
-        })
-
+        // if (errors) {
+        //     /* Set errors for children */
+        //     CreateProfileFormRef.current?.setErrors(errors)
+        // } else { /* Something bad! */
+        //     CreateProfileFormRef.current?.setFatalError()
+        // }
+        // })
     }
 
     return (

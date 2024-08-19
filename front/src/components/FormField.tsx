@@ -20,7 +20,7 @@ interface FormFieldProps {
         required?: boolean;
         disabled?: boolean;
     },
-    type?: 'password' | 'text' | 'email' | 'date' | 'number',
+    type?: 'password' | 'text' | 'email' | 'date' | 'number' | 'file',
 }
 
 export const FormField = (props: FormFieldProps) => {
