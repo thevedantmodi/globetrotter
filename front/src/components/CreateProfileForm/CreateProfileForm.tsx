@@ -13,7 +13,7 @@ const CreateProfileSchema = z.object({
     first_name: z.string().min(1),
     last_name: z.string().min(1),
     hometown: z.string().min(1).max(32).optional(),
-    dp: z.instanceof(FileList).optional(),
+    dp: z.instanceof(File).optional(),
 })
 
 export type CreateProfileFormValues = z.infer<typeof CreateProfileSchema>

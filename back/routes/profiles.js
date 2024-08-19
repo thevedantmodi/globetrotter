@@ -13,6 +13,8 @@ const AWS_client = new S3Client({
 })
 
 router.post('/create', async (request, response) => {
+  console.log(request);
+  
   const username = request.body.username
   const first_name = request.body.first_name
   const last_name = request.body.last_name
