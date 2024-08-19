@@ -5,12 +5,17 @@ import {
     LogInAPI
 } from "../components/LogInForm/LogInForm";
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import useAuth from "../hooks/useAuth";
 
 const LogInPage = () => {
 
     const LoginFormRef = useRef<LogInAPI>(null)
     const navigate = useNavigate();
+    // @ts-ignore
+    const { setAuth } = useAuth()
+    const location = useLocation()
+    const from = location.state?.from?.pathname ?? "/"
 
     const onSubmit = async (data: LogInFormValues) => {
 
@@ -28,7 +33,9 @@ const LogInPage = () => {
             password: data.password
         }).then((res) => {
             console.log(res.data)
-            // navigate('/map');
+            console.log(from)
+            setAuth({user: res.data.message})
+            navigate(from, { replace: true });
 
         }).catch((err) => {
 

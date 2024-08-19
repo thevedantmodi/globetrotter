@@ -2,7 +2,7 @@ import React from "react"
 import Main from "./pages/Main"
 
 import { ThemeProvider } from "./components/ThemeProvider"
-import AuthProvider from "context/AuthProvider"
+import { AuthProvider } from "./context/AuthProvider"
 
 export default function App() {
   return (

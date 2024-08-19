@@ -78,7 +78,8 @@ router.post('/login', async (request, response) => {
     /* send response */
 
     response.status(200).json({
-      message: `Welcome back ${username}!`
+      message: `Welcome back ${username}!`,
+      username: username
     })
 
   } catch (err) {

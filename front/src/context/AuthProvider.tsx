@@ -3,10 +3,10 @@ import { createContext, useState } from "react";
 const AuthContext = createContext({});
 
 type AuthContextProps = {
-    children: React.ReactNode
+    children: any
 }
 
-const AuthProvider = (props: AuthContextProps) => {
+export const AuthProvider = (props: AuthContextProps) => {
     const [auth, setAuth] = useState({});
 
     return (
@@ -17,4 +17,4 @@ const AuthProvider = (props: AuthContextProps) => {
 
 }
 
-export default AuthProvider
+export default AuthContext;

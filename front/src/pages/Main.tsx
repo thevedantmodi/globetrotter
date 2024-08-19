@@ -8,6 +8,8 @@ import SignUpPage from "./SignUpPage";
 import LogInPage from "./LogInPage";
 import CreateProfilePage from "./CreateProfilePage";
 import AddFlightPage from "./AddFlightPage"
+import RequireAuth from "../components/RequireAuth";
+import Unauthorized from "./Unauthorized";
 
 export function NavBar() {
     return (
@@ -24,12 +26,15 @@ function Main() {
             {/* <NavBar /> */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
-            <Route path="/map" element={<MapPage />} />
+                <Route path="/map" element={<MapPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
                 <Route path="/login" element={<LogInPage />} />
-                <Route path="/create-profile" element={<CreateProfilePage />} />
-                <Route path="/add-flight" element={<AddFlightPage />} />
+                <Route path="/unauthorized" element={<Unauthorized />} />
+                <Route element={<RequireAuth />}>
+                    <Route path="/create-profile" element={<CreateProfilePage />} />
+                    <Route path="/add-flight" element={<AddFlightPage />} />
+                </Route>
             </Routes>
         </Router>
     )
