@@ -27,8 +27,6 @@ const LogInPage = () => {
         const user_or_email = data.user_or_email
         const not_email: RegExp = /^(?!.*.@.).*$/
 
-        console.log("here!");
-
         await axios.post('/users/login', {
             username: user_or_email.match(not_email) ? user_or_email : "",
             email: user_or_email.match(not_email) ? "" : user_or_email,
@@ -53,7 +51,6 @@ const LogInPage = () => {
             }
             else {
                 /* Something bad! */
-                console.log("fatal")
                 LoginFormRef.current?.setFatalError()
             }
         })
