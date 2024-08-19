@@ -20,7 +20,7 @@ router.post('/create', async (request, response) => {
   const dp = request.body.dp
 
   const command = new PutObjectCommand({
-    Body: 'hello world',
+    Body: dp,
     Bucket: 'closed-flights',
     Key: 'myfile.txt',
   })
