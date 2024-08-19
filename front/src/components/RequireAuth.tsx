@@ -1,6 +1,6 @@
 import Unauthorized from "../pages/Unauthorized";
 import useAuth from "../hooks/useAuth";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 const RequireAuth = () => {
     // @ts-ignore
@@ -8,9 +8,10 @@ const RequireAuth = () => {
     const location = useLocation()
 
     return (
+
         auth?.user
-            ? <Unauthorized />
-            : <Navigate to={"/login"} state={{ from: location }} replace />
+            ? <Outlet />
+            : <Navigate to="/login" state={{ from: location }} replace />
     )
 }
 

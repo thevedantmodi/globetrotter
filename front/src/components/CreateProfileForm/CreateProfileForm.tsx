@@ -74,14 +74,14 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
                 <h2 className="font-bold text-xl">Hi {auth.user}! Let's learn more about you.</h2>
                 <FormField
                     id="hometown"
-                    label="hometown"
+                    label="Hometown"
                     type="text"
                     inputProps={register("hometown")}
                     error={errors.hometown?.message}
                 />
                 <FormField
                     id="dp"
-                    label="dp"
+                    label="Profile Picture"
                     type="file"
                     inputProps={register("dp")}
                     error={errors.dp?.message}
