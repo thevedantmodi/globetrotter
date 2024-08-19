@@ -6,14 +6,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
 
 type Inputs = {
-    username: string
-    email: string
+    user_or_email: string
     password: string
 }
 
+const not_email: RegExp = /^(?!.*.@.).*$/
+
 const LogInSchema = z.object({
-    username: z.string().min(6).max(32),
-    email: z.string().email(),
+    user_or_email: z.union(
+        [z.string()
+            .min(1, "Email or username is required")
+            .email()
+            .max(128)
+            .trim(),
+        z.string()
+        .regex(not_email) /* Choose username if not email */
+        .min(1)
+        .max(32)
+    ]),
     password: z.string().min(6).max(32),
 })
 
@@ -50,7 +60,7 @@ export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
             return {
                 setErrors: (errors: Record<string, string>) => {
                     Object.entries(errors).forEach(([key, error]) => {
-                        setErrorRef.current(key as "email" | "password"
+                        setErrorRef.current(key as "user_or_email" | "password"
                             , { message: error })
                     })
                 },
@@ -75,11 +85,11 @@ export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
                 <h2 className="font-bold text-xl">Login</h2>
                 {/* <ModeToggle styles="" /> */}
                 <FormField
-                    id="email"
-                    label="Email address"
-                    type="email"
-                    inputProps={register("email")}
-                    error={errors.email?.message}
+                    id="user_or_email"
+                    label="Email address or username"
+                    type="text"
+                    inputProps={register("user_or_email")}
+                    error={errors.user_or_email?.message}
                 />
                 <FormField
                     id="password"

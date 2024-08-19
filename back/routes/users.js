@@ -1,24 +1,110 @@
-const router = require('express').Router()
-const User = require('../models/User')
+const { query } = require('express')
+const pool = require('../db')
 const bcrypt = require('bcryptjs')
+const router = require('express').Router()
 
+/* SIGNUP POST:
+  Check for duplicate emails
+  Create a new user in database
+  Hash pwd like we did before (bcrypt)
+  Store hashed pwd
+*/
 
-/* Login */
+/* LOGIN POST: 
+  Refactor old procedure for login system
+*/
+
+/*   */
+router.post('/sign-up', async (request, response) => {
+  const username = request.body.username
+  const email_addr = request.body.email
+
+  const salt = await bcrypt.genSalt(10)
+  const hash_pwd = await bcrypt.hash(request.body.password, salt)
+
+  const hometown = 'Houston, TX'
+  const km_flown = 1500
+
+  try {
+    const query = {
+      name: 'create-user',
+      text:
+        'INSERT INTO users (username, email, hashed_pwd, hometown, km_flown) ' +
+        'VALUES($1, $2, $3, $4, $5)' +
+        'RETURNING *',
+      values: [username, email_addr, hash_pwd, hometown, km_flown]
+    }
+    const res = await pool.query(query)
+    /* At this point, a new user has been created in the users table */
+
+    const user_id = res.rows[0].id
+    response.status(200).json({
+      message: `Welcome to Strava for Flights! id is ${user_id}.`
+    })
+  } catch (err) {
+    /* Expected errors from PG should be added here */
+    switch (err.constraint) {
+      case 'users_username_key':
+        response.status(500).json({
+          errors: {
+            username: 'A previous user has already taken this username.'
+          }
+        })
+        break
+      case 'users_email_key':
+        response.status(500).json({
+          errors: {
+            email:
+              'Email is not available. An existing account is likely registered under this email.'
+          }
+        })
+      default:
+        break
+    }
+  }
+})
 
 router.post('/login', async (request, response) => {
+
+  const email_addr = request.body.email
+  const username = request.body.username
+
+  /* username and email are both non null, so "" won't be returned */
+  const query = {
+    name: 'login-user',
+    text:
+        'SELECT * FROM users ' +
+        'WHERE (email = $1 OR username = $2);', 
+      values: [email_addr, username]
+  }
+
   try {
     /* find user */
-    const user = await User.findOne({ username: request.body.username })
-    !user && response.status(400).json('Wrong username or password!')
-    /* validate pwd */
+    const find_user = await pool.query(query)
 
-    const valid_pwd = await bcrypt.compare(request.body.password, user.password)
-    !valid_pwd && response.status(400).json('Wrong username or password!')
+    console.log(find_user)
+
+    /* validate password */
+    const hash_pwd = find_user.rows[0].hashed_pwd
+    const username = find_user.rows[0].username
+
+
+    const valid_pwd = await bcrypt.compare(request.body.password, hash_pwd)
 
     /* send response */
-    response.status(200).json({ _id: user._id, username: user.username })
+
+    response.status(200).json({
+      message: `Welcome back ${username}!`
+    })
+
   } catch (err) {
-    response.status(500).json(err)
+    console.log(err)
+    response.status(500).json({
+      errors: { /* Client doesn't get to know what went wrong */
+        user_or_email: "Incorrect username, email, or password",
+        password: "Incorrect username, email, or password"
+      }
+    })
   }
 })
 

@@ -4,7 +4,7 @@ const { configDotenv } = require('dotenv')
 const port = 3000
 
 const airportsRoute = require('./routes/airports')
-const signUpRoute = require('./routes/sign-up')
+const signUpRoute = require('./routes/users')
 
 const app = express()
 app.use(express.json()) /* allows for application/json requests */

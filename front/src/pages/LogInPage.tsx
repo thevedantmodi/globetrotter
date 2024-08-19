@@ -6,7 +6,6 @@ import {
 } from "../components/LogInForm/LogInForm";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import { Button } from "react-daisyui";
 
 const LogInPage = () => {
 
@@ -20,24 +19,27 @@ const LogInPage = () => {
 
         await delay(2000);
 
-        await axios.post('/users/sign-up', {
-            username: data.username,
-            email: data.email,
+        const user_or_email = data.user_or_email
+        const not_email: RegExp = /^(?!.*.@.).*$/
+
+        await axios.post('/users/login', {
+            username: user_or_email.match(not_email) ? user_or_email : "",
+            email: user_or_email.match(not_email) ? "" : user_or_email,
             password: data.password
         }).then((res) => {
-            console.log(res.data.message)
-            navigate('/map');
+            console.log(res.data)
+            // navigate('/map');
 
         }).catch((err) => {
 
             const errors = (err.response?.data?.errors)
 
-            if (errors) {
-                /* Set errors for children */
+            errors ?
+                /* Set errors for children components */
                 LoginFormRef.current?.setErrors(errors)
-            } else { /* Something bad! */
+                : /* Something bad! */
                 LoginFormRef.current?.setFatalError()
-            }
+
         })
 
     }
