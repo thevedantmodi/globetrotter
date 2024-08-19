@@ -20,6 +20,7 @@ export type CreateProfileFormValues = z.infer<typeof CreateProfileSchema>
 export interface CreateProfileFormProps {
     onSubmitReady: (data: CreateProfileFormValues) => Promise<void>
     suffix?: React.ReactElement
+    username: string
 }
 
 export interface CreateProfileAPI {
@@ -37,10 +38,6 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
         } = useForm<CreateProfileFormValues>({
             resolver: zodResolver(CreateProfileSchema)
         })
-
-        const { auth } = useAuth()
-
-        const [currentUser, setCurrentUser] = useState(auth.user)
 
         const [showFatalError, setShowFatalError] = useState(false)
 
@@ -73,7 +70,7 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
                 onSubmit={handleSubmit(props.onSubmitReady)}
 
             >
-                <h2 className="font-bold text-xl">Hi {auth.user}! Let's learn more about you.</h2>
+                <h2 className="font-bold text-xl">Hi {props.username}! Let's learn more about you.</h2>
                 <FormField
                     id="first_name"
                     label="First Name"

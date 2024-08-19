@@ -1,6 +1,6 @@
 
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
     CreateProfileForm,
     CreateProfileFormValues,
@@ -17,11 +17,13 @@ const CreateProfilePage = () => {
 
     const { auth } = useAuth()
 
+    const [currentUser, setCurrentUser] = useState(auth.user)
+
     const onSubmit = async (data: CreateProfileFormValues) => {
         console.log(data)
 
 
-        
+
 
         //     .catch ((err) => {
 
@@ -40,6 +42,7 @@ const CreateProfilePage = () => {
         <CreateProfileForm
             ref={CreateProfileFormRef}
             onSubmitReady={onSubmit}
+            username={auth.user}
         />
     )
 
