@@ -8,11 +8,14 @@ import {
 } from "../components/CreateProfileForm/CreateProfileForm";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import useAuth from "../hooks/useAuth";
 
 const CreateProfilePage = () => {
 
     const CreateProfileFormRef = useRef<CreateProfileAPI>(null)
     const navigate = useNavigate();
+
+    const { auth } = useAuth()
 
     const onSubmit = async (data: CreateProfileFormValues) => {
 
@@ -21,6 +24,7 @@ const CreateProfilePage = () => {
 
         await delay(2000);
 
+        
         await axios.post('/users/sign-up', {
 
         }).then((res) => {

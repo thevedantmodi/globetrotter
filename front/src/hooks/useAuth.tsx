@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import AuthContext from "context/AuthProvider";
 
-interface useAuthValues {
-    auth: any
-    setAuth: any
+interface UseAuthValues {
+    auth: {
+        user: string
+    };
+    setAuth: React.Dispatch<React.SetStateAction<{ user: string }>>;
 }
 
-const useAuth = () => {
-    return useContext(AuthContext)
+const useAuth = (): UseAuthValues => {
+    return useContext(AuthContext) as UseAuthValues;
 }
 
-export default useAuth
+export default useAuth;
