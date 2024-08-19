@@ -8,6 +8,8 @@ router.post('/create', async (request, response) => {
   const hometown = request.body.hometown
   const dp = request.body.dp
 
+  /* TODO: Upload dp to AWS */
+
   const query = {
     name: 'create-profile',
     text:
