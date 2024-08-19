@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react"
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormField } from "../FormField";
 import * as z from "zod"
@@ -6,9 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
 
 type Inputs = {
+    username: string
     email: string
     password: string
-    confirm_password: string
 }
 
 const LogInSchema = z.object({
@@ -26,6 +26,7 @@ export interface LogInFormProps {
 
 export interface LogInAPI {
     setErrors: (errors: Record<string, string>) => void
+    setFatalError: () => void
 }
 
 export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
@@ -39,6 +40,9 @@ export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
             resolver: zodResolver(LogInSchema)
         })
 
+        const [showFatalError, setShowFatalError] = useState(false)
+
+
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
         /* Allows for parent of this component to call fn's */
@@ -46,9 +50,12 @@ export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
             return {
                 setErrors: (errors: Record<string, string>) => {
                     Object.entries(errors).forEach(([key, error]) => {
-                        setErrorRef.current(key as "email" | "password" | "confirm_password"
+                        setErrorRef.current(key as "email" | "password"
                             , { message: error })
                     })
+                },
+                setFatalError: () => {
+                    setShowFatalError(true)
                 }
             }
         })
@@ -66,7 +73,7 @@ export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
 
             >
                 <h2 className="font-bold text-xl">Login</h2>
-                {/* <ModeToggle styles="" /> */}    
+                {/* <ModeToggle styles="" /> */}
                 <FormField
                     id="email"
                     label="Email address"
@@ -82,11 +89,11 @@ export const LogInForm = forwardRef<LogInAPI, LogInFormProps>
                     error={errors.password?.message}
                 />
                 <Button loading={isSubmitting} color="neutral"
-                active={!isSubmitting}
+                    active={!isSubmitting}
                 >{isSubmitting ? "Loading..." : "Submit"}</Button>
 
                 {props.suffix}
             </form>)
     })
 
-LogInForm.displayName = 'ForwardRefedSignupForm'
+LogInForm.displayName = 'ForwardRefedLogInForm'

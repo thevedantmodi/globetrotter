@@ -34,9 +34,9 @@ const LogInPage = () => {
 
             if (errors) {
                 /* Set errors for children */
-                SignUpFormRef.current?.setErrors(errors)
+                LoginFormRef.current?.setErrors(errors)
             } else { /* Something bad! */
-                SignUpFormRef.current?.setFatalError()
+                LoginFormRef.current?.setFatalError()
             }
         })
 
