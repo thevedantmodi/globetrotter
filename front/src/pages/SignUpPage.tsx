@@ -38,7 +38,7 @@ const SignUpPage = () => {
             password: data.password
         }).then((res) => {
             console.log(res.data.message)
-            navigate('/map');
+            navigate('/create-profile');
 
         }).catch((err) => {
 

@@ -1,12 +1,13 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react"
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormField } from "../FormField";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
 import ErrorField from "../ErrorField";
+import axios from "axios";
 
-const SignUpSchema = z.object({
+const CreateProfileSchema = z.object({
     username: z.string().min(1).max(32),
     email: z.string().email(),
     name: z.string().min(1),
@@ -25,31 +26,49 @@ const SignUpSchema = z.object({
 
     )
 
-export type SignUpFormValues = z.infer<typeof SignUpSchema>
+export type CreateProfileFormValues = z.infer<typeof CreateProfileSchema>
 
-export interface SignUpFormProps {
-    onSubmitReady: (data: SignUpFormValues) => Promise<void>
+export interface CreateProfileFormProps {
+    onSubmitReady: (data: CreateProfileFormValues) => Promise<void>
     suffix?: React.ReactElement
 }
 
-export interface SignUpAPI {
+export interface CreateProfileAPI {
     setErrors: (errors: Record<string, string>) => void
     setFatalError: () => void
 }
 
-export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
-    ((props: SignUpFormProps, ref) => {
+export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormProps>
+    ((props: CreateProfileFormProps, ref) => {
         const {
             register,
             handleSubmit,
             setError,
             formState: { errors, isSubmitting },
-        } = useForm<SignUpFormValues>({
-            resolver: zodResolver(SignUpSchema)
+        } = useForm<CreateProfileFormValues>({
+            resolver: zodResolver(CreateProfileSchema)
         })
 
+        const [currentUser, setCurrentUser] = useState("")
+
+        useEffect(() => {
+            const getProfile = async () => {
+                try {
+                    const result = await axios.get('/users/get-profile-name')
+                    const name = result.data.name
+
+                    setCurrentUser(name)
+                } catch (err) {
+                    console.log(err)
+                }
+
+            }
+            getProfile()
+        }, [])
         const [showFatalError, setShowFatalError] = useState(false)
-        
+
+
+
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
         /* Allows for parent of this component to call fn's */
@@ -79,7 +98,7 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
                 onSubmit={handleSubmit(props.onSubmitReady)}
 
             >
-                <h2 className="font-bold text-xl">Sign Up</h2>
+                <h2 className="font-bold text-xl">Hi { }! Let's learn more about you.</h2>
                 <FormField
                     id="username"
                     label="Username"
@@ -128,4 +147,4 @@ export const SignUpForm = forwardRef<SignUpAPI, SignUpFormProps>
             </form>)
     })
 
-SignUpForm.displayName = 'ForwardRefedSignupForm'
+CreateProfileForm.displayName = 'ForwardRefedCreateProfileForm'

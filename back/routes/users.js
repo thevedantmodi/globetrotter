@@ -9,9 +9,6 @@ router.post('/sign-up', async (request, response) => {
   const salt = await bcrypt.genSalt(10)
   const hash_pwd = await bcrypt.hash(request.body.password, salt)
 
-  const hometown = 'Houston, TX'
-  const km_flown = 1500
-
   try {
     const query = {
       name: 'create-user',
@@ -19,7 +16,7 @@ router.post('/sign-up', async (request, response) => {
         'INSERT INTO users (username, email, hashed_pwd, hometown, km_flown) ' +
         'VALUES($1, $2, $3, $4, $5)' +
         'RETURNING *',
-      values: [username, email_addr, hash_pwd, hometown, km_flown]
+      values: [username, email_addr, hash_pwd, hometown, 0]
     }
     const res = await pool.query(query)
     /* At this point, a new user has been created in the users table */
@@ -92,6 +89,14 @@ router.post('/login', async (request, response) => {
         password: "Incorrect username, email, or password"
       }
     })
+  }
+})
+
+router.get('/get-profile-name', async (request, response) => {
+  try {
+  
+  } catch (err) {
+    
   }
 })
 
