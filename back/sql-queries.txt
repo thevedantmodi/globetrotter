@@ -34,3 +34,8 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT INTO users (email, hashed_pwd, hometown, km_flown) 
 VALUES ('vedantmodi@gmail.com', 'ersgrsegdfshgsrysdg', 'Houston, TX', 1500)
+
+CREATE TABLE IF NOT EXISTS flights (
+    id BIGSERIAL PRIMARY KEY,
+    dept_datetime TIMESTAMPTZ
+);
