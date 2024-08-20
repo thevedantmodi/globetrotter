@@ -19,14 +19,19 @@ const CreateProfilePage = () => {
 
     const onSubmit = async (data: CreateProfileFormValues) => {
         console.log(data)
+        // await axios.post('/profiles/update-photo', {
+        //     dp: data.dp[0]
+        // }, {
+        //     headers: { 'Content-Type': 'multipart/form-data' }
+        // })
 
-        await axios.post('/profiles/create', {
+        await axios.post('/profiles/set', {
             username: auth.user,
             first_name: data.first_name,
             last_name: data.last_name,
-            hometown: data.hometown,
-            dp: data.dp
-        }).then(res => {
+            hometown: data.hometown
+        }
+        ).then(res => {
             console.log(res.data)
             navigate("/map")
         }).catch((err) => {

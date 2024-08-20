@@ -13,7 +13,7 @@ const CreateProfileSchema = z.object({
     first_name: z.string().min(1),
     last_name: z.string().min(1),
     hometown: z.string().min(1).max(32).optional(),
-    dp: z.any().optional(),
+    // dp: z.any().optional(),
 })
 
 export type CreateProfileFormValues = z.infer<typeof CreateProfileSchema>
@@ -49,7 +49,7 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
             return {
                 setErrors: (errors: Record<string, string>) => {
                     Object.entries(errors).forEach(([key, error]) => {
-                        setErrorRef.current(key as "hometown" | "dp"
+                        setErrorRef.current(key as keyof CreateProfileFormValues
                             , { message: error })
                     })
                 },
@@ -98,13 +98,13 @@ export const CreateProfileForm = forwardRef<CreateProfileAPI, CreateProfileFormP
                     placeholder="(e.g. New York, USA)"
                     /* TODO: Change placeholder to flash between popular cities  */
                 />
-                <FileField
+                {/* <FileField
                     id="dp"
                     label="Profile Picture"
                     type="file"
                     inputProps={register("dp")}
                     error={errors.dp?.message as string}
-                />
+                /> */}
                 {
                     showFatalError &&
                     <ErrorField message="Fatal error occurred. Try again later!" />

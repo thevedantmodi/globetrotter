@@ -12,28 +12,13 @@ const AWS_client = new S3Client({
   }
 })
 
-router.post('/create', async (request, response) => {
-  console.log(request);
-  
+router.post('/set', async (request, response) => {
+  // console.log(request);
+
   const username = request.body.username
   const first_name = request.body.first_name
   const last_name = request.body.last_name
   const hometown = request.body.hometown
-  const dp = request.body.dp
-
-  const command = new PutObjectCommand({
-    Body: dp,
-    Bucket: 'closed-flights',
-    Key: 'myfile.txt',
-  })
-
-  const res = await AWS_client.send(command)
-
-  console.log(res)
-
-  console.log(dp)
-
-  /* TODO: Upload dp to AWS */
 
   const query = {
     name: 'create-profile',
