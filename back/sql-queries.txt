@@ -39,3 +39,51 @@ CREATE TABLE IF NOT EXISTS flights (
     id BIGSERIAL PRIMARY KEY,
     dept_datetime TIMESTAMPTZ
 );
+
+INSERT INTO flights (dept_datetime)
+VALUES ('2003-04-12 04:05:06 America/New_York')
+RETURNING *;
+
+CREATE TABLE IF NOT EXISTS flights (
+    id BIGSERIAL PRIMARY KEY,
+    carrier VARCHAR(2),
+    fl_no SMALLINT,
+
+    dep_port VARCHAR(3),
+    dep_date TIMESTAMPTZ,
+
+    arr_port VARCHAR(3),
+    arr_date TIMESTAMPTZ,
+
+    price MONEY,
+    currency VARCHAR(3),
+
+    duration INTERVAL HOUR TO MINUTE
+);
+
+SELECT * FROM flights
+
+INSERT INTO flights (
+        carrier,
+        fl_no,
+        dep_port,
+        dep_date,
+        arr_port,
+        arr_date,
+        price,
+        currency,
+        duration
+    )
+VALUES (
+        'AA',
+        850,
+        'MIA',
+        '2024-08-20 18:56 America/New_York',
+        'KIN',
+        '2024-08-20 19:46 America/Jamaica',
+        '123.40',
+        'USD',
+        '1 hour 50 minutes'
+    )
+RETURNING *;
+
