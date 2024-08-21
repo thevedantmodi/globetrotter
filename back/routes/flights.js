@@ -15,15 +15,22 @@ router.post('/add', async (request, response) => {
       text: 'SELECT id from users where username = $1',
       values: [username]
     })
+    const user_id = find_user_id.rows[0].id
 
-    const id = find_user_id.rows[0].id
-    response.status(200).json({
-        id: id
+    const find_carrier_id = await pool.query({
+      name: 'find-carrier-id',
+      text: 'SELECT iata, airline FROM carriers' + ' WHERE iata = $1',
+      values: [carrier]
     })
-    
-    
+
+    const carrier_ids  = find_carrier_id.rows
+
+    response.status(200).json({
+      user_id: user_id,
+      carrier_ids: carrier_ids
+    })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 })
 
