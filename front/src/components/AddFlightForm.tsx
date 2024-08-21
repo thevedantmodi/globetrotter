@@ -1,10 +1,10 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { FormField } from "./FormField";
-import { Button, Card, Divider } from "react-daisyui";
+import { Button } from "react-daisyui";
 import DatePickerField from "./DatePickerField";
 
 
@@ -19,13 +19,13 @@ interface AddFlightInput {
     }
     carrier: string
     number: number
+    price: number
 }
 
 const formSchema = z.object({
     departure: z.object({
         date: z.string()
-            .datetime({ offset: true })
-        // .default("1970-01-01T00:00:00Z")
+            .datetime()
         ,
         /* TODO: Find if belongs in IATA code set */
         port: z.string()
@@ -34,8 +34,7 @@ const formSchema = z.object({
     }),
     arrival: z.object({
         date: z.string()
-            .datetime({ offset: true })
-        //         .default("1970-01-01T00:00:00Z")
+            .datetime()
         ,
         //     /* TODO: Find if belongs in IATA code */
         port: z.string()
@@ -45,7 +44,8 @@ const formSchema = z.object({
     carrier: z.string()
         .length(2, { message: "Must be two characters long" })
         .toUpperCase(),
-    number: z.number().min(1).max(9999)
+    number: z.number().min(1).max(9999),
+    price: z.number()
 })
 
 export type AddFlightFormValues = z.infer<typeof formSchema>
@@ -152,6 +152,13 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     type="number"
                     inputProps={register("number", { valueAsNumber: true })}
                     error={errors.number?.message}
+                />
+                <FormField
+                    id="price"
+                    label="Price"
+                    type="number"
+                    inputProps={register("price", { valueAsNumber: true })}
+                    error={errors.price?.message}
                 />
 
                 <Button loading={isSubmitting} color="neutral"

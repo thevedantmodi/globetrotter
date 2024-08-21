@@ -13,8 +13,6 @@ const AWS_client = new S3Client({
 })
 
 router.post('/set', async (request, response) => {
-  // console.log(request);
-
   const username = request.body.username
   const first_name = request.body.first_name
   const last_name = request.body.last_name
@@ -35,7 +33,6 @@ router.post('/set', async (request, response) => {
   try {
     const update_user = await pool.query(query)
 
-    // console.log(update_user)
     response.status(200).json({
       message: 'Profile updated!'
     })

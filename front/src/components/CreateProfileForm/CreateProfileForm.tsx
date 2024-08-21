@@ -1,12 +1,10 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { FormField } from "../FormField";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "react-daisyui";
 import ErrorField from "../ErrorField";
-import axios from "axios";
-import useAuth from "../../hooks/useAuth";
 import FileField from "../../components/FileField";
 
 const CreateProfileSchema = z.object({

@@ -1,6 +1,7 @@
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc'
 import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 
@@ -14,6 +15,7 @@ interface DatePickerFieldProps {
 
 
 const DatePickerField = (props: DatePickerFieldProps) => {
+    dayjs.extend(utc)
     return (
         <>
             <label htmlFor={props.id} className="label">
@@ -36,10 +38,11 @@ const DatePickerField = (props: DatePickerFieldProps) => {
                             ref={field.ref}
                             name={field.name}
                             onBlur={field.onBlur}
-                            value={field.value ? dayjs(field.value) : null}
+                            value={field.value ? dayjs(field.value).utc(false) : null}
                             onChange={(date) => {
-                                field.onChange(date ? dayjs(date).toISOString() : null);
-                            }}
+                                field.onChange(date ?
+                                    dayjs(date).utc(false).toISOString() : null);
+                                }}
                         />
                         {fieldState.error && <span className="label-text text-error">
                             {/* {JSON.stringify(fieldState)} */}
