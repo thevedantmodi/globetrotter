@@ -1,4 +1,4 @@
-UPDATE flights
-SET passenger_id = 27
-WHERE id = 1
-RETURNING *;
+CREATE TABLE IF NOT EXISTS carriers(
+    iata VARCHAR(2),
+    airline VARCHAR(100)
+)

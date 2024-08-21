@@ -38,11 +38,13 @@ const DatePickerField = (props: DatePickerFieldProps) => {
                             ref={field.ref}
                             name={field.name}
                             onBlur={field.onBlur}
-                            value={field.value ? dayjs(field.value).utc(false) : null}
+                            value={field.value ? dayjs.utc(field.value) : null}
                             onChange={(date) => {
-                                field.onChange(date ?
-                                    dayjs(date).utc(false).toISOString() : null);
-                                }}
+                                field.onChange(date
+                                    ? dayjs.utc(dayjs(date).format('YYYY-MM-DDTHH:mm:ss[Z]')).toISOString()
+                                    : null
+                                );
+                            }}
                         />
                         {fieldState.error && <span className="label-text text-error">
                             {/* {JSON.stringify(fieldState)} */}

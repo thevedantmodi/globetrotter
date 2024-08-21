@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { z } from "zod"
 import { FormField } from "./FormField";
 import { Button } from "react-daisyui";
 import DatePickerField from "./DatePickerField";
+import ErrorField from "./ErrorField";
 
 
 interface AddFlightInput {
@@ -57,6 +58,7 @@ export interface AddFlightFormProps {
 
 export interface AddFlightAPI {
     setErrors: (errors: Record<string, string>) => void
+    setFatalError: () => void
 }
 
 export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
@@ -70,6 +72,8 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
         } = useForm<AddFlightInput>({
             resolver: zodResolver(formSchema)
         })
+
+        const [showFatalError, setShowFatalError] = useState(false)
 
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
@@ -86,6 +90,9 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                             "number",
                             { message: error })
                     })
+                },
+                setFatalError: () => {
+                    setShowFatalError(true)
                 }
             }
         })
@@ -160,6 +167,11 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     inputProps={register("price", { valueAsNumber: true })}
                     error={errors.price?.message}
                 />
+
+                {
+                    showFatalError &&
+                    <ErrorField message="Fatal error occurred. Try again later!" />
+                }
 
                 <Button loading={isSubmitting} color="neutral"
                     active={!isSubmitting}
