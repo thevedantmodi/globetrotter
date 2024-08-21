@@ -12,6 +12,7 @@
 #
 ##############################################################
 
+
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -24,15 +25,20 @@ airports_list = soup.find("table", attrs={"class": "wikitable sortable"})
 
 df = pd.read_html(str(airports_list))[0]
 
-lens = []
-print("iata,airline")
+seen = set()
+repeats = []
 for obj in df.iterrows():
     iata = obj[1].loc["IATA"]
     airline = obj[1].loc["Airline"]
-    if type(airline) is not float:
-        lens.append(len(airline))
-    if type(iata) is not float:
-        print(f"{iata[:2]},{airline}")
-    # print(iata) if iata != "nan" else print()
+    if type(iata) is float:
+        continue
+    # sys.stderr.write("True" if iata in seen else "False")
+    if iata in seen:
+        repeats.append((iata, airline))
 
+    seen.add(iata)
 
+    #     print(f"{iata[:2]},{airline}")
+
+for iata, airline in repeats:
+    print(iata, airline)
