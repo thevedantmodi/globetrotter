@@ -27,18 +27,27 @@ df = pd.read_html(str(airports_list))[0]
 
 seen = set()
 repeats = []
+# print("iata,airline")
 for obj in df.iterrows():
     iata = obj[1].loc["IATA"]
     airline = obj[1].loc["Airline"]
+
+    comments = obj[1].loc["Comments"]
+    # print(comments)
     if type(iata) is float:
         continue
+    
+    if type(comments) is str and "defunct" in comments:
+        continue
+
     # sys.stderr.write("True" if iata in seen else "False")
     if iata in seen:
         repeats.append((iata, airline))
+        
+    # print(f"{iata[:2]},{airline}")
 
     seen.add(iata)
 
-    #     print(f"{iata[:2]},{airline}")
-
 for iata, airline in repeats:
+    # pass
     print(iata, airline)

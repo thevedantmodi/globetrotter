@@ -1,76 +1,45 @@
 1B Abacus International
 QH Air Kyrgyzstan
-KI Air Atlantique
-ML Air Mediterranee
 4O Air Montenegro
 4D Air Sinai
-ZB Air Bourbon
 GB Airborne Express
-AN Ansett Australia
-5W Astraeus
 1A Amadeus IT Group
 KJ Air Incheon
-TZ ATA Airlines
-PL Airstars
-OB Astrakhan Airlines
 4Y Airbus Transport International
-6V Axis Airways
 A2 Astra Airlines
-ML African Transport Trading and Investment Company
 6R Alrosa Air Company
 QH Aero Leasing
 ZX Air Georgian
 GG Air Comores International
-HD Air Holland
 8C Air Horizon
-W9 Air Bagan
 3S Aerologic
 4Y Airbus France
-NZ Air Nelson
 EX Air Santo Domingo
 M3 Air Service
-R3 Aircompany Yakutia
-HC Air Senegal
-FL AirTran Airways
-6U Air Ukraine
-AQ Aloha Airlines
 AG ASL Airlines Ireland
 6A Aviacsa
 AD Azul Linhas Aéreas Brasileiras
-BQ Baltia Air Lines
 QH Bamboo Airways
 QO Bar Harbor Airlines
-L9 Belle Air Europe
 BO BB Airways
 J4 Buffalo Airways
 A8 Benin Golf Air
 B4 Bankair
 B3 Bellview Airlines
-BM BMI Regional
 5Z Bismillah Airlines
-AB Bonza
 BO Bouraq Indonesia Airlines
-TH British Regional Airlines
 L9 Bristow U.S. LLC
 1T Bulgarian Air Charter
 B3 Bellview Airlines, Sierra Leone
-E9 Boston-Maine Airways
-SN Brussels Airlines
-KJ British Mediterranean Airways
-OB Boliviana de Aviación
 VL City Airlines
-4A California Pacific Airlines
-QC Camair-Co
 AW CHC Airways
 K6 Cambodia Angkor Air
-CP Canadian Pacific Airlines
 GG Cargo 360
 P3 Cargo Logic Air
 CV Cargolux
 RV Caspian Airlines
 GM Chair Airlines
 C8 Chicago Jet Group
-CJ China Northern Airlines
 8Y China Postal Airlines
 A2 Cielos Airlines
 WX CityJet
@@ -79,66 +48,43 @@ BX Coast Air
 KR Comores Airlines
 CP Compass Airlines
 CO Continental Express
-CS Cambrian Airways
 XK Corse Méditerranée
 5Z CemAir
-V5 DanubeWings
 CA Dalian Airlines
 J7 Denim Air
 AW Dirgantara Air Service
 5D DonbassAero
-HO Juneyao Air
 MQ Envoy Air
 EL Ellinair
-VE EUjet
 H7 Eagle Air
 NZ Eagle Airways
 ZE Eastar Jet
-W9 Eastwind Airlines
 EC easyJet Europe
-WK Edelweiss Air
-EA Emerald Airlines
-G8 Enkor JSC
 OF Enter Air
 EA European Air Express
 E7 European Aviation Air Charter
 4Y Eurowings Discover
 E6 Eurowings Europe
-EO Express One International
 EV ExpressJet
 7F First Air
 PA Florida Coastal Airlines
-RF Florida West International Airways
 6P Fly Wex
 F6 Fly2Sky
 D7 FlyAsianXpress
 FO Flybondi
-Y2 Flyglobespan
-LF FlyNordic
 FP FlyPelican
-BN Forward Air International Airlines
-5F FlyOne
 FP Freedom Air
-FH Futura International Airways
 1G Galileo International
 GR Gemini Air Cargo
 QB Georgian National Airlines
-GH Ghana Airways
-6G Go2Sky
 G8 GoAir
 G7 GoJet Airlines
-G3 Gol Transportes Aéreos
-5Z Gonini Air Services
-GV Grant Aviation
-IJ Great Wall Airlines
 G6 Guine Bissaur Airlines
 G8 Gujarat Airways
-EO Hewa Bora Airways
 A5 Hop!
 2T Haiti Ambassador Airlines
 4R Hamburg International
 HB Harbor Airlines
-HP Hawaiian Pacific Airlines
 9I Helitrans
 H9 Himalaya Airlines
 H7 HiSky
@@ -146,18 +92,14 @@ H4 HiSky Europe
 HC Holidays Czech Airlines
 A6 Hongtu Airlines
 H1 Hooters Air
-BN Horizon Airlines
 HJ HumoAir
 HW FlyErbil
 MR Hunnu Air
 1F INFINI Travel Information
 1U ITA Software
 TY Iberworld
-HC Iceland Express
 V8 Iliamna Air Taxi
-DH Independence Air
 H4 Inter Island Airways
-ZA Interavia Airlines
 JY InterCaribbean Airways
 RS Intercontinental de Aviación
 4O Interjet
@@ -165,35 +107,24 @@ ID Interlink Airlines
 3L Intersky
 I4 Interstate Airlines
 IH Irtysh Air
-AZ ITA Airways
 FS Itali Airlines
 H9 Izair
 XM J-Air
 1M JSC Transport Automated Information Systems
-JL Japan Airlines Domestic
-EG Japan Asia Airways
 JA JetSMART
 JU Jat Airways
-VJ Jatayu Airlines
-J9 Jazeera Airways
 7C Jeju Air
 GK Jetstar Japan
 JM Jetstar Hong Kong Airways
 JO Jettime
 J4 Jordan International Air Cargo
 HO Juneyao Airlines
-KD Kalstar Aviation
 KD KD Avia
 N2 Kabo Air
 KI KaiserAir
-3Q KC International Airlines
 KW Kelowna Flightcraft Air Charter
 BZ Keystone Air Service
 K6 Khalifa Airways
-KR Kitty Hawk Aircargo
-2K Kitty Hawk Airways
-KY Kunming Airlines
-7B Krasnojarsky Airlines
 K9 Krylo Airlines
 GW Kuban Airlines
 QH Kyrgyzstan
@@ -201,7 +132,6 @@ FK Keewatin Air
 JS Air Koryo
 JF L.A.B. Flying Service
 KG LAI - Línea Aérea IAACA
-JJ LATAM Brasil
 4C LATAM Colombia
 XO LTE International Airways
 L3 LTU Austria
@@ -210,7 +140,6 @@ QL Lankan Cargo
 LV Level
 L7 Línea Aérea SAPSA
 QL Línea Aérea de Servicio Ejecutivo Regional
-ZE Líneas Aéreas Azteca
 LT LJ Air
 LB Lloyd Aéreo Boliviano
 LM Loganair
@@ -228,21 +157,12 @@ CC Macair Airlines
 VB Maersk Air UK
 DB Maleth-Aero
 R5 Malta Air Charter
-AE Mandarin Airlines
-6V Mars RK
 M7 Marsland Aviation
 H5 Mavial Magadan Airlines
 MY Maxjet Airways
 IG Meridiana
-GJ Mexicargo
-LL Miami Air International
-JI Midway Airlines (1993–2003)
-ML Midway Airlines (1976–1991)
 MY Midwest Airlines (Egypt)
-MJ Mihin Lanka
 MW Mokulele Airlines
-ZB Monarch Airlines
-NM Mount Cook Airline
 8M Myanmar Airways International
 M2 MHS Aviation GmbH
 N5 Fly Easy
@@ -250,9 +170,7 @@ N4 National Airlines
 N8 National Air Cargo dba National Airlines
 9Y National Airways Ethiopia
 IN NAM Air
-NO Neos
 1I NetJets
-DD Nok Air
 JH Nordeste Linhas Aéreas Regionais
 6N Nordic Regional
 N4 Nordwind Airlines
@@ -265,42 +183,30 @@ U7 Northern Dene Airways
 FY Northwest Regional Airlines
 DI Norwegian Air UK
 DH Norwegian Air Norway
-BJ Nouvel Air Tunisie
 1I Novair
 N6 Nuevo Continente
 1I NetJets Europe
 IP One Airlines
-OB Oasis Airlines
-O2 Linear Air
 OV SalamAir
 OY Omni Air International
 QO Origin Pacific Airways
-OJ Overland Airways
 OZ Ozark Air Lines
 OA Olympic Airlines
 OB Oasis International Airlines Now assigned to Boliviana de Aviacion (BoA)
 U4 PMTair
 OH PSA Airlines
 Y5 Pace Airlines
-DJ Pacific Blue
 GX Pacificair
 GP Palau Trans Pacific Airlines
-PN Pan American Airways
-PA Pan American Airways
-PA Pan American World Airways
-P8 Pantanal Linhas Aéreas
 I7 Paramount Airways
 P3 Passaredo Transportes Aéreos
 HP Pearl Airways
-PC Pegasus Airlines
-PE People's
 1I Pegasus Hava Tasimaciligi
 P9 Perm Airlines
 P9 Peruvian Airlines
 PR Philippine Airlines
 HP Phoenix Airways
 9E Pinnacle Airlines
-DP Pobeda
 DJ Polynesian Blue
 1U Polyot Sirena
 NI Portugalia
@@ -312,21 +218,14 @@ FE Primaris Airlines
 QF Qantas
 QF QantasLink
 QF QantasLink
-QW Qingdao Airlines
 7H Ravn Alaska
 XW Really Cool Airlines
 8L Redhill Aviation
-RX Regent Airways
 3C RegionsAir
-QQ Reno Air
-RC Republic Airlines
 RH Republic Express Airlines
 C7 Rico Linhas Aéreas
-E2 Rio Grande Air
 RL Rio Linhas Aéreas
-RX Riyadh Air
 V2 Vision Airlines
-FV Rossiya
 RS Royal Air Force of Oman
 V5 Royal Aruban Airlines
 RK Royal Khmer Airlines
@@ -337,29 +236,22 @@ RK Ryanair UK
 IJ Spring Airlines Japan
 QS Smartwings
 7O Smartwings Hungary
-E3 Sabaidee Airways
 GG Sky Lease Cargo
-GW SkyGreece Airlines
 SH Sharp Airlines
 N9 Shree Airlines
 OL Samoa Air
 KV Sky Regional Airlines
 MM SAM Colombia
-PI Sol del Paraguay
 PV St Barth Commuter
-JX Starlux Airlines
 W3 Switfair Cargo
 FP Servicios Aéreos de los Andes
-SG Spicejet
 EH SAETA
 N5 Skagway Air Service
 5M Sibaviatrans
 SI Skynet Airlines
-ZS Sama Airlines
 SQ Singapore Airlines Cargo
 FT Siem Reap Airways
 SX Sky Work Airlines
-SM Swedline Express
 VD SwedJet Airways
 QF Sunstate Airlines
 RE Stobart Air
@@ -367,20 +259,15 @@ FS Servicios de Transportes Aéreos Fueguinos
 PI Sun Air (Fiji)
 LW Sun Air International
 EZ Sun Air of Scandinavia
-SR Sundair
 S8 Shovkoviy Shlyah
 Q4 Swazi Express Airways
 S8 Skywise Airline
-RB Syrian Arab Airlines
 ZP Silk Way Airlines
-E5 Air Arabia Egypt
 SK SAS Braathens
 8C Corendon Airlines Europe
 7L Sun D'Or
-NE SkyEurope
 CQ Sunshine Express Airlines
 KI SKS Airways
-TE Skytaxi
 1S Sabre
 1I Sierra Nevada Airlines
 1H Siren-Travel
@@ -390,9 +277,7 @@ TE Skytaxi
 2S Star Equatorial Airlines
 SO Sosoliso Airlines
 1I Sky Trek International Airlines
-SX Skybus Airlines
 RU SkyKing Turks and Caicos Airways
-XT SkyStar Airways
 JZ Skyways Express
 LJ Sierra National Airlines
 8D Servant Air
@@ -400,44 +285,31 @@ LJ Sierra National Airlines
 HZ Sat Airlines
 S5 Shuttle America
 DV Scat Air
-S5 Small Planet Airlines
-P7 Small Planet Airlines
 DJ Star Air
-V9 Star1 Airlines
 Q4 Starlink Aviation
 XG Sunexpress Deutschland
-SO Sunshine Airlines
 TC Air Tanzania Company Limited
 9L AirTanker Services
-2S Satgur Air Transport
 PZ TAM Mercosur
 HJ Tasman Cargo Airlines
-L6 Tbilaviamsheni
 L9 Teamline Air
-U8 Tel Aviv Air
 K9 TezJet
 FD Thai AirAsia
 XJ Thai AirAsia X
-SL Thai Lion Mentari
 9I Thai Sky Airlines
 WE Thai Smile Airways
 VZ Thai Vietjet Air
 HQ Thomas Cook Airlines
 MT Thomas Cook Airlines
-GS Tianjin Airlines
-TT Tigerair Australia
 TR Tigerair Singapore
 IT Tigerair Taiwan
 7T Tobruk Air
 TI Tol-Air Services
 TL Trans Mediterranean Airlines
-AX Trans States Airlines
 TO Transavia France
 AL TransAVIAexport Airlines
-TR Transbrasil
 UE Transeuropean Airlines
 T9 TransMeridian Airlines
-TH Raya Airways
 TX Transportes Aéreos Nacionales
 OF Transports et Travaux Aériens de Madagascar
 9T Transwest Air
@@ -447,7 +319,6 @@ GY Tri-MG Intra Asia Airlines
 M7 Tropical Airways
 TZ Tsaradia
 X3 TUI fly Deutschland
-TD Tulip Air
 UG Tuninter
 TW T'way Air
 U7 USA Jet Airlines
@@ -455,9 +326,6 @@ OL Ultra Air
 BS US-Bangla Airlines
 UH US Helicopter
 QU UTair-Ukraine
-US Unavia Suisse
-JW Vanilla Air
-VU Vietravel Airlines
 VB VivaAerobus
 VA Virgin Australia
 VF Valuair
@@ -465,41 +333,27 @@ VF AnadoluJet
 J7 ValuJet Airlines
 VC Voyageur Airways
 VA Viasa
-VX Virgin America
 VJ Vietjet Air
 V4 Vieques Air Link
-VK Virgin Nigeria Airways
-VE C.A.I. Second
-VY Vueling Airlines
 VM Viaggio Air
 VH Viva Air Colombia
-VP VASP
-V7 Volotea
 G6 Air Volga
 WD WDL Aviation
-WH WebJet Linhas Aéreas
 PN West Air (China)
 PT West Air Sweden
-WA Western Airlines
 WA KLM Cityhopper
 W7 Western Pacific Airlines
 CN Westward Airways
 WC Wien Air Alaska
-IW Wings Air
 W4 Wizz Air Malta
 W9 Wizz Air UK
 WO World Airways
 1P Worldspan
 UI SW Italia
-WW WOW air
 8V Wright Air Service
 KW Wataniya Airways
 WR WestJet Encore
 7A Express Air Cargo
 YL Yamal Airlines
 R3 Yakutia Airlines
-YT Yeti Airlines
-4Y Yute Air Alaska
 2N Yuzhmashavia
-3J Zip
-ZG Zipair Tokyo
