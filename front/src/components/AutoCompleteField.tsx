@@ -49,7 +49,7 @@ export const RHFAutocompleteField = <
                                     return option.label;
                                 }}
                                 onChange={(event: any, newValue) => {
-                                    onChange(newValue ? newValue.label : null);
+                                    onChange(newValue ? newValue.id : null);
                                 }}
                                 id="controllable-states-demo"
                                 options={options}
@@ -72,6 +72,5 @@ export const RHFAutocompleteField = <
                 }}
             />
         </>
-
     );
 };

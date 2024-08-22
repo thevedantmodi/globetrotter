@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
@@ -8,25 +8,7 @@ import { Button } from "react-daisyui";
 import DatePickerField from "./DatePickerField";
 import ErrorField from "./ErrorField";
 import { RHFAutocompleteField as AutoCompleteField } from "./AutoCompleteField";
-
-const options = [
-    {
-        id: "1",
-        label: "FRA"
-    },
-    {
-        id: "2",
-        label: "SIN"
-    },
-    {
-        id: "3",
-        label: "BOS"
-    },
-    {
-        id: "4",
-        label: "JFK"
-    }
-];
+import axios from "axios";
 
 interface AddFlightInput {
     departure: {
@@ -94,7 +76,21 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
         })
 
         const [showFatalError, setShowFatalError] = useState(false)
+        const [options, setOptions] = useState([{ id: "BOS", label: "Boston (BOS)" }])
 
+        // const getOptions = async () => {
+        //     /* TODO: Add loading capability here */
+        //     try {
+        //         const result = await axios.post('/airports/port-options', {
+
+        //         })
+        //         console.log(result.data);
+
+        //         setOptions(result.data)
+        //     } catch (err) {
+        //         console.log(err)
+        //     }
+        // }
 
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
@@ -119,22 +115,24 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
         })
 
         return (
-            <form style={{
-                display: 'flex',
-                flexFlow: 'column',
-                gap: 15,
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh',
-            }}
+            <form
+                className="
+                    flex
+                    flex-col
+                    gap-4
+                    items-center
+                    justify-start
+                    h-screen
+                    overflow-y-auto
+                    p-5
+                    box-border
+                "
                 onSubmit={handleSubmit(props.onSubmitReady)}
 
             >
                 <h2 className="font-bold text-xl">Add a flight</h2>
-                {/* <ModeToggle styles="" /> */}
 
                 <h3 className="font-bold text-xl">Departure</h3>
-                {/* <span>{JSON.stringify(watch("departure.date"))}</span> */}
                 <DatePickerField
                     control={control}
                     name="departure.date"
@@ -153,14 +151,6 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     placeholder="Select port"
                 />
 
-                {/* <FormField
-                    id="departure-port"
-                    label="Port"
-                    type="text"
-                    inputProps={register("departure.port")}
-                    error={errors.departure?.port?.message}
-                    placeholder="(e.g. BOS, SIN)"
-                /> */}
                 <h3 className="font-bold text-xl">Arrival</h3>
 
                 <DatePickerField

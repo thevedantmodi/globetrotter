@@ -41,7 +41,7 @@ router.post('/add', async (request, response) => {
 
     const carrier_ids  = find_carrier_id.rows
 
-    const dep_time = 
+    const dep_time = null
 
     response.status(200).json({
       user_id: user_id,
