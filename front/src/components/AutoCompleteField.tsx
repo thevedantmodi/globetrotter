@@ -1,91 +1,77 @@
-import { Input } from "react-daisyui"
-import { RefCallback, useState } from "react";
-import ErrorField from "./ErrorField";
-import { useAutocomplete } from '@mui/base'
+import * as React from "react";
+import { Controller, Control, Path, FieldValues } from "react-hook-form";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
-
-/* Types are happy now */
-interface AutoCompleteFieldProps {
-    id: string,
-    label: string,
-    error?: string,
-    inputProps?: {
-        onChange?: (e: any) => unknown;
-        onBlur?: (e: any) => unknown;
-        ref?: any;
-        name?: string;
-        min?: string | number;
-        max?: string | number;
-        maxLength?: number;
-        minLength?: number;
-        pattern?: string;
-        required?: boolean;
-        disabled?: boolean;
-    },
-    type?: 'password' | 'text' | 'email' | 'date' | 'number' | 'file',
-    placeholder?: string
+interface RHFAutocompleteFieldProps<
+    O extends { id: string; label: string },
+    TField extends FieldValues
+> {
+    control: Control<TField>;
+    name: Path<TField>;
+    options: O[];
+    placeholder?: string;
+    id: string
+    label: string
 }
 
-const AutoCompleteField = (props: AutoCompleteFieldProps) => {
-    const testWords = [
-        "Leslie",
-        "Jolene",
-        "Cooley",
-        "Allison",
-        "Debbie",
-        "Beryl",
-        "Carissa",
-        "Jewel",
-        "Daisy",
-        "Gordon"
-    ];
-
-    const [value, setValue] = useState<typeof testWords[number]>('')
-
-    const {
-        getRootProps,
-        getInputLabelProps,
-        getInputProps,
-        getListboxProps,
-        getOptionProps,
-        groupedOptions,
-        focused,
-    } = useAutocomplete({
-        id: 'use-autocomplete-demo',
-        options: testWords,
-        getOptionLabel: (option) => option,
-        value,
-        onChange: (event, newValue) => setValue(newValue as string),
-    });
-
-
-
-
+export const RHFAutocompleteField = <
+    O extends { id: string; label: string },
+    TField extends FieldValues
+>(
+    props: RHFAutocompleteFieldProps<O, TField>
+) => {
+    const { control, options, name } = props;
     return (
-        <div className="form-control w-full max-w-xs" >
+        <>
             <label htmlFor={props.id} className="label">
                 <span className="label-text">{props.label}</span>
             </label>
+            <Controller
+                name={name}
+                control={control}
+                rules={{
+                    required: "this field is requried"
+                }}
+                render={({ field, fieldState: { error } }) => {
+                    const { onChange, value, ref } = field;
+                    return (
+                        <div className="w-full max-w-xs">
+                            <Autocomplete
+                                value={
+                                    value
+                                        ? options.find((option) => {
+                                            return value === option.label;
+                                        }) ?? null
+                                        : null
+                                }
+                                getOptionLabel={(option) => {
+                                    return option.label;
+                                }}
+                                onChange={(event: any, newValue) => {
+                                    onChange(newValue ? newValue.label : null);
+                                }}
+                                id="controllable-states-demo"
+                                options={options}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label={props.placeholder}
+                                        inputRef={ref}
+                                    />
+                                )}
+                            />
+                            {error &&
+                                <span className="label-text text-error">
+                                    {error?.message}
+                                </span>
+                            }
 
-            <input
-                id={props.id}
-                color="ghost"
-                type={props.type ?? "text"}
-                {...props.inputProps}
-                placeholder={props.placeholder}
+                        </div>
+                    );
+                }}
             />
-            {groupedOptions.length > 0 && (
-                <div>
-                    {(groupedOptions as typeof testWords).map((option, index) => (
-                        <p>{option}</p>
-                    ))}
-                </div>
-            )}
+        </>
 
-            <ErrorField message={props.error} />
-
-        </div>
-    )
-}
-
-export default AutoCompleteField
+    );
+};

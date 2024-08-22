@@ -7,6 +7,26 @@ import { FormField } from "./FormField";
 import { Button } from "react-daisyui";
 import DatePickerField from "./DatePickerField";
 import ErrorField from "./ErrorField";
+import { RHFAutocompleteField as AutoCompleteField } from "./AutoCompleteField";
+
+const options = [
+    {
+        id: "1",
+        label: "FRA"
+    },
+    {
+        id: "2",
+        label: "SIN"
+    },
+    {
+        id: "3",
+        label: "BOS"
+    },
+    {
+        id: "4",
+        label: "JFK"
+    }
+];
 
 interface AddFlightInput {
     departure: {
@@ -67,6 +87,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
             control,
             handleSubmit,
             setError,
+            watch,
             formState: { errors, isSubmitting },
         } = useForm<AddFlightInput>({
             resolver: zodResolver(formSchema)
@@ -114,7 +135,6 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
 
                 <h3 className="font-bold text-xl">Departure</h3>
                 {/* <span>{JSON.stringify(watch("departure.date"))}</span> */}
-
                 <DatePickerField
                     control={control}
                     name="departure.date"
@@ -122,16 +142,25 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     id="dept-date"
                 />
 
+                <div>{watch("departure.port")}</div>
 
+                <AutoCompleteField
+                    id="departure-port"
+                    label="Port"
+                    options={options}
+                    control={control}
+                    name="departure.port"
+                    placeholder="Select port"
+                />
 
-                <FormField
+                {/* <FormField
                     id="departure-port"
                     label="Port"
                     type="text"
                     inputProps={register("departure.port")}
                     error={errors.departure?.port?.message}
                     placeholder="(e.g. BOS, SIN)"
-                />
+                /> */}
                 <h3 className="font-bold text-xl">Arrival</h3>
 
                 <DatePickerField
@@ -141,13 +170,15 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     id="arr-date"
                 />
 
-                <FormField
+                <AutoCompleteField
                     id="arrival-port"
                     label="Port"
-                    type="text"
-                    inputProps={register("arrival.port")}
-                    error={errors.arrival?.port?.message}
+                    options={options}
+                    control={control}
+                    name="arrival.port"
+                    placeholder="Select port"
                 />
+
                 <h3 className="font-bold text-xl">Vessel</h3>
                 <FormField
                     id="carrier"
