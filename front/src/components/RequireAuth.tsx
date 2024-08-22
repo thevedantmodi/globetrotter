@@ -3,12 +3,12 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 
-interface IUserData {
+export interface AuthUserData {
     username: string;
    };
 
 const RequireAuth = () => {
-    const authUser = useAuthUser<IUserData>()
+    const authUser = useAuthUser<AuthUserData>()
     const location = useLocation()
 
     

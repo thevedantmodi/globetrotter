@@ -6,17 +6,19 @@ import {
 } from "../components/AddFlightForm"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import useAuth from "../hooks/useAuth"
+import type { AuthUserData } from "../components/RequireAuth"
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+
 
 export default function AddFlightPage() {
+    const authUser = useAuthUser<AuthUserData>()
     const navigate = useNavigate()
-    const { auth } = useAuth()
     const AddFlightFormRef = useRef<AddFlightAPI>(null)
     const onSubmit = async (data: AddFlightFormValues) => {
         console.log(data)
 
         await axios.post('/flights/add', {
-            username: auth.user, 
+            username: authUser?.username, 
             departure: data.departure,
             arrival: data.arrival,
             carrier: data.carrier,

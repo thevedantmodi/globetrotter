@@ -8,14 +8,14 @@ import {
 } from "../components/CreateProfileForm/CreateProfileForm";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import useAuth from "../hooks/useAuth";
+import type { AuthUserData } from "../components/RequireAuth"
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 
 const CreateProfilePage = () => {
 
+    const authUser = useAuthUser<AuthUserData>()
     const CreateProfileFormRef = useRef<CreateProfileAPI>(null)
     const navigate = useNavigate();
-
-    const { auth } = useAuth()
 
     const onSubmit = async (data: CreateProfileFormValues) => {
         console.log(data)
@@ -26,7 +26,7 @@ const CreateProfilePage = () => {
         // })
 
         await axios.post('/profiles/set', {
-            username: auth.user,
+            username: authUser?.username,
             first_name: data.first_name,
             last_name: data.last_name,
             hometown: data.hometown
@@ -50,7 +50,7 @@ const CreateProfilePage = () => {
         <CreateProfileForm
             ref={CreateProfileFormRef}
             onSubmitReady={onSubmit}
-            username={auth.user}
+            username={authUser?.username as string}
         />
     )
 }
