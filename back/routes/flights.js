@@ -23,11 +23,31 @@ router.post('/add', async (request, response) => {
       values: [carrier]
     })
 
+    const dep_port = (await pool.query({
+      name: 'find-dep-port',
+      text: 'SELECT * FROM airports WHERE iata = $1',
+      values: [departure.port]
+    })).rows[0]
+
+    const arr_port = (await pool.query({
+      name: 'find-arr-port',
+      text: 'SELECT * FROM airports WHERE iata = $1',
+      values: [arrival.port]
+    })).rows[0]
+
+    
+    const dep_tz = dep_port.tz
+    const arr_tz = arr_port.tz
+
     const carrier_ids  = find_carrier_id.rows
+
+    const dep_time = 
 
     response.status(200).json({
       user_id: user_id,
-      carrier_ids: carrier_ids
+      carrier_ids: carrier_ids,
+      dep_port: dep_port,
+      arr_port: arr_port
     })
   } catch (err) {
     console.log(err)

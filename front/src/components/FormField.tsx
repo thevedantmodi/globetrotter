@@ -37,6 +37,7 @@ export const FormField = (props: FormFieldProps) => {
                 {...(props.inputProps ?? {})} /* Could be react-hook-form */
                 placeholder={props.placeholder}
             />
+            
 
             <ErrorField message={props.error} />
 

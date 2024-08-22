@@ -8,7 +8,6 @@ import { Button } from "react-daisyui";
 import DatePickerField from "./DatePickerField";
 import ErrorField from "./ErrorField";
 
-
 interface AddFlightInput {
     departure: {
         date: string
@@ -75,6 +74,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
 
         const [showFatalError, setShowFatalError] = useState(false)
 
+
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
         /* Allows for parent of this component to call fn's */
@@ -122,12 +122,15 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     id="dept-date"
                 />
 
+
+
                 <FormField
                     id="departure-port"
                     label="Port"
                     type="text"
                     inputProps={register("departure.port")}
                     error={errors.departure?.port?.message}
+                    placeholder="(e.g. BOS, SIN)"
                 />
                 <h3 className="font-bold text-xl">Arrival</h3>
 
