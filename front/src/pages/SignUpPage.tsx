@@ -7,15 +7,12 @@ import {
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { Button } from "react-daisyui";
-import useAuth from "../hooks/useAuth";
-
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 
 const SignUpPage = () => {
 
     const SignUpFormRef = useRef<SignUpAPI>(null)
     const navigate = useNavigate();
-    // const { setAuth } = useAuth()
     const signIn = useSignIn()
 
     const LoginExistingUser = () => {
@@ -46,7 +43,7 @@ const SignUpPage = () => {
             password: data.password
         }).then((res) => {
             console.log(res.data.message)
-
+            /* "Login" user on signup */
             signIn({
                 auth: {
                     token: res.data.token,
@@ -55,8 +52,6 @@ const SignUpPage = () => {
                 userState: { username: data.username },
             });
 
-
-            // setAuth({ user: res.data.username }) /* "Login" user on signup */
             navigate("/create-profile", { replace: true });
 
         }).catch((err) => {

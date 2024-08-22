@@ -91,7 +91,6 @@ router.post('/login', async (request, response) => {
       { expiresIn: '1hr' }
     )
 
-
     /* send response */
 
     response.status(200).json({

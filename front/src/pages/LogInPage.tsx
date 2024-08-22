@@ -6,7 +6,6 @@ import {
 } from "../components/LogInForm/LogInForm";
 import axios from 'axios'
 import { useNavigate, useLocation } from 'react-router-dom';
-// import useAuth from "../hooks/useAuth";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 const LogInPage = () => {
@@ -14,8 +13,6 @@ const LogInPage = () => {
     const signIn = useSignIn()
     const LoginFormRef = useRef<LogInAPI>(null)
     const navigate = useNavigate();
-    // @ts-ignore
-    // const { setAuth } = useAuth()
     const location = useLocation()
     const from = location.state?.from?.pathname || "/"
 
@@ -39,7 +36,6 @@ const LogInPage = () => {
         }
         ).then((res) => {
             console.log(res.data)
-            // setAuth({ user: res.data.username })
             signIn({
                 auth: {
                     token: res.data.token,
