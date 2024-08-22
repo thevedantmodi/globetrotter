@@ -1,15 +1,15 @@
 const pool = require('../db')
 const bcrypt = require('bcryptjs')
 const router = require('express').Router()
+const jwt = require('jsonwebtoken')
 
 router.post('/sign-up', async (request, response) => {
-  console.log("Hello signup");
-  
+  console.log('Hello signup')
+
   const username = request.body.username
   const email_addr = request.body.email
 
-  console.log(username, email_addr);
-  
+  console.log(username, email_addr)
 
   const salt = await bcrypt.genSalt(10)
   const hash_pwd = await bcrypt.hash(request.body.password, salt)
@@ -21,15 +21,22 @@ router.post('/sign-up', async (request, response) => {
         'INSERT INTO users (username, email, hashed_pwd, hometown, km_flown) ' +
         'VALUES($1, $2, $3, $4, $5)' +
         'RETURNING *',
-      values: [username, email_addr, hash_pwd, "", 0]
+      values: [username, email_addr, hash_pwd, '', 0]
     }
     const res = await pool.query(query)
     /* At this point, a new user has been created in the users table */
 
     const user_id = res.rows[0].id
+
+    const token = jwt.sign(
+      { username: username, user_id: user_id },
+      process.env.JWT_PRIV_KEY,
+      { expiresIn: '1hr' }
+    )
+
     response.status(200).json({
-      message: `Welcome to Strava for Flights! id is ${user_id}.`,
-      username: username
+      message: `Welcome to Strava for Flights!`,
+      token: token
     })
   } catch (err) {
     /* Expected errors from PG should be added here */
@@ -74,14 +81,23 @@ router.post('/login', async (request, response) => {
     /* validate password */
     const hash_pwd = find_user.rows[0].hashed_pwd
     const username = find_user.rows[0].username
+    const user_id = find_user.rows[0].id
 
     const valid_pwd = await bcrypt.compare(request.body.password, hash_pwd)
+
+    const token = jwt.sign(
+      { username: username, user_id: user_id },
+      process.env.JWT_PRIV_KEY,
+      { expiresIn: '1hr' }
+    )
+
 
     /* send response */
 
     response.status(200).json({
       message: `Welcome back ${username}!`,
-      username: username
+      username: username,
+      token: token
     })
   } catch (err) {
     response.status(500).json({
