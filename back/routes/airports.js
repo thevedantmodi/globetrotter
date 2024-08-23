@@ -45,13 +45,15 @@ router.get('/', async (request, response) => {
 
 router.post('/port-options', async (request, response) => {
   try {
-    const query_string = `'%${request.body.query}%'`
+    const query_string = `%${request.body.query}%`
+    console.log(query_string);
+    
     const command = {
       name: 'get-airports-ports',
       text:
-        'SELECT iata, city FROM airports ' +
-        'ORDER BY size DESC LIMIT 20' +
-        'WHERE iata LIKE $1',
+        'SELECT iata, city FROM airports ' + 
+        // 'ORDER BY size DESC ' +
+        'WHERE (iata LIKE $1 or city LIKE $1) ',
       values: [query_string]
     }
     const data = await pool.query(command)

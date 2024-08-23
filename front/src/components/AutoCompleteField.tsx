@@ -9,10 +9,11 @@ interface RHFAutocompleteFieldProps<
 > {
     control: Control<TField>;
     name: Path<TField>;
-    options: O[];
+    initialOptions: O[];
     placeholder?: string;
     id: string
     label: string
+    fetchOptions: (input: string) => Promise<O[]>
 }
 
 export const RHFAutocompleteField = <
@@ -21,7 +22,20 @@ export const RHFAutocompleteField = <
 >(
     props: RHFAutocompleteFieldProps<O, TField>
 ) => {
-    const { control, options, name } = props;
+    const { control, name } = props;
+
+    const [options, setOptions] = React.useState<O[]>(props.initialOptions)
+    const [query, setQuery] = React.useState<string>("")
+
+
+    const handleInputChange = async (event: React.ChangeEvent<{}>, value: string) => {
+        setQuery(value)
+        if (value) {
+            const newOptions = await props.fetchOptions(value)
+            setOptions(newOptions)
+        }
+    }
+
     return (
         <>
             <label htmlFor={props.id} className="label">
@@ -35,23 +49,21 @@ export const RHFAutocompleteField = <
                 }}
                 render={({ field, fieldState: { error } }) => {
                     const { onChange, value, ref } = field;
+                    console.log(value);
+                    
                     return (
                         <div className="w-full max-w-xs">
                             <Autocomplete
                                 value={
-                                    value
-                                        ? options.find((option) => {
-                                            return value === option.label;
-                                        }) ?? null
-                                        : null
+                                    {id: query, label: query}
                                 }
-                                getOptionLabel={(option) => {
-                                    return option.label;
-                                }}
+                                getOptionLabel={(option) => option.label}
+
                                 onChange={(event: any, newValue) => {
                                     onChange(newValue ? newValue.id : null);
                                 }}
-                                id="controllable-states-demo"
+                                onInputChange={handleInputChange}
+                                id={props.id}
                                 options={options}
                                 renderInput={(params) => (
                                     <TextField
@@ -61,12 +73,11 @@ export const RHFAutocompleteField = <
                                     />
                                 )}
                             />
-                            {error &&
+                            {error && (
                                 <span className="label-text text-error">
-                                    {error?.message}
+                                    {error.message}
                                 </span>
-                            }
-
+                            )}
                         </div>
                     );
                 }}

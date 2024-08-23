@@ -76,21 +76,28 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
         })
 
         const [showFatalError, setShowFatalError] = useState(false)
-        const [options, setOptions] = useState([{ id: "BOS", label: "Boston (BOS)" }])
 
-        // const getOptions = async () => {
-        //     /* TODO: Add loading capability here */
-        //     try {
-        //         const result = await axios.post('/airports/port-options', {
 
-        //         })
-        //         console.log(result.data);
+        const fetchOptions = async (input: string) => {
+            try {
+                const response = await axios.post('/airports/port-options',
+                    { query: input })
 
-        //         setOptions(result.data)
-        //     } catch (err) {
-        //         console.log(err)
-        //     }
-        // }
+                console.log(response);
+
+                const data = response.data
+
+                console.log(data);
+
+                return data.map((item: any) => ({
+                    id: item.id,
+                    label: item.label
+                }))
+            } catch (err) {
+                console.log(err);
+                return []
+            }
+        }
 
         const setErrorRef = useRef(setError)
         setErrorRef.current = setError
@@ -99,12 +106,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
             return {
                 setErrors: (errors: Record<string, string>) => {
                     Object.entries(errors).forEach(([key, error]) => {
-                        setErrorRef.current(key as "departure.date" |
-                            "departure.port" |
-                            "arrival.date" |
-                            "arrival.port" |
-                            "carrier" |
-                            "number",
+                        setErrorRef.current(key as keyof AddFlightFormValues,
                             { message: error })
                     })
                 },
@@ -145,7 +147,8 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                 <AutoCompleteField
                     id="departure-port"
                     label="Port"
-                    options={options}
+                    initialOptions={[]}
+                    fetchOptions={fetchOptions}
                     control={control}
                     name="departure.port"
                     placeholder="Select port"
@@ -163,7 +166,8 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                 <AutoCompleteField
                     id="arrival-port"
                     label="Port"
-                    options={options}
+                    initialOptions={[]}
+                    fetchOptions={fetchOptions}
                     control={control}
                     name="arrival.port"
                     placeholder="Select port"
