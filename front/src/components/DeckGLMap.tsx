@@ -17,6 +17,8 @@ import { MapViewState } from '@deck.gl/core'
 import type { PickingInfo } from '@deck.gl/core'
 import { Feature, Geometry } from 'geojson'
 
+import type { FlightInputValues } from './AddFlightForm'
+
 import axios from 'axios'
 import flightsData from '../test-flights.json'
 
@@ -46,43 +48,20 @@ const map_view = new MapView({
   repeat: true
 })
 
-
-
-type Flight = {
-  no?: number
-  date?: string
-  from: {
-    name: string
-    coordinates: [longitude: number, latitude: number]
+/* TODO: Add values for flight API and flights API  */
+interface FlightValues {
+  departure: {
+    date: string
+    port: string
   }
-  to: {
-    name: string
-    coordinates: [longitude: number, latitude: number]
+  arrival: {
+    date: string
+    port: string
   }
+  carrier: string
+  number: number
+  price: number
 }
-
-// type Airport = {
-//   type: string
-//   geometry: {
-//     type: string
-//     coordinates: number[]
-//   }
-//   properties: {
-//     icao: string
-//     iata: string
-//     name: string
-//     city: string
-//     subd: string
-//     country: string
-//     elevation: number
-//     lat: number
-//     lon: number
-//     tz: string
-//     lid: string
-//     size: string
-//   }
-// }
-
 type Airport = {
   icao: string
   iata: string
@@ -90,7 +69,6 @@ type Airport = {
   city: string
   subd: string
   country: string
-  elevation: number
   lat: number
   lon: number
   tz: string
@@ -212,7 +190,6 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
     } else {
       return [0, 0, 0, 255]
     }
-
   }
   const airportsLayer = new GeoJsonLayer<Airport>({
     id: 'airports',
@@ -234,21 +211,14 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
   })
 
 
-  // const airportsLayer = new ScatterplotLayer<Airport>({
-  //   id: 'airports',
-  //   data: airports,
-  //   // coordinateSystem: COORDINATE_SYSTEM.METER_OFFSETS,
-  //   // coordinateOrigin: [0, 0, 0],
-  //   getPosition: []
-  // })
 
 
-  const flights = new ArcLayer<Flight>({
+  const flights = new ArcLayer<FlightValues>({
     id: 'flights',
     data: flightsData,
 
-    getSourcePosition: (d: Flight) => d.from.coordinates,
-    getTargetPosition: (d: Flight) => d.to.coordinates,
+    getSourcePosition: (d: FlightValues) => d.departure.port.lon,
+    getTargetPosition: (d: FlightValues) => d.to.coordinates,
     getSourceColor: [0, 0, 0],
     getTargetColor: [0, 0, 0],
     getWidth: 2,

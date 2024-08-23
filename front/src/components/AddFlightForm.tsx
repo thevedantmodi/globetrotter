@@ -152,7 +152,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     label="Date"
                     id="dept-date"
                 />
-                
+
                 <AutoCompleteField
                     id="departure-port"
                     label="Port"
@@ -223,3 +223,4 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
     })
 AddFlightForm.displayName = 'ForwardRefedAddFlightForm'
 
+export type FlightInputValues = AddFlightInput
