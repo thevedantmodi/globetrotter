@@ -152,9 +152,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     label="Date"
                     id="dept-date"
                 />
-
-                <div>{watch("departure.port")}</div>
-
+                
                 <AutoCompleteField
                     id="departure-port"
                     label="Port"
@@ -195,7 +193,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     name="carrier"
                     placeholder="Select carrier"
                 />
-                
+
                 <FormField
                     id="number"
                     label="Number"
@@ -206,7 +204,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                 <FormField
                     id="price"
                     label="Price"
-                    type="number"
+                    type="text"
                     inputProps={register("price", { valueAsNumber: true })}
                     error={errors.price?.message}
                 />

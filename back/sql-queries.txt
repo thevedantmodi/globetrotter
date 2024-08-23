@@ -92,3 +92,6 @@ ALTER TABLE flights ADD COLUMN passenger_id BIGINT;
 ALTER TABLE flights ADD FOREIGN KEY (passenger_id) REFERENCES users(id);
 
 
+UPDATE flights
+SET duration = arr_date - dep_date;
+WHERE duration = NULL

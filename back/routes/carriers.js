@@ -4,7 +4,6 @@ const pool = require('../db')
 router.post('/options', async (request, response) => {
   try {
     const query_string = `%${request.body.query}%`
-    console.log(query_string)
 
     const command = {
       name: 'get-carriers',

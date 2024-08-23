@@ -31,7 +31,7 @@ const DatePickerField = (props: DatePickerFieldProps) => {
                     <>
                         <DatePicker className='form-control max-w-xs w-full'
                             id={props.id}
-                            showTime
+                            showTime={{ format: 'hh:mm A', use12Hours:true }}
                             showSecond={false}
                             placeholder={props.placeholder}
                             status={fieldState.error ? "error" : undefined}

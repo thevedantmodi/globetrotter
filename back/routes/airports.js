@@ -46,7 +46,6 @@ router.get('/', async (request, response) => {
 router.post('/port-options', async (request, response) => {
   try {
     const query_string = `%${request.body.query}%`
-    console.log(query_string);
     
     const command = {
       name: 'get-airports-ports',
@@ -58,7 +57,7 @@ router.post('/port-options', async (request, response) => {
     }
     const data = await pool.query(command)
     const airports = data.rows
-    
+
     const options = airports.map(airport => {
       return {
         id: airport.iata,
