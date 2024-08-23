@@ -192,17 +192,10 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     initialOptions={[]}
                     fetchOptions={fetchCarrierOptions}
                     control={control}
-                    name="arrival.port"
-                    placeholder="Select port"
+                    name="carrier"
+                    placeholder="Select carrier"
                 />
-
-                <FormField
-                    id="carrier"
-                    label="Carrier"
-                    type="text"
-                    inputProps={register("carrier")}
-                    error={errors.carrier?.message}
-                />
+                
                 <FormField
                     id="number"
                     label="Number"

@@ -17,8 +17,6 @@ router.post('/options', async (request, response) => {
     const data = await pool.query(command)
     const carriers = data.rows
 
-    console.log(carriers)
-
     const options = carriers.map(carrier => {
       return {
         id: carrier.iata,

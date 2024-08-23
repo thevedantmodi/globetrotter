@@ -48,15 +48,15 @@ export const RHFAutocompleteField = <
                     required: "this field is requried"
                 }}
                 render={({ field, fieldState: { error } }) => {
-                    const { onChange, value, ref } = field;
+                    const { onChange, ref } = field;
                     return (
                         <div className="w-full max-w-xs">
                             <Autocomplete
                                 value={
-                                    {id: query, label: query}
+                                    { id: query, label: query }
                                 }
                                 getOptionLabel={(option) => option.label}
-
+                                isOptionEqualToValue={(options, value) => options.valueOf === value.valueOf}
                                 onChange={(event: any, newValue) => {
                                     onChange(newValue ? newValue.id : null);
                                 }}
