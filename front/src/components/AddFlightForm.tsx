@@ -78,17 +78,28 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
         const [showFatalError, setShowFatalError] = useState(false)
 
 
-        const fetchOptions = async (input: string) => {
+        const fetchPortOptions = async (input: string) => {
             try {
                 const response = await axios.post('/airports/port-options',
                     { query: input })
 
-                console.log(response);
+                const data = response.data
+                return data.map((item: any) => ({
+                    id: item.id,
+                    label: item.label
+                }))
+            } catch (err) {
+                console.log(err);
+                return []
+            }
+        }
+
+        const fetchCarrierOptions = async (input: string) => {
+            try {
+                const response = await axios.post('/carriers/options',
+                    { query: input })
 
                 const data = response.data
-
-                console.log(data);
-
                 return data.map((item: any) => ({
                     id: item.id,
                     label: item.label
@@ -148,7 +159,7 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     id="departure-port"
                     label="Port"
                     initialOptions={[]}
-                    fetchOptions={fetchOptions}
+                    fetchOptions={fetchPortOptions}
                     control={control}
                     name="departure.port"
                     placeholder="Select port"
@@ -167,13 +178,24 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     id="arrival-port"
                     label="Port"
                     initialOptions={[]}
-                    fetchOptions={fetchOptions}
+                    fetchOptions={fetchPortOptions}
                     control={control}
                     name="arrival.port"
                     placeholder="Select port"
                 />
 
                 <h3 className="font-bold text-xl">Vessel</h3>
+
+                <AutoCompleteField
+                    id="carrier"
+                    label="Carrier"
+                    initialOptions={[]}
+                    fetchOptions={fetchCarrierOptions}
+                    control={control}
+                    name="arrival.port"
+                    placeholder="Select port"
+                />
+
                 <FormField
                     id="carrier"
                     label="Carrier"

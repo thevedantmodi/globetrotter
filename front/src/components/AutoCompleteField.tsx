@@ -49,8 +49,6 @@ export const RHFAutocompleteField = <
                 }}
                 render={({ field, fieldState: { error } }) => {
                     const { onChange, value, ref } = field;
-                    console.log(value);
-                    
                     return (
                         <div className="w-full max-w-xs">
                             <Autocomplete

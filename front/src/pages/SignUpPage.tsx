@@ -34,9 +34,6 @@ const SignUpPage = () => {
 
         await delay(2000);
 
-
-        console.log("I am here!");
-
         await axios.post('/users/sign-up', {
             username: data.username,
             email: data.email,
