@@ -88,4 +88,8 @@ router.post('/add', async (request, response) => {
   }
 })
 
+router.post('/get-flights', async (req, res) => {
+  const username = req.body.username
+})
+
 module.exports = router

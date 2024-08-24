@@ -48,20 +48,6 @@ const map_view = new MapView({
   repeat: true
 })
 
-/* TODO: Add values for flight API and flights API  */
-interface FlightValues {
-  departure: {
-    date: string
-    port: string
-  }
-  arrival: {
-    date: string
-    port: string
-  }
-  carrier: string
-  number: number
-  price: number
-}
 type Airport = {
   icao: string
   iata: string
@@ -72,8 +58,22 @@ type Airport = {
   lat: number
   lon: number
   tz: string
-  lid: string
   size: string
+}
+
+/* TODO: Add values for flight API and flights API  */
+interface FlightValues {
+  departure: {
+    date: string
+    port: Airport
+  }
+  arrival: {
+    date: string
+    port: Airport
+  }
+  carrier: string
+  number: number
+  price: number
 }
 
 function DeckGLMap({ expanded }: { expanded: boolean }) {
@@ -87,6 +87,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
   // })
 
   const [airports, setAirports] = useState([])
+  const [flights, setFlights] = useState([])
 
 
   const CITIES: { [name: string]: MapViewState } = {
@@ -217,8 +218,10 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
     id: 'flights',
     data: flightsData,
 
-    getSourcePosition: (d: FlightValues) => d.departure.port.lon,
-    getTargetPosition: (d: FlightValues) => d.to.coordinates,
+    getSourcePosition: (d: FlightValues) =>
+      [d.departure.port.lon, d.departure.port.lat],
+    getTargetPosition: (d: FlightValues) =>
+      [d.arrival.port.lon, d.arrival.port.lat],
     getSourceColor: [0, 0, 0],
     getTargetColor: [0, 0, 0],
     getWidth: 2,
@@ -260,7 +263,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
         initialViewState={viewState}
         onViewStateChange={handleViewStateChange}
         controller={true}
-        layers={[airportsLayer/* , flights */]}
+        layers={[airportsLayer, flights]}
         // @ts-ignore
         getTooltip={({
           object
