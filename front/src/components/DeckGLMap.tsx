@@ -6,7 +6,8 @@ import DeckGL, {
   _GlobeView as GlobeView,
   MapView,
   FlyToInterpolator,
-  ScatterplotLayer
+  ScatterplotLayer,
+  Position
 
 
 } from 'deck.gl'
@@ -18,6 +19,9 @@ import type { PickingInfo } from '@deck.gl/core'
 import { Feature, Geometry } from 'geojson'
 
 import type { FlightInputValues } from './AddFlightForm'
+
+import type { AuthUserData } from "./RequireAuth"
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 
 import axios from 'axios'
 import flightsData from '../test-flights.json'
@@ -73,7 +77,16 @@ interface FlightValues {
   }
   carrier: string
   number: number
-  price: number
+  price: string
+  currency: string
+  duration: {
+    /* How long is this flight yaar?! Nonetheless it's good to have years :) */
+    years?: number
+    days?: number
+    hours?: number
+    minutes?: number
+    seconds?: number
+  }
 }
 
 function DeckGLMap({ expanded }: { expanded: boolean }) {
@@ -87,7 +100,9 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
   // })
 
   const [airports, setAirports] = useState([])
-  const [flights, setFlights] = useState([])
+  const [userFlights, setUserFlights] = useState([])
+
+  const authUser = useAuthUser<AuthUserData>()
 
 
   const CITIES: { [name: string]: MapViewState } = {
@@ -145,6 +160,23 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
     }
     getAirports()
   }, [])
+
+  useEffect(() => {
+    const getUserFlights = async () => {
+      /* TODO: Add loading capability here */
+      try {
+        const result = await axios.post('/flights/get', {
+          username: authUser?.username
+        })
+        console.log(result.data);
+
+        setUserFlights(result.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getUserFlights()
+  }, [authUser?.username])
 
   const [viewState, setViewState] = useState<MapViewState>(CITIES['WORLD'])
 
@@ -211,19 +243,17 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
 
   })
 
+  const flightsLayer = new ArcLayer<FlightValues>({
+    id: 'user-flights',
+    data: userFlights,
 
-
-
-  const flights = new ArcLayer<FlightValues>({
-    id: 'flights',
-    data: flightsData,
-
+    // getSourcePosition: (d) => [d.departure.port.lon, d.departure.port.lat],
     getSourcePosition: (d: FlightValues) =>
       [d.departure.port.lon, d.departure.port.lat],
     getTargetPosition: (d: FlightValues) =>
       [d.arrival.port.lon, d.arrival.port.lat],
-    getSourceColor: [0, 0, 0],
-    getTargetColor: [0, 0, 0],
+    getSourceColor: [255, 255, 255],
+    getTargetColor: [255, 255, 255],
     getWidth: 2,
     pickable: true,
     getHeight: 0,
@@ -231,7 +261,6 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
     numSegments: 500,
     wrapLongitude: true
   })
-
   /* <div>
     {Object.keys(CITIES).map(name => (
       <button id={name} onClick={flyToCity} className='fly-button'>
@@ -253,6 +282,8 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
 
   }
 
+  // console.log(flightsData[1]);
+
   return (
     <div
       id='deckgl-map'
@@ -263,7 +294,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
         initialViewState={viewState}
         onViewStateChange={handleViewStateChange}
         controller={true}
-        layers={[airportsLayer, flights]}
+        layers={[airportsLayer, flightsLayer]}
         // @ts-ignore
         getTooltip={({
           object

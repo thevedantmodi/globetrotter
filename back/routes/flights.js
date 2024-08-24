@@ -1,3 +1,4 @@
+const { response } = require('express')
 const pool = require('../db')
 const router = require('express').Router()
 
@@ -88,8 +89,70 @@ router.post('/add', async (request, response) => {
   }
 })
 
-router.post('/get-flights', async (req, res) => {
+router.post('/get', async (req, res) => {
   const username = req.body.username
+
+  try {
+    const find_user_id = await pool.query({
+      name: 'find-user-id',
+      text: 'SELECT id from users where username = $1',
+      values: [username]
+    })
+    const user_id = find_user_id.rows[0].id
+
+    const flights = (
+      await pool.query({
+        name: 'get-user-flights',
+        text: 'SELECT * from flights WHERE passenger_id = $1',
+        values: [user_id]
+      })
+    ).rows
+
+    const new_flights = await Promise.all(
+      flights.map(async flight => {
+        const dep = (
+          await pool.query({
+            name: 'get-dep-port',
+            text: 'SELECT * from airports WHERE iata = $1',
+            values: [flight.dep_port]
+          })
+        ).rows[0]
+
+        const arr = (
+          await pool.query({
+            name: 'get-arr-port',
+            text: 'SELECT * from airports WHERE iata = $1',
+            values: [flight.arr_port]
+          })
+        ).rows[0]
+
+        return {
+          departure: {
+            date: flight.dep_date,
+            port: dep
+          },
+          arrival: {
+            date: flight.arr_date,
+            port: arr
+          },
+          carrier: flight.carrier,
+          number: flight.number,
+          price: flight.price,
+          currency: flight.currency,
+          duration: {
+            ...flight.duration
+          }
+        }
+      })
+    )
+
+    res.status(200).json({
+      flights: new_flights
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500)
+  }
 })
 
 module.exports = router
