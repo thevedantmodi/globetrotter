@@ -98,7 +98,7 @@ router.post('/get', async (req, res) => {
       text: 'SELECT id from users where username = $1',
       values: [username]
     })
-    const user_id = find_user_id.rows[0].id
+    const user_id = find_user_id?.rows[0]?.id
 
     const flights = (
       await pool.query({
@@ -126,7 +126,7 @@ router.post('/get', async (req, res) => {
           })
         ).rows[0]
 
-        return {
+        const a = {
           departure: {
             date: flight.dep_date,
             port: dep
@@ -143,6 +143,7 @@ router.post('/get', async (req, res) => {
             ...flight.duration
           }
         }
+        return a
       })
     )
 

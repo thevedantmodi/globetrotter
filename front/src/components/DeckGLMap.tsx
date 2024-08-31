@@ -89,6 +89,10 @@ interface FlightValues {
   }
 }
 
+interface FlightValuesArray {
+  flights: FlightValues[]
+}
+
 function DeckGLMap({ expanded }: { expanded: boolean }) {
   const { theme, setTheme, systemTheme } = useTheme()
   // const [viewState, setViewState] = useState<MapViewState>({
@@ -100,7 +104,8 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
   // })
 
   const [airports, setAirports] = useState([])
-  const [userFlights, setUserFlights] = useState([])
+  const [userFlights, setUserFlights] =
+    useState<FlightValuesArray>({ flights: [] })
 
   const authUser = useAuthUser<AuthUserData>()
 
@@ -168,9 +173,11 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
         const result = await axios.post('/flights/get', {
           username: authUser?.username
         })
-        console.log(result.data);
 
-        setUserFlights(result.data)
+        const userFlightsArray = result.data as FlightValuesArray
+        console.log(userFlightsArray);
+
+        setUserFlights(userFlightsArray)
       } catch (err) {
         console.log(err)
       }
@@ -245,15 +252,15 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
 
   const flightsLayer = new ArcLayer<FlightValues>({
     id: 'user-flights',
-    data: userFlights,
+    data: userFlights.flights,
 
     // getSourcePosition: (d) => [d.departure.port.lon, d.departure.port.lat],
     getSourcePosition: (d: FlightValues) =>
       [d.departure.port.lon, d.departure.port.lat],
     getTargetPosition: (d: FlightValues) =>
       [d.arrival.port.lon, d.arrival.port.lat],
-    getSourceColor: [255, 255, 255],
-    getTargetColor: [255, 255, 255],
+    getSourceColor: [255, 1, 1],
+    getTargetColor: [255, 1, 1],
     getWidth: 2,
     pickable: true,
     getHeight: 0,
