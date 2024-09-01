@@ -25,7 +25,7 @@ function Main() {
         <Router>
             {/* <NavBar /> */}
             <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<MapPage />} />
                 <Route path="/map" element={<MapPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
@@ -34,6 +34,7 @@ function Main() {
                 <Route element={<RequireAuth />}>
                     <Route path="/create-profile" element={<CreateProfilePage />} />
                     <Route path="/add-flight" element={<AddFlightPage />} />
+                    <Route path="/sign-out" element={<></>} />
                 </Route>
             </Routes>
         </Router>

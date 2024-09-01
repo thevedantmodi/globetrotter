@@ -62,74 +62,74 @@ export interface AddFlightAPI {
     setFatalError: () => void
 }
 
-export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
-    ((props: AddFlightFormProps, ref) => {
-        const {
-            register,
-            control,
-            handleSubmit,
-            setError,
-            watch,
-            formState: { errors, isSubmitting },
-        } = useForm<AddFlightInput>({
-            resolver: zodResolver(formSchema)
-        })
+export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>((props:
+    AddFlightFormProps, ref) => {
+    const {
+        register,
+        control,
+        handleSubmit,
+        setError,
+        watch,
+        formState: { errors, isSubmitting },
+    } = useForm<AddFlightInput>({
+        resolver: zodResolver(formSchema)
+    })
 
-        const [showFatalError, setShowFatalError] = useState(false)
+    const [showFatalError, setShowFatalError] = useState(false)
 
 
-        const fetchPortOptions = async (input: string) => {
-            try {
-                const response = await axios.post('/airports/port-options',
-                    { query: input })
+    const fetchPortOptions = async (input: string) => {
+        try {
+            const response = await axios.post('/airports/port-options',
+                { query: input })
 
-                const data = response.data
-                return data.map((item: any) => ({
-                    id: item.id,
-                    label: item.label
-                }))
-            } catch (err) {
-                console.log(err);
-                return []
+            const data = response.data
+            return data.map((item: any) => ({
+                id: item.id,
+                label: item.label
+            }))
+        } catch (err) {
+            console.log(err);
+            return []
+        }
+    }
+
+    const fetchCarrierOptions = async (input: string) => {
+        try {
+            const response = await axios.post('/carriers/options',
+                { query: input })
+
+            const data = response.data
+            return data.map((item: any) => ({
+                id: item.id,
+                label: item.label
+            }))
+        } catch (err) {
+            console.log(err);
+            return []
+        }
+    }
+
+    const setErrorRef = useRef(setError)
+    setErrorRef.current = setError
+    /* Allows for parent of this component to call fn's */
+    useImperativeHandle(ref, () => {
+        return {
+            setErrors: (errors: Record<string, string>) => {
+                Object.entries(errors).forEach(([key, error]) => {
+                    setErrorRef.current(key as keyof AddFlightFormValues,
+                        { message: error })
+                })
+            },
+            setFatalError: () => {
+                setShowFatalError(true)
             }
         }
+    })
 
-        const fetchCarrierOptions = async (input: string) => {
-            try {
-                const response = await axios.post('/carriers/options',
-                    { query: input })
-
-                const data = response.data
-                return data.map((item: any) => ({
-                    id: item.id,
-                    label: item.label
-                }))
-            } catch (err) {
-                console.log(err);
-                return []
-            }
-        }
-
-        const setErrorRef = useRef(setError)
-        setErrorRef.current = setError
-        /* Allows for parent of this component to call fn's */
-        useImperativeHandle(ref, () => {
-            return {
-                setErrors: (errors: Record<string, string>) => {
-                    Object.entries(errors).forEach(([key, error]) => {
-                        setErrorRef.current(key as keyof AddFlightFormValues,
-                            { message: error })
-                    })
-                },
-                setFatalError: () => {
-                    setShowFatalError(true)
-                }
-            }
-        })
-
-        return (
-            <form
-                className="
+    return (
+        <form
+            className="
                     flex
                     flex-col
                     gap-4
@@ -140,87 +140,87 @@ export const AddFlightForm = forwardRef<AddFlightAPI, AddFlightFormProps>
                     p-5
                     box-border
                 "
-                onSubmit={handleSubmit(props.onSubmitReady)}
+            onSubmit={handleSubmit(props.onSubmitReady)}
 
-            >
-                <h2 className="font-bold text-xl">Add a flight</h2>
+        >
+            <h2 className="font-bold text-xl">Add a flight</h2>
 
-                <h3 className="font-bold text-xl">Departure</h3>
-                <DatePickerField
-                    control={control}
-                    name="departure.date"
-                    label="Date"
-                    id="dept-date"
-                />
+            <h3 className="font-bold text-xl">Departure</h3>
+            <DatePickerField
+                control={control}
+                name="departure.date"
+                label="Date"
+                id="dept-date"
+            />
 
-                <AutoCompleteField
-                    id="departure-port"
-                    label="Port"
-                    initialOptions={[]}
-                    fetchOptions={fetchPortOptions}
-                    control={control}
-                    name="departure.port"
-                    placeholder="Select port"
-                />
+            <AutoCompleteField
+                id="departure-port"
+                label="Port"
+                initialOptions={[]}
+                fetchOptions={fetchPortOptions}
+                control={control}
+                name="departure.port"
+                placeholder="Select port"
+            />
 
-                <h3 className="font-bold text-xl">Arrival</h3>
+            <h3 className="font-bold text-xl">Arrival</h3>
 
-                <DatePickerField
-                    control={control}
-                    name="arrival.date"
-                    label="Date"
-                    id="arr-date"
-                />
+            <DatePickerField
+                control={control}
+                name="arrival.date"
+                label="Date"
+                id="arr-date"
+            />
 
-                <AutoCompleteField
-                    id="arrival-port"
-                    label="Port"
-                    initialOptions={[]}
-                    fetchOptions={fetchPortOptions}
-                    control={control}
-                    name="arrival.port"
-                    placeholder="Select port"
-                />
+            <AutoCompleteField
+                id="arrival-port"
+                label="Port"
+                initialOptions={[]}
+                fetchOptions={fetchPortOptions}
+                control={control}
+                name="arrival.port"
+                placeholder="Select port"
+            />
 
-                <h3 className="font-bold text-xl">Vessel</h3>
+            <h3 className="font-bold text-xl">Vessel</h3>
 
-                <AutoCompleteField
-                    id="carrier"
-                    label="Carrier"
-                    initialOptions={[]}
-                    fetchOptions={fetchCarrierOptions}
-                    control={control}
-                    name="carrier"
-                    placeholder="Select carrier"
-                />
+            <AutoCompleteField
+                id="carrier"
+                label="Carrier"
+                initialOptions={[]}
+                fetchOptions={fetchCarrierOptions}
+                control={control}
+                name="carrier"
+                placeholder="Select carrier"
+            />
 
-                <FormField
-                    id="number"
-                    label="Number"
-                    type="number"
-                    inputProps={register("number", { valueAsNumber: true })}
-                    error={errors.number?.message}
-                />
-                <FormField
-                    id="price"
-                    label="Price"
-                    type="text"
-                    inputProps={register("price", { valueAsNumber: true })}
-                    error={errors.price?.message}
-                />
+            <FormField
+                id="number"
+                label="Number"
+                type="number"
+                inputProps={register("number", { valueAsNumber: true })}
+                error={errors.number?.message}
+            />
+            <FormField
+                id="price"
+                label="Price"
+                type="text"
+                inputProps={register("price", { valueAsNumber: true })}
+                error={errors.price?.message}
+            />
 
-                {
-                    showFatalError &&
-                    <ErrorField message="Fatal error occurred. Try again later!" />
-                }
+            {
+                showFatalError &&
+                <ErrorField message="Fatal error occurred. Try again later!" />
+            }
 
-                <Button loading={isSubmitting} color="neutral"
-                    active={!isSubmitting}
-                >{isSubmitting ? "Loading..." : "Submit"}</Button>
+            <Button loading={isSubmitting} color="neutral"
+                active={!isSubmitting}
+            >{isSubmitting ? "Loading..." : "Submit"}</Button>
 
-                {props.suffix}
-            </form >)
-    })
+            {props.suffix}
+        </form >)
+})
 AddFlightForm.displayName = 'ForwardRefedAddFlightForm'
 
 export type FlightInputValues = AddFlightInput

@@ -70,7 +70,7 @@ export const RHFAutocompleteField = <
                                         inputRef={ref}
                                     />
                                 )}
-                            />
+                        />
                             {error && (
                                 <span className="label-text text-error">
                                     {error.message}

@@ -1,6 +1,11 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { TextOutdent, Circle, TextIndent } from '@phosphor-icons/react'
 import './SlidingMenu.css'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import type { AuthUserData } from './RequireAuth';
+import axios from 'axios';
+import { Link } from 'react-daisyui';
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
 
 export const SlidingContext = createContext(true)
 type SlidingMenuProps = {
@@ -17,9 +22,36 @@ interface SlidingItemProps {
   link: string;
 }
 
+interface UserDataValues {
+  fullName?: string,
+  email?: string,
+  km?: number,
+  no_friends?: number,
+  no_flights?: number,
+  hometown?: string,
+}
+
 
 
 const SlidingMenu: React.FC<SlidingMenuProps> = ({ children, expanded, setExpanded }: SlidingMenuProps) => {
+  const authUser = useAuthUser<AuthUserData>()
+  const [UserData, setUserData] = useState<UserDataValues>({})
+  const signOut = useSignOut()
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const result = await axios.post("/users/get-user-data",
+          { username: authUser?.username })
+        setUserData(result.data)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getUserData()
+  }, [authUser?.username])
+
+  console.log(authUser);
   return (
     <aside
       className={`h-screen transition-all duration-300 ease-in-out ${expanded ? 'w-80' : 'w-24'} bg-black dark:bg-gray-900`}
@@ -49,27 +81,53 @@ const SlidingMenu: React.FC<SlidingMenuProps> = ({ children, expanded, setExpand
             {children}
           </ul>
         </SlidingContext.Provider>
-        <div className='border-t flex p-2 dark:border-gray-700'>
-          <Circle size={150} weight='fill' className="dark:text-white" />
-          <div
-            className={`flex justify-between items-center transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'}`}
-          >
-            <div className='leading-4'>
-              <h4 className='font-sans font-semibold dark:text-white'>Vedant Modi</h4>
-              <span className='text-xs font-normal text-gray-600 dark:text-gray-400'>
-                vedantmodi@gmail.com
-              </span>
-              <h6 className='font-sans font-normal text-xs dark:text-gray-400'>
-                Boston, USA * 10 friends
-              </h6>
-              <h6 className='font-sans font-normal text-xs dark:text-gray-400'>
-                20 flights * 6,533 miles flown
-              </h6>
+        {UserData.email ? (
+          <div className="flex flex-col items-center gap-1">
+            <div className='border-t flex p-2 dark:border-gray-700'>
+              {expanded && <Circle size={150} weight='fill' className="dark:text-white" />}
+              <div
+                className={`flex justify-between items-center transition-all duration-300 ease-in-out ${expanded ? 'max-w-36 ml-3 opacity-100' : 'max-w-0 opacity-0'}`}
+              >
+                <div className='leading-4'>
+                  <h4 className='font-sans font-semibold dark:text-white'>{UserData.fullName}</h4>
+                  <span className='text-xs font-normal text-gray-600 dark:text-gray-400'>
+                    {UserData.email}
+                  </span>
+                  <h6 className='font-sans font-normal text-xs dark:text-gray-400'>
+                    {UserData.hometown} * {UserData.no_friends} {UserData.no_friends === 1 ? "friend" : "friends"}
+                  </h6>
+                  <h6 className='font-sans font-normal text-xs dark:text-gray-400'>
+                    {UserData.no_flights} {UserData.no_flights === 1 ? "flight" : "flights"} * {UserData.km} {UserData.km === 1 ? "kilometer" : "kilometers"} flown
+                  </h6>
+                </div>
+              </div>
             </div>
+
+            {expanded && <Link
+              onClick={() => {
+                signOut()
+                window.location.reload()
+              }}
+              className="bg-black text-white hover:bg-gray-500 active:bg-gray-800 focus:bg-gray-900 focus:ring-gray-500 transition-all duration-200 ease-in-out w-full sm:w-auto px-4 py-2 rounded-lg mb-1">
+              Sign Out
+            </Link>}
           </div>
-        </div>
+        ) : (
+          expanded &&
+          <div className='border-t flex p-2 dark:border-gray-700 gap-4 mx-auto'>
+            <Link href='/sign-up'
+              className="bg-black text-white hover:bg-gray-500 active:bg-gray-800 focus:bg-gray-900 focus:ring-gray-500 transition-all duration-200 ease-in-out w-full sm:w-auto px-4 py-2 rounded-lg">
+              Sign Up
+            </Link>
+
+            <Link href='/login'
+              className="bg-black text-white hover:bg-gray-500 active:bg-gray-800 focus:bg-gray-900 focus:ring-gray-500 transition-all duration-200 ease-in-out w-full sm:w-auto px-4 py-2 rounded-lg">
+              Login
+            </Link>
+          </div>
+        )}
       </nav>
-    </aside>
+    </aside >
   )
 }
 
