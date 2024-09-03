@@ -55,8 +55,8 @@
     "zod": "^3.23.8"
   },
   "scripts": {
-    "start": "react-scripts css && react-scripts start",
-    "build": "react-scripts css && react-scripts build",
+    "start": "npx tailwindcss -i ./src/App.css -o ./src/tailwind.css --watch && react-scripts start",
+    "build": "npx tailwindcss -i ./src/App.css -o ./src/tailwind.css --watch && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "css": "npx tailwindcss -i ./src/App.css -o ./src/tailwind.css --watch"
