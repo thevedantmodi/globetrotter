@@ -114,26 +114,32 @@ router.post('/get-user-data', async (request, response) => {
   console.log(username)
 
   try {
-    const result = await pool.query({
+    const user_result = await pool.query({
       name: 'get-user-full-name',
       text: 'SELECT * FROM users ' + 'WHERE (username = $1);',
       values: [username]
     })
 
-    const user = result.rows[0]
+    const user = user_result.rows[0]
     console.log(user)
+
+    const flights_result = await pool.query({
+      name: 'user-num-flights',
+      text: 'SELECT * from flights WHERE passenger_id = $1',
+      values: [user.id]
+    })
 
     response.status(200).json({
       fullName: `${user.first_name} ${user.last_name}`,
       email: user.email,
       km: user.km_flown,
       no_friends: 0,
-      no_flights: 0,
+      no_flights: flights_result.rowCount,
       hometown: user.hometown
     })
   } catch (error) {
     response.status(500).json({
-      message: "Could not find user"
+      message: 'Could not find user'
     })
   }
 })

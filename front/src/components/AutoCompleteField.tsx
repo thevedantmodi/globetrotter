@@ -38,7 +38,7 @@ export const RHFAutocompleteField = <
 
     return (
         <>
-            <label htmlFor={props.id} className="label">
+            <label htmlFor={props.id} className="label dark:text-gray-300">
                 <span className="label-text">{props.label}</span>
             </label>
             <Controller
@@ -50,8 +50,9 @@ export const RHFAutocompleteField = <
                 render={({ field, fieldState: { error } }) => {
                     const { onChange, ref } = field;
                     return (
-                        <div className="w-full max-w-xs">
+                        <div className='form-control max-w-xs w-full'>
                             <Autocomplete
+                                className='form-control'
                                 value={
                                     { id: query, label: query }
                                 }
@@ -65,12 +66,13 @@ export const RHFAutocompleteField = <
                                 options={options}
                                 renderInput={(params) => (
                                     <TextField
+                                        className="form-control dark:text-white"
                                         {...params}
                                         label={props.placeholder}
                                         inputRef={ref}
                                     />
                                 )}
-                        />
+                            />
                             {error && (
                                 <span className="label-text text-error">
                                     {error.message}
