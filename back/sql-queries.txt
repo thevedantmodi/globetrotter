@@ -95,3 +95,30 @@ ALTER TABLE flights ADD FOREIGN KEY (passenger_id) REFERENCES users(id);
 UPDATE flights
 SET duration = arr_date - dep_date;
 WHERE duration = NULL
+
+CREATE FUNCTION HaversineDistance(
+    lat1 FLOAT, lon1 FLOAT,
+    lat2 FLOAT, lon2 FLOAT
+) RETURNS FLOAT
+BEGIN
+    DECLARE R FLOAT DEFAULT 6371; -- Earth radius in kilometers
+
+    DECLARE dlat FLOAT;
+    DECLARE dlon FLOAT;
+    DECLARE a FLOAT;
+    DECLARE c FLOAT;
+    DECLARE distance FLOAT;
+
+    SET dlat = RADIANS(lat2 - lat1);
+    SET dlon = RADIANS(lon2 - lon1);
+
+    SET a = SIN(dlat / 2) * SIN(dlat / 2) +
+            COS(RADIANS(lat1)) * COS(RADIANS(lat2)) *
+            SIN(dlon / 2) * SIN(dlon / 2);
+
+    SET c = 2 * ATAN2(SQRT(a), SQRT(1 - a));
+
+    SET distance = R * c;
+
+    RETURN distance;
+END;
