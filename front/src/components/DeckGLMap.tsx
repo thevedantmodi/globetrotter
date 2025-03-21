@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 
-import { useTheme } from "next-themes"
+import { useTheme } from 'next-themes'
 
 import DeckGL, {
   _GlobeView as GlobeView,
@@ -8,8 +8,6 @@ import DeckGL, {
   FlyToInterpolator,
   ScatterplotLayer,
   Position
-
-
 } from 'deck.gl'
 
 import { ModeToggle } from '../components/DarkModeButton'
@@ -20,7 +18,7 @@ import { Feature, Geometry } from 'geojson'
 
 import type { FlightInputValues } from './AddFlightForm'
 
-import type { AuthUserData } from "./RequireAuth"
+import type { AuthUserData } from './RequireAuth'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 
 import axios from 'axios'
@@ -93,7 +91,7 @@ interface FlightValuesArray {
   flights: FlightValues[]
 }
 
-function DeckGLMap({ expanded }: { expanded: boolean }) {
+function DeckGLMap ({ expanded }: { expanded: boolean }) {
   const { theme, setTheme, systemTheme } = useTheme()
   // const [viewState, setViewState] = useState<MapViewState>({
   //   latitude: 30,
@@ -104,14 +102,14 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
   // })
 
   const [airports, setAirports] = useState([])
-  const [userFlights, setUserFlights] =
-    useState<FlightValuesArray>({ flights: [] })
+  const [userFlights, setUserFlights] = useState<FlightValuesArray>({
+    flights: []
+  })
 
   const authUser = useAuthUser<AuthUserData>()
 
-
   const CITIES: { [name: string]: MapViewState } = {
-    "BRISBANE": {
+    BRISBANE: {
       latitude: -27.470125,
       longitude: 153.021072,
       zoom: 14,
@@ -119,7 +117,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
       bearing: 0,
       pitch: 0
     },
-    "NYC": {
+    NYC: {
       longitude: -74.0,
       latitude: 40.7,
       zoom: 14,
@@ -127,7 +125,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
       bearing: 0,
       pitch: 0
     },
-    "SINGAPORE": {
+    SINGAPORE: {
       longitude: 103.8198,
       latitude: 1.3521,
       zoom: 14,
@@ -135,7 +133,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
       bearing: 0,
       pitch: 0
     },
-    "ATLANTA": {
+    ATLANTA: {
       longitude: -84.3877,
       latitude: 33.7488,
       zoom: 14,
@@ -143,7 +141,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
       bearing: 0,
       pitch: 0
     },
-    "WORLD": {
+    WORLD: {
       longitude: 0,
       latitude: 30,
       zoom: 1,
@@ -175,7 +173,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
         })
 
         const userFlightsArray = result.data as FlightValuesArray
-        console.log(userFlightsArray);
+        console.log(userFlightsArray)
 
         setUserFlights(userFlightsArray)
       } catch (err) {
@@ -189,12 +187,14 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
 
   const memoizedViewState = useMemo(() => viewState, [viewState])
 
-  const handleViewStateChange = useCallback(({ viewState }:
-    { viewState: MapViewState }) => {
-    if (viewState !== memoizedViewState) {
-      setViewState(viewState)
-    }
-  }, [memoizedViewState])
+  const handleViewStateChange = useCallback(
+    ({ viewState }: { viewState: MapViewState }) => {
+      if (viewState !== memoizedViewState) {
+        setViewState(viewState)
+      }
+    },
+    [memoizedViewState]
+  )
 
   const flyToCity = useCallback((evt: { target: { id: string } }) => {
     setViewState({
@@ -207,25 +207,24 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
   const createPointRadius = (f: Feature<Geometry, Airport>) => {
     const port_size: string = f.properties.size
 
-    if (port_size === "large") {
+    if (port_size === 'large') {
       return 6
-    } else if (port_size === "medium") {
+    } else if (port_size === 'medium') {
       return 4
-    } else if (port_size === "small") {
+    } else if (port_size === 'small') {
       return 1
     } else {
       return 200
     }
-
   }
 
   const createPointColor = (f: Feature<Geometry, Airport>) => {
     const port_size: string = f.properties.size
-    if (port_size === "large") {
+    if (port_size === 'large') {
       return [233, 57, 57]
-    } else if (port_size === "medium") {
+    } else if (port_size === 'medium') {
       return [196, 164, 47]
-    } else if (port_size === "small") {
+    } else if (port_size === 'small') {
       return [42, 135, 98]
     } else {
       return [0, 0, 0, 255]
@@ -246,8 +245,7 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
     getLineWidth: 3000,
     textFontFamily: 'Manrope',
     getTextSize: 12,
-    pointRadiusScale: 10000,
-
+    pointRadiusScale: 10000
   })
 
   const flightsLayer = new ArcLayer<FlightValues>({
@@ -255,12 +253,16 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
     data: userFlights.flights,
 
     // getSourcePosition: (d) => [d.departure.port.lon, d.departure.port.lat],
-    getSourcePosition: (d: FlightValues) =>
-      [d.departure.port.lon, d.departure.port.lat],
-    getTargetPosition: (d: FlightValues) =>
-      [d.arrival.port.lon, d.arrival.port.lat],
-    getSourceColor: [255, 1, 1],
-    getTargetColor: [255, 1, 1],
+    getSourcePosition: (d: FlightValues) => [
+      d.departure.port.lon,
+      d.departure.port.lat
+    ],
+    getTargetPosition: (d: FlightValues) => [
+      d.arrival.port.lon,
+      d.arrival.port.lat
+    ],
+    getSourceColor: [0x11, 0x11, 0xfe],
+    getTargetColor: [0x11, 0x11, 0xfe],
     getWidth: 2,
     pickable: true,
     getHeight: 0,
@@ -276,26 +278,23 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
     ))}
   </div> */
 
-  function mapbox_style() {
+  function mapbox_style () {
     switch (theme) {
       case 'system':
-        return systemTheme === 'light' ? "mapbox://styles/mapbox/streets-v12" :
-          "mapbox://styles/mapbox/dark-v11"
+        return systemTheme === 'light'
+          ? 'mapbox://styles/mapbox/streets-v12'
+          : 'mapbox://styles/mapbox/dark-v11'
       case 'dark':
-        return "mapbox://styles/mapbox/dark-v11";
+        return 'mapbox://styles/mapbox/dark-v11'
       case 'light':
-        return "mapbox://styles/mapbox/streets-v12"
+        return 'mapbox://styles/mapbox/streets-v12'
     }
-
   }
 
   // console.log(flightsData[1]);
 
   return (
-    <div
-      id='deckgl-map'
-      style={{ display: 'flex' }}
-    >
+    <div id='deckgl-map' style={{ display: 'flex' }}>
       <DeckGL
         // @ts-ignore
         initialViewState={viewState}
@@ -303,26 +302,23 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
         controller={true}
         layers={[airportsLayer, flightsLayer]}
         // @ts-ignore
-        getTooltip={({
-          object
-        }: PickingInfo<Feature<Geometry, Airport>>) =>
+        getTooltip={({ object }: PickingInfo<Feature<Geometry, Airport>>) =>
           object &&
           object.properties &&
           object.properties.city + ' (' + object.properties.iata + ')'
         }
-        views={
-          [
-            // globe_view
-            map_view
-          ]}
+        views={[
+          // globe_view
+          map_view
+        ]}
         eventHandler={false}
         style={{
-          position: 'absolute', left: expanded ? '22%' : '7%',
+          position: 'absolute',
+          left: expanded ? '22%' : '7%',
           transition: 'left 0.3s ease-in-out',
           width: expanded ? '78%' : '93%',
-          zIndex: '3',
+          zIndex: '3'
         }}
-
       >
         <ReactMapGL
           // @ts-ignore
@@ -331,17 +327,18 @@ function DeckGLMap({ expanded }: { expanded: boolean }) {
           reuseMaps
           mapboxAccessToken={process.env.REACT_APP_MAPBOX}
           style={{
-            position: 'absolute', left: expanded ? '22%' : '7%',
+            position: 'absolute',
+            left: expanded ? '22%' : '7%',
             transition: 'left 0.3s ease-in-out',
             width: expanded ? '78%' : '93%',
-            zIndex: '2',
+            zIndex: '2'
           }}
           mapStyle={mapbox_style()}
           // projection={globe_mapbox}
           projection={flat_mapbox}
         />
-        <ModeToggle styles={"p-2.5"} />
-        <UnitsModeButton styles={"p-2.5"} />
+        <ModeToggle styles={'p-2.5'} />
+        <UnitsModeButton styles={'p-2.5'} />
       </DeckGL>
     </div>
   )

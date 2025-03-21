@@ -205,6 +205,7 @@ router.post('/get', async (req, res) => {
       flights: new_flights
     })
   } catch (err) {
+    console.log('ERROR in /flights/get')
     console.log(err)
     res.status(500)
   }

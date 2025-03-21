@@ -1,17 +1,17 @@
 {
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.633.0",
-    "aws-sdk": "^2.1678.0",
+    "@aws-sdk/client-s3": "^3.772.0",
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "dotenv": "^16.4.5",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.4.7",
     "env": "^0.0.2",
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.1.4",
-    "pg": "^8.12.0"
+    "multer": "^1.4.5-lts.2",
+    "nodemon": "^3.1.9",
+    "pg": "^8.14.1"
   },
   "name": "back",
   "main": "server.js",

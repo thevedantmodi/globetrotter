@@ -76,7 +76,7 @@ router.post('/login', async (request, response) => {
     /* find user */
     const find_user = await pool.query(query)
 
-    console.log(find_user)
+    console.log(find_user, "UNDEF")
 
     /* validate password */
     const hash_pwd = find_user.rows[0].hashed_pwd
