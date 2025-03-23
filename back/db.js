@@ -4,7 +4,7 @@ const pool = new Pool({
   port: 5432,
   user: 'admin',
   password: '7CdNsT3pTbFd45r',
-  database: 'closed-flights'
+  database: 'globetrotter'
 })
 
 module.exports = pool
