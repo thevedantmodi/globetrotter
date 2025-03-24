@@ -71,3 +71,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 "deck.gl": "^9.1.7",react-map-gl": "^8.0.1", # COMPATIBLE VERSIONS
+
+psql -h localhost -p 13001 -U admin -d globetrotter

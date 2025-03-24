@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL UNIQUE,
     hashed_pwd VARCHAR(255) NOT NULL,
     hometown VARCHAR(255),
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     km_flown INT DEFAULT 0
 );
 
@@ -62,5 +64,18 @@ CREATE TABLE IF NOT EXISTS flights (
     currency VARCHAR(3),
 
     duration INTERVAL,
+    distance REAL,
     passenger_id BIGINT REFERENCES users(id) 
 );
+
+CREATE TABLE IF NOT EXISTS carriers (
+    iata VARCHAR(3),
+    airline VARCHAR(50)
+);
+
+COPY carriers
+FROM '/docker-entrypoint-initdb.d/airlines.csv' WITH (
+        FORMAT CSV,
+        HEADER true,
+        DELIMITER ','
+    );

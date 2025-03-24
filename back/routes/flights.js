@@ -122,17 +122,21 @@ router.post('/add', async (request, response) => {
     const [dep_lat, dep_lon] = [dep_port.lat, dep_port.lon]
     const [arr_lat, arr_lon] = [arr_port.lat, arr_port.lon]
 
-    const distance = haversine(
-      dep_lat,
-      dep_lon,
-      arr_lat,
-      arr_lon
-    )
+    const distance = haversine(dep_lat, dep_lon, arr_lat, arr_lon)
 
-    await pool.query({
+    const dist_res = await pool.query({
       name: 'calculate-distance',
       text: 'UPDATE flights ' + 'SET distance = $2 ' + 'WHERE id = $1;',
       values: [flight_id, distance]
+    })
+
+    console.log('dist_res', dist_res)
+
+    await pool.query({
+      name: 'update-user-distance',
+      text:
+        'UPDATE users ' + 'SET km_flown = km_flown + $1 ' + 'WHERE id = $2;',
+      values: [Math.ceil(distance), user_id]
     })
 
     response.status(200).json({

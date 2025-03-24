@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Installs dependencies
-RUN npm install --production
+RUN npm install
 
 # Copy from SOURCE into DESTINATION (both ., I know! confusing)
 COPY . .
